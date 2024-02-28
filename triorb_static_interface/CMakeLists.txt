@@ -19,7 +19,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-#find_package(sensor_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
 file(GLOB msg_files RELATIVE "${CMAKE_SOURCE_DIR}" "msg/*.msg")
@@ -30,7 +30,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   ${msg_files}
   ${srv_files}
   ${action_files}
-  DEPENDENCIES std_msgs
+  DEPENDENCIES std_msgs sensor_msgs
 )
 ament_export_dependencies(rosidl_default_runtime)
 

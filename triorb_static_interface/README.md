@@ -100,3 +100,39 @@ uint16 error            # Error status of the robot (bit flag)
 # 0x2000: Camera connection error
 # 0x1000: Main power supply voltage abnormal
 ```
+
+### triorb_static_interface/srv/GetString
+```bash
+std_msgs/Empty request
+---
+string result
+```
+
+### triorb_static_interface/srv/GetStringList
+```bash
+std_msgs/Empty request
+---
+string[] result
+```
+
+### triorb_static_interface/srv/SetString
+```bash
+string[] request
+---
+string result
+```
+
+### triorb_static_interface/srv/GetImage
+```bash
+std_msgs/Empty request
+---
+sensor_msgs/Image image
+```
+
+### triorb_static_interface/srv/SetImage
+```bash
+sensor_msgs/Image image
+---
+string result
+```
+
