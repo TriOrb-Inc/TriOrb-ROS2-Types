@@ -92,6 +92,7 @@ uint16 error            # Error status of the robot (bit flag)
 # 0x0800: Generating map
 # 0x0400: During anti-collision control
 # 0x0200: Position control move completed
+# 0x0100: Interrupt move instruction disabled
 
 #---Error status of the robot (bit flag)---
 # 0x8000: Motor connection error

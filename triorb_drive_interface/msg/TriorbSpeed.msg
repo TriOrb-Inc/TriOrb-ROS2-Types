@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-uint32 acc
-uint32 dec
-float32 xy
-float32 w
+uint32 acc  # Acceleration time [ms]
+uint32 dec  # Deceleration time [ms]
+float32 xy  # Translation velocity [m/s]
+float32 w   # Rotation speed [rad/s]

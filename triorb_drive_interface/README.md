@@ -51,3 +51,97 @@ float32 w_p     # rotation P gain
 float32 w_i     # rotation I gain (0 recommended)
 float32 w_d     # rotation D gain
 ```
+
+### triorb_drive_interface/msg/TriorbPos3
+```bash
+float32 x       # [m]
+float32 y       # [m]
+float32 deg     # [deg]
+```
+
+### triorb_drive_interface/msg/TriorbRunPos3
+```bash
+TriorbSpeed speed
+TriorbPos3 position
+```
+
+### triorb_drive_interface/msg/TriorbRunResult
+```bash
+bool success
+TriorbPos3 position
+```
+
+### triorb_drive_interface/msg/TriorbRunSetting
+```bash
+float32 tx      # Target error in X-axis direction [±m]
+float32 ty      # Target error in Y-axis direction [±m].
+float32 tr      # Target error in rotation [±deg].
+uint8 force     # Target force level
+```
+
+### triorb_drive_interface/msg/TriorbRunVel3
+```bash
+TriorbSpeed speed
+TriorbVel3 velocity
+```
+
+### triorb_drive_interface/msg/TriorbSetPos3
+```bash
+TriorbRunPos3 pos
+TriorbRunSetting setting
+```
+
+### triorb_drive_interface/msg/TriorbSpeed
+```bash
+uint32 acc  # Acceleration time [ms]
+uint32 dec  # Deceleration time [ms]
+float32 xy  # Translation velocity [m/s]
+float32 w   # Rotation speed [rad/s]
+```
+
+### triorb_drive_interface/msg/TriorbVel3
+```bash
+float32 vx # Velocity vector along X axis [m/s]
+float32 vy # Velocity vector along Y axis [m/s]
+float32 vw # Rotation velocity vector around the Z axis [rad/s]
+```
+
+### triorb_drive_interface/srv/TriorbRunPos3
+```bash
+TriorbRunPos3 request
+---
+std_msgs/Header header
+uint8 result
+```
+
+### triorb_drive_interface/srv/TriorbRunVel3
+```bash
+TriorbRunVel3 request
+---
+std_msgs/Header header
+uint8 result
+```
+
+### triorb_drive_interface/srv/TriorbSetPos3
+```bash
+TriorbSetPos3 pos
+---
+TriorbRunResult result
+```
+
+### triorb_drive_interface/srv/GetPath
+```bash
+TriorbPos3[] waypoint
+---
+TriorbPos3[] result
+```
+
+### triorb_drive_interface/action/TriorbSetPath
+```bash
+TriorbSetPos3[] path     # List of waypoints and movement control values for each waypoint
+---
+uint32 way_idx           # Index of waypoint currently moving
+TriorbPos3 now           # Current robot position
+---
+TriorbRunResult result   # Result of completion of movement to final destination
+```

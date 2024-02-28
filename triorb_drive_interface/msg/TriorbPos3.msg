@@ -14,6 +14,6 @@
 #* limitations under the License.
 #**
 
-float32 x
-float32 y
-float32 deg
+float32 x       # [m]
+float32 y       # [m]
+float32 deg     # [deg]

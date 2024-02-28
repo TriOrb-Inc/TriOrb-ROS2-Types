@@ -24,10 +24,13 @@ find_package(rosidl_default_generators REQUIRED)
 
 file(GLOB msg_files RELATIVE "${CMAKE_SOURCE_DIR}" "msg/*.msg")
 file(GLOB srv_files RELATIVE "${CMAKE_SOURCE_DIR}" "srv/*.srv")
+file(GLOB action_files RELATIVE "${CMAKE_SOURCE_DIR}" "action/*.action")
+
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   ${msg_files}
   ${srv_files}
+  ${action_files}
   DEPENDENCIES std_msgs sensor_msgs
 )
 ament_export_dependencies(rosidl_default_runtime)

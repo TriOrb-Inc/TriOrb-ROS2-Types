@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-float32 tx
-float32 ty
-float32 tr
-uint8 force
+float32 tx      # Target error in X-axis direction [±m]
+float32 ty      # Target error in Y-axis direction [±m].
+float32 tr      # Target error in rotation [±deg].
+uint8 force     # Target force level
