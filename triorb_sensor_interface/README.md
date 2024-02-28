@@ -1,4 +1,6 @@
-# Package: triorb_static_interface
+[../](../README.md)
+
+# Package: triorb_sensor_interface
 ## triorb_sensor_interface Types
 ### triorb_sensor_interface/msg/DistanceSensor
 ```bash

@@ -32,6 +32,7 @@ set(srv_files
 "srv/CameraCamture.srv"
 "srv/GetDistanceSensor.srv"
 "srv/SetDistanceSensor.srv"
+"srv/Version.srv"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
