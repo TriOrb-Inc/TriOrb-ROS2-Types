@@ -14,5 +14,11 @@
 #* limitations under the License.
 #**
 
-string name # Node name
-string state # Node state ( sleep | wakeup | awake )
+string device       # Path of camera device
+string topic        # Topic name of camera image
+string id           # Frame ID of the camera image topic
+string state        # Camera device status (sleep | wakeup | awake)
+int16 rotation      # Rotation of the camera image
+int16 exposure      # Camera Exposure
+float32 gamma       # Gamma correction value
+float32 timer       # Data collection cycle [s]

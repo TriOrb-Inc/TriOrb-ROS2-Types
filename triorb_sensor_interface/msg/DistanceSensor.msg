@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
-string name # Node name
-string state # Node state ( sleep | wakeup | awake )
+std_msgs/Header header      # Timestamp
+float32 distance      		# Distance to obstacle [m]
+uint8 confidence            # Signal reliability (0-100)

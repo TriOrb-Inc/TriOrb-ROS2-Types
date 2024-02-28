@@ -14,5 +14,7 @@
 #* limitations under the License.
 #**
 
-string name # Node name
-string state # Node state ( sleep | wakeup | awake )
+std_msgs/Header header # Timestamp
+float32 yaw
+float32 pitch
+float32 roll

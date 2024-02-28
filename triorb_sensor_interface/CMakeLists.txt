@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(triorb_static_interface)
+project(triorb_sensor_interface)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -19,27 +19,25 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-#find_package(sensor_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
 set(msg_files
-"msg/SettingIPv4.msg"
-"msg/SettingSSID.msg"
-"msg/SettingROS.msg"
-"msg/NodeInfo.msg"
-"msg/HostStatus.msg"
+"msg/DistanceSensor.msg"
+"msg/ImuSensor.msg"
+"msg/CameraDevice.msg"
 )
 set(srv_files
-"srv/SettingIPv4.srv"
-"srv/SettingSSID.srv"
-"srv/SettingROS.srv"
-"srv/NodeInfo.srv"
+"srv/CameraDevice.srv"
+"srv/CameraCamture.srv"
+"srv/GetDistanceSensor.srv"
+"srv/SetDistanceSensor.srv"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   ${msg_files}
   ${srv_files}
-  DEPENDENCIES std_msgs
+  DEPENDENCIES std_msgs sensor_msgs
 )
 ament_export_dependencies(rosidl_default_runtime)
 

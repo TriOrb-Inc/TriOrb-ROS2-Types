@@ -14,5 +14,7 @@
 #* limitations under the License.
 #**
 
-string name # Node name
-string state # Node state ( sleep | wakeup | awake )
+string[] topic  # List of topic name
+string[] state  # List of sensor state ( sleep | wakeup | awake )
+---
+string[] result

@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
-string name # Node name
-string state # Node state ( sleep | wakeup | awake )
+CameraDevice[] request
+---
+string result

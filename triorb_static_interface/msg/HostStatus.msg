@@ -14,5 +14,12 @@
 #* limitations under the License.
 #**
 
-string name # Node name
-string state # Node state ( sleep | wakeup | awake )
+std_msgs/Header header      # Timestamp
+float32 memory_percent      # Memory usage
+float32 cpu_percent         # CPU usage
+float32 host_temperature    # Temperature of the host computer
+string wlan_ssid            # SSID of the access point
+uint8 wlan_signal           # Signal strength of the access point 
+uint32 wlan_freq            # Communication speed of the access point
+float32 ping                # Ping speed to the default gateway
+uint8[] gateway             # Address of the default gateway
