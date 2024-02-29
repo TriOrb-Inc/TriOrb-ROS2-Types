@@ -57,6 +57,26 @@ std_msgs/Empty request
 NodeInfo[] result
 ```
 
+### triorb_static_interface/srv/Ros2Run
+```bash
+string pkg          # Package name
+string exec         # Executable file name
+string args         # Arguments to the executable
+---
+string result       # Execution result
+```
+
+### triorb_static_interface/srv/Ros2Launch
+```bash
+string pkg          # Package name
+string file         # Launch file name
+string args         # Arguments to the launch file
+---
+string result       # Launch result
+```
+
+
+
 ### triorb_static_interface/msg/HostStatus
 ```bash
 std_msgs/Header header      # Timestamp
