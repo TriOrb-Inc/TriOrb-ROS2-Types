@@ -59,3 +59,29 @@ string[] state  # List of sensor state ( sleep | wakeup | awake )
 ---
 string[] result
 ```
+
+### triorb_sensor_interface/action/CameraCalibrationInternal
+```bash
+# --- Goal ---
+uint16 rows                             # Calibration board definition: Rows
+uint16 cols                             # Calibration board definition: Columns
+float32 spacing                         # Calibration board definition: Circle Spacing [mm]
+float32 diameter                        # Calibration board definition: Diameter [mm]
+string src                              # Calibration target (Topic / device path / directory path / movie file path)
+---
+# --- Result ---
+sensor_msgs/CompressedImage image       # Calibration result
+float32 fx
+float32 fy
+float32 cx
+float32 cy
+float32 k1
+float32 k2
+float32 k3
+float32 k4
+---
+# --- Feedback ---
+string progress
+sensor_msgs/CompressedImage image       # Image on the way
+```
+
