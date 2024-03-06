@@ -1,0 +1,42 @@
+#**
+#* Copyright 2023 TriOrb Inc.
+#*
+#* Licensed under the Apache License, Version 2.0 (the "License");
+#* you may not use this file except in compliance with the License.
+#* You may obtain a copy of the License at
+#*
+#*     http://www.apache.org/licenses/LICENSE-2.0
+#*
+#* Unless required by applicable law or agreed to in writing, software
+#* distributed under the License is distributed on an "AS IS" BASIS,
+#* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#* See the License for the specific language governing permissions and
+#* limitations under the License.
+#**
+
+
+# 参考：https://developer.mamezou-tech.com/robotics/vision/calibration-pattern/#asymmetry-circlegrid
+# 参考：https://calib.io/pages/camera-calibration-pattern-generator
+# > Width 280mm, Height 200mm, Rows 11, Cols 16, Spacing 20mm, Diameter 12mm
+
+# --- Goal ---
+uint16 rows                             # Calibration board definition: Rows
+uint16 cols                             # Calibration board definition: Columns
+float32 spacing                         # Calibration board definition: Circle Spacing [mm]
+float32 diameter                        # Calibration board definition: Diameter [mm]
+string src                              # Calibration target (Topic / device path / directory path / movie file path)
+---
+# --- Result ---
+sensor_msgs/CompressedImage image       # Calibration result
+float32 fx
+float32 fy
+float32 cx
+float32 cy
+float32 k1
+float32 k2
+float32 k3
+float32 k4
+---
+# --- Feedback ---
+string progress
+sensor_msgs/CompressedImage image       # Image on the way
