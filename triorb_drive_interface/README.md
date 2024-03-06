@@ -42,6 +42,13 @@ float32 power               # Power consumption of each motor (W)
 # 0x0100: Motor status acquired successfully
 ```
 
+### triorb_drive_interface/srv/MotorStatus
+```bash
+std_msgs/Empty request
+---
+MotorStatus result
+```
+
 ### triorb_drive_interface/msg/DriveGains
 ```bash
 float32 xy_p    # translation P gain
