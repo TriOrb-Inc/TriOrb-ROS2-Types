@@ -17,3 +17,9 @@
 std_msgs/Header header      # Timestamp
 float32 distance      		# Distance to obstacle [m]
 uint8 confidence            # Signal reliability (0-100)
+float32 hfov                # Horizontal detectable angle [deg]
+float32 vfov                # Vertical detectable angle [deg]
+float32 max_dist            # Maximum detectable distance [m]
+float32 min_dist            # Minimum detectable distance [m]
+float32[] mount_xyz         # Mounting location [deg]
+float32[] mount_ypr         # Mounting orientation [deg]
