@@ -15,5 +15,8 @@
 #**
 
 TriorbPos3[] waypoint
+uint8 dilation_k_size
+uint8 gauss_k_size
+float32 sigma
 ---
 TriorbPos3[] result
