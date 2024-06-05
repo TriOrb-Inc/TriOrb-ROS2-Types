@@ -16,4 +16,4 @@
 
 CameraDevice[] request
 ---
-string result
+string[] result
