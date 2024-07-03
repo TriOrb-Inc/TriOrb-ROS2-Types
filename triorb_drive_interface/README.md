@@ -98,6 +98,11 @@ TriorbRunPos3 pos
 TriorbRunSetting setting
 ```
 
+### triorb_drive_interface/msg/TriorbSetPath
+```bash
+TriorbSetPos3[] path
+```
+
 ### triorb_drive_interface/msg/TriorbSpeed
 ```bash
 uint32 acc  # Acceleration time [ms]
