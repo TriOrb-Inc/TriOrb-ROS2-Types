@@ -171,3 +171,11 @@ std_msgs/Empty request
 ---
 Route result
 ```
+
+### triorb_drive_interface/msg/TriorbAlignPos3
+```bash
+uint16[] marker_id          # 位置合わせ原点とするマーカーのID
+float32[] marker_size       # マーカーのサイズ
+TriorbRunPos3[] pos         # 原点に対する相対位置決め位置姿勢
+TriorbRunSetting setting    # 走行設定
+```
