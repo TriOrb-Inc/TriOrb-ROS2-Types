@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+# ==物体検出結果==
 std_msgs/Header header      # Timestamp
 uint32 det_num              # Number of detections
 BoundingBox[] boxes         # BoundingBoxs

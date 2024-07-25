@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+# ==[協調搬送] 仮想（荷物など）原点に対するロボットの相対姿勢==
 std_msgs/Header header      # Header
 string parent               # Parent name
 string you                  # Your name

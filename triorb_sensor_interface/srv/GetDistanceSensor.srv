@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==[Service] 距離センサ一覧の取得==
 std_msgs/Empty request
 ---
 string[] topic  # List of topic name

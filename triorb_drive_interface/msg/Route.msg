@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==自律移動経路==
 uint32 id               # ID
 string name             # Name
 TriorbPos3[] waypoint   # Waypoints

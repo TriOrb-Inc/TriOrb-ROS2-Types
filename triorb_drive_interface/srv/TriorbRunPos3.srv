@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==[Service] 相対位置・姿勢指示による移動と結果の取得==
 TriorbRunPos3 request
 ---
 std_msgs/Header header

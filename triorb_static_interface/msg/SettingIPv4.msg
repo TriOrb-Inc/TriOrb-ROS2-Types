@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==TCP/IPv4==
 string device # device name
 string method # device mode: auto | manual | shared | disabled
 uint8[] adress # IP adress

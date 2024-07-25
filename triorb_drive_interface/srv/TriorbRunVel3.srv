@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==[Service] 速度指示による移動と結果の取得==
 TriorbRunVel3 request
 ---
 std_msgs/Header header

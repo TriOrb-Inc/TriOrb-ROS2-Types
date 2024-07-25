@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==IMUセンサ==
 std_msgs/Header header # Timestamp
 float32 yaw
 float32 pitch

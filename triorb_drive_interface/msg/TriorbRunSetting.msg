@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==自律移動の位置決め設定==
 float32 tx      # Target error in X-axis direction [±m]
 float32 ty      # Target error in Y-axis direction [±m].
 float32 tr      # Target error in rotation [±deg].

@@ -14,4 +14,5 @@
 #* limitations under the License.
 #**
 
-float32[] xtl_ytl_xbr_ybr
+# ==バウンディングボックス座標==
+float32[] xtl_ytl_xbr_ybr       # [Left-top-x, Left-top-y, Right-bottom-x, Right-bottom-y] [pix]

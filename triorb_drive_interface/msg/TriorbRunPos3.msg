@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
-TriorbSpeed speed
-TriorbPos3 position
+#==相対位置・姿勢指示による移動==
+TriorbSpeed speed       # Configure of moving
+TriorbPos3 position     # Target position

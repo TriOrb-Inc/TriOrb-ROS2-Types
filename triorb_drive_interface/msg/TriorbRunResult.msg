@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
-bool success
-TriorbPos3 position
+#==自律移動結果==
+bool success                # Moving result (true: Compleat, false: Feild)
+TriorbPos3 position         # Last robot position

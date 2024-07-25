@@ -14,6 +14,8 @@
 #* limitations under the License.
 #**
 
-Keyframe keyframe
+#==[Service] 現在位置・姿勢のキーフレームを挿入する==
+std_msgs/Empty request
 ---
-string result
+string result               # Result of the inserting
+Keyframe[] keyframe         # Inserted keyframes

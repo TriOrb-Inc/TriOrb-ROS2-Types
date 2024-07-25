@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-
+# ==[Action] カメラ内部パラメーターキャリブレーションの実行==
 # 参考：https://developer.mamezou-tech.com/robotics/vision/calibration-pattern/#asymmetry-circlegrid
 # 参考：https://calib.io/pages/camera-calibration-pattern-generator
 # > Width 280mm, Height 200mm, Rows 11, Cols 16, Spacing 20mm, Diameter 12mm

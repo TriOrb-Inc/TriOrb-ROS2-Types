@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==障害物==
 std_msgs/Header header      # Timestamp
 float32 forward      		# Distance to obstacle in forward [m]
 float32 left      		    # Distance to obstacle in left [m]

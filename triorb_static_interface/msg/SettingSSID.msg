@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==無線LAN設定==
 string ssid # Wi-Fi SSID name
 string passphrase # Wi-Fi passphrase
 string security # Wi-Fi security type
