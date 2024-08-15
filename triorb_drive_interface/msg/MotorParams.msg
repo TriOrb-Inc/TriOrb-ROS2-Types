@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==モーター制御パラメーター==
 bool lpf                # Use LPF for driving command filter (False: moving average)
 uint8 filter_t          # Command filter time constant (0-200)[ms]
 uint8 pos_p_gain        # Position loop gain (1-50)[Hz]

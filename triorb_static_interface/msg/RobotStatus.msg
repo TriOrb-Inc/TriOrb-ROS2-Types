@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==ロボットの状態==
 std_msgs/Header header  # timestamp
 float32 voltage         # main power supply voltage
 uint16 btns             # Remote control operation status (bit flag)

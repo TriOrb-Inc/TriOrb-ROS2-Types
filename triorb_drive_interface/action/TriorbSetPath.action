@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==[Action] Waypointリストを入力、途中経過を通知、完了ステータスを返却===
 TriorbSetPos3[] path     # List of waypoints and movement control values for each waypoint
 ---
 TriorbRunResult result   # Result of completion of movement to final destination

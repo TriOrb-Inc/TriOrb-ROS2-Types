@@ -14,9 +14,10 @@
 #* limitations under the License.
 #**
 
-float32 xy_p    #  translation P gain
-float32 xy_i    #  translation I gain (0 recommended)
-float32 xy_d    #  translation D gain
+#==自律移動のゲインパラメーター==
+float32 xy_p    # translation P gain
+float32 xy_i    # translation I gain (0 recommended)
+float32 xy_d    # translation D gain
 float32 w_p     # rotation P gain
 float32 w_i     # rotation I gain (0 recommended)
 float32 w_d     # rotation D gain

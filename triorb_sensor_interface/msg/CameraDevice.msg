@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==カメラデバイス==
 string device       # Path of camera device
 string topic        # Topic name of camera image
 string id           # Frame ID of the camera image topic

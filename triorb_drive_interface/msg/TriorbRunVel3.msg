@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
-TriorbSpeed speed
-TriorbVel3 velocity
+#==速度指示による移動==
+TriorbSpeed speed       # Configure of moving
+TriorbVel3 velocity     # Target velocities
