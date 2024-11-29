@@ -1,4 +1,4 @@
-# TriOrb-ROS2-Types 1.0.0 (fdb374c)
+# TriOrb-ROS2-Types v1.0.1 (2024-11-29)
 
 # triorb_field_interface 
 ## triorb_field_interface/srv 
@@ -330,6 +330,7 @@ float32 tx      # Target error in X-axis direction [±m]
 float32 ty      # Target error in Y-axis direction [±m].
 float32 tr      # Target error in rotation [±deg].
 uint8 force     # Target force level
+uint8 gain_no   # Number of gain type (not set:0, basic:1)
 ```
 
 ### triorb_drive_interface/msg/TriorbAlignPos3.msg
@@ -507,6 +508,7 @@ float32 voltage         # main power supply voltage
 uint16 btns             # Remote control operation status (bit flag)
 uint16 state            # Robot operation state (bit flag)
 uint16 error            # Error status of the robot (bit flag)
+float32 battery         # Battery level (0.0 - 1.0)
 
 #---Remote control operation status (bit flag)---
 # 0x8000: Remote control Y button
@@ -522,12 +524,15 @@ uint16 error            # Error status of the robot (bit flag)
 # 0x0800: Generating map
 # 0x0400: During anti-collision control
 # 0x0200: Position control move completed
+# 0x0010: Emergency stop is working
+# 0x0001: Status obtained successfully
 
 #---Error status of the robot (bit flag)---
 # 0x8000: Motor connection error
 # 0x4000: IMU and distance sensor connection error
 # 0x2000: Camera connection error
 # 0x1000: Main power supply voltage abnormal
+# 0x0001: Control ECU connection error
 ```
 
 ### triorb_static_interface/msg/NodeInfo.msg

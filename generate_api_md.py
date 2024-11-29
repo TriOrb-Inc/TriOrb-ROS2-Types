@@ -28,17 +28,20 @@ parser = argparse.ArgumentParser(description='API Referenceを生成する')
 parser.add_argument('-output', '-o', default="./README.md", help='生成するMarkdownファイルのパス')
 parser.add_argument('-version', '-v', default="1.0.0", help='パッケージのバージョン')
 parser.add_argument('-hash', default="", help='パッケージのバージョン(HASH)')
+parser.add_argument('-date', default="", help='パッケージのバージョン(Date)')
 #parser.add_argument('pkg_name', help='パッケージ名')
 #parser.add_argument('dir', help='パッケージディレクトリ')
 args = parser.parse_args()
 if len(args.hash) <= 0:
     args.hash = subprocess.run("git show --format=%h --no-patch".split(), stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
+if len(args.date) <= 0:
+    args.date = subprocess.run("date +%Y-%m-%d".split(), stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
 
 def generate_types_md():
     path_md = os.path.join(".".join(args.output.split(".")[:-1]) + "_types.md")
     repo_name = ""
     with open(path_md, 'w', encoding='utf-8') as f_md:
-        f_md.write(f'# TriOrb-ROS2-Types {args.version} ({args.hash})\n\n')
+        f_md.write(f'# TriOrb-ROS2-Types {args.version} ({args.date})\n\n')
         for curDir, dirs, files in os.walk('./'):
             if len([black_word for black_word in BLACK_LIST if black_word in curDir]) > 0:
                 continue
