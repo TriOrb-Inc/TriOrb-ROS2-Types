@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==ホストコンピューターのモニター==
 std_msgs/Header header      # Timestamp
 float32 memory_percent      # Memory usage
 float32 cpu_percent         # CPU usage

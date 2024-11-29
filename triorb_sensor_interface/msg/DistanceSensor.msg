@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==距離センサ==
 std_msgs/Header header      # Timestamp
 float32 distance      		# Distance to obstacle [m]
 uint8 confidence            # Signal reliability (0-100)

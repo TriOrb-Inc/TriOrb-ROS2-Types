@@ -14,8 +14,5 @@
 #* limitations under the License.
 #**
 
-string pkg          # Package name
-string exec         # Executable file name
-string args         # Arguments to the executable
----
-string result       # Execution result
+std_msgs/Header header              # header of camera
+AprilTag[] tags                     # tags

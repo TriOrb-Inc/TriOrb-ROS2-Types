@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==モーターステータス==
 std_msgs/Header header      # Timestamp
 uint16 last_error_value     # Last motor alert flag
 uint8 last_error_motor      # Motor ID of the last alert

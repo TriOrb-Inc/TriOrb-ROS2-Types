@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
-TriorbRunPos3 pos
-TriorbRunSetting setting
+#==目標位置・姿勢指示による移動==
+TriorbRunPos3 pos           # Goal position
+TriorbRunSetting setting    # Configure of navigation
 

@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==加減速時間・速度の設定==
 uint32 acc  # Acceleration time [ms]
 uint32 dec  # Deceleration time [ms]
 float32 xy  # Translation velocity [m/s]

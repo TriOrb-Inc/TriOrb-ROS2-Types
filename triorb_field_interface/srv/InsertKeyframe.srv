@@ -14,8 +14,8 @@
 #* limitations under the License.
 #**
 
-string pkg          # Package name
-string file         # Launch file name
-string args         # Arguments to the launch file
+#==[Service] 現在位置・姿勢のキーフレームを挿入する==
+std_msgs/Empty request
 ---
-string result       # Launch result
+string result               # Result of the inserting
+Keyframe[] keyframe         # Inserted keyframes

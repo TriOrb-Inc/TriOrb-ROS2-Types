@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
-float32 vx # Velocity vector along X axis [m/s]
-float32 vy # Velocity vector along Y axis [m/s]
-float32 vw # Rotation velocity vector around the Z axis [rad/s]
+#==平面内の移動速度設定==
+float32 vx      # Velocity vector along X axis [m/s]
+float32 vy      # Velocity vector along Y axis [m/s]
+float32 vw      # Rotation velocity vector around the Z axis [rad/s]

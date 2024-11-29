@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==[Service] 経由点及び経路生成設定を入力、生成された経由点を取得==
 TriorbPos3[] waypoint
 uint8 dilation_k_size
 uint8 gauss_k_size

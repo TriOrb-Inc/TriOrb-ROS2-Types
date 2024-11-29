@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==Keyframe information==
 uint32 id       # Frame id
 float32 tvec    # Translation vector
 float32 rvec    # Rotation vector

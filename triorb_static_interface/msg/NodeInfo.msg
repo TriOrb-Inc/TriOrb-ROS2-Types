@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
+#==ROS2ノードの状態==
 string name # Node name
 string state # Node state ( sleep | wakeup | awake )
