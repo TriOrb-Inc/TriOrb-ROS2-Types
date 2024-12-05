@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>triorb_thirdparty_interface</name>
+  <name>oriental_interface</name>
   <version>1.0.0</version>
-  <description>他の機器と接続するためのインターフェース</description>
+  <description>TODO: Package description</description>
   <maintainer email="tobata.masakazu@triorb.co.jp">root</maintainer>
-  <license>GNU Lesser General Public License version 3</license>
+  <license>Apache License, Version 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

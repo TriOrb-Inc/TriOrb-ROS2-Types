@@ -21,6 +21,10 @@ uint16 btns             # Remote control operation status (bit flag)
 uint16 state            # Robot operation state (bit flag)
 uint16 error            # Error status of the robot (bit flag)
 
+uint32 ken_flags1
+uint32 ken_errors
+uint32 ken_warns
+
 #---Remote control operation status (bit flag)---
 # 0x8000: Remote control Y button
 # 0x4000: Remote control B button

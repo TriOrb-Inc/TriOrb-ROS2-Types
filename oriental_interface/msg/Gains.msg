@@ -1,0 +1,7 @@
+uint32 machine_rigidity_sel_1
+float32 pos_loop_gain
+float32 vel_loop_gain
+float32 vel_loop_integral_time
+float32 torque_filter
+float32 vel_ff
+

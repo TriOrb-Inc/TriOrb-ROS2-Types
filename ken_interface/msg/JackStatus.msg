@@ -1,0 +1,2 @@
+uint32 jack_positions
+uint32 jack_status
