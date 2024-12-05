@@ -19,3 +19,4 @@ float32 tx      # Target error in X-axis direction [±m]
 float32 ty      # Target error in Y-axis direction [±m].
 float32 tr      # Target error in rotation [±deg].
 uint8 force     # Target force level
+uint8 gain_no   # Number of gain type (not set:0, basic:1)
