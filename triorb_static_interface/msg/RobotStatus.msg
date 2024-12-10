@@ -20,6 +20,7 @@ float32 voltage         # main power supply voltage
 uint16 btns             # Remote control operation status (bit flag)
 uint16 state            # Robot operation state (bit flag)
 uint16 error            # Error status of the robot (bit flag)
+float32 battery         # Battery level (0.0 - 1.0)
 
 uint32 ken_flags1
 uint32 ken_errors
@@ -39,9 +40,12 @@ uint32 ken_warns
 # 0x0800: Generating map
 # 0x0400: During anti-collision control
 # 0x0200: Position control move completed
+# 0x0010: Emergency stop is working
+# 0x0001: Status obtained successfully
 
 #---Error status of the robot (bit flag)---
 # 0x8000: Motor connection error
 # 0x4000: IMU and distance sensor connection error
 # 0x2000: Camera connection error
 # 0x1000: Main power supply voltage abnormal
+# 0x0001: Control ECU connection error

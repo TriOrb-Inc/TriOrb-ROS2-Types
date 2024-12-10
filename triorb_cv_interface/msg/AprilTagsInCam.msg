@@ -14,9 +14,5 @@
 #* limitations under the License.
 #**
 
-uint16[] marker_id          # 位置合わせ原点とするマーカーのID
-float32[] marker_size       # マーカーのサイズ
-TriorbPos3[] position       # 原点に対する相対位置決め位置姿勢
-TriorbSpeed speed           # 移動速度
-TriorbRunSetting setting    # 走行設定
-
+std_msgs/Header header              # header of camera
+AprilTag[] tags                     # tags
