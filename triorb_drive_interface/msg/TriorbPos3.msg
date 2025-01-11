@@ -14,6 +14,8 @@
 #* limitations under the License.
 #**
 
+std_msgs/Header header # header
+
 #==平面内の位置・姿勢==
 float32 x       # [m]
 float32 y       # [m]
