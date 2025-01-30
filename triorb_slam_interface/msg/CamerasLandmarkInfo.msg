@@ -14,13 +14,5 @@
 #* limitations under the License.
 #**
 
-#==カメラデバイス==
-std_msgs/Header header      # Timestamp
-string device               # Path of camera device
-string topic                # Topic name of camera image
-string id                   # Frame ID of the camera image topic
-string state                # Camera device status (sleep | wakeup | awake)
-int16 rotation              # Rotation of the camera image
-int16 exposure              # Camera Exposure
-float32 gamma               # Gamma correction value
-float32 timer               # Data collection cycle [s]
+std_msgs/Header header            # header
+PointArrayStamped[] camera        # points array per camera
