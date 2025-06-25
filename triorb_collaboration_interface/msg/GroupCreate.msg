@@ -14,10 +14,7 @@
 #* limitations under the License.
 #**
 
-# ==[協調搬送] 仮想（荷物など）原点に対するロボットの相対姿勢==
-std_msgs/Header header      # Header
-string parent               # Parent name
-string you                  # Your name or ip
-float32 x                   # Relative position of the parent from you [m]
-float32 y                   # Relative position of the parent from you [m]
-float32 deg                 # Relative position of the parent from you [deg]
+# ==[協調搬送] グループ構築情報==
+std_msgs/Header header                              # Header
+string master                                       # Master
+triorb_collaboration_interface/ParentBind[] robots  # Robot informations
