@@ -15,4 +15,4 @@
 #**
 
 std_msgs/Header header         # header
-uint32 id                      # keyframe id
+int32 id                       # keyframe id
