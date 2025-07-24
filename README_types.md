@@ -159,12 +159,14 @@ CameraDevice[] result
 ## triorb_slam_interface/msg 
 ### triorb_slam_interface/msg/UInt32MultiArrayStamped.msg
 ```bash
+#==uint32 array（Header付）==
 std_msgs/Header header  # header
 uint32[] data           # data array
 ```
 
 ### triorb_slam_interface/msg/XyArrayStamped.msg
 ```bash
+#==（u16）X arrayと（u16）Y arrayの混合（Header付）==
 std_msgs/Header header  # header
 uint16[] x              # x array
 uint16[] y              # y array
@@ -172,30 +174,35 @@ uint16[] y              # y array
 
 ### triorb_slam_interface/msg/PointArrayStamped.msg
 ```bash
+#==point array（Header付）==
 std_msgs/Header header              # header
 geometry_msgs/Point[] points        # points array
 ```
 
 ### triorb_slam_interface/msg/Keyframe.msg
 ```bash
+#==Keyframe ID（header付きのint32データ）==
 std_msgs/Header header         # header
 int32 id                       # keyframe id
 ```
 
 ### triorb_slam_interface/msg/CamerasLandmarkInfo.msg
 ```bash
+#==各カメラの特徴点情報==
 std_msgs/Header header            # header
 PointArrayStamped[] camera        # points array per camera
 ```
 
 ### triorb_slam_interface/msg/KeyframeArray.msg
 ```bash
+#==Keyframeリスト==
 std_msgs/Header header         # header
 Keyframe[] keyframes           # keyframes
 ```
 
 ### triorb_slam_interface/msg/PoseDevStamped.msg
 ```bash
+#==姿勢情報（有効フラグ付き）==
 std_msgs/Header header              # header
 geometry_msgs/Pose pose             # pose array
 bool valid                          # valid
@@ -203,6 +210,7 @@ bool valid                          # valid
 
 ### triorb_slam_interface/msg/CamerasPose.msg
 ```bash
+#==各カメラの姿勢情報==
 std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
 ```

@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
+#==point array（Header付）==
 std_msgs/Header header              # header
 geometry_msgs/Point[] points        # points array

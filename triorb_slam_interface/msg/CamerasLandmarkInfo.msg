@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
+#==各カメラの特徴点情報==
 std_msgs/Header header            # header
 PointArrayStamped[] camera        # points array per camera

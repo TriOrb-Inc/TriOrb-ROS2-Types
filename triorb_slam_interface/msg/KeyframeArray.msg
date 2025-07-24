@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
+#==Keyframeリスト==
 std_msgs/Header header         # header
 Keyframe[] keyframes           # keyframes
