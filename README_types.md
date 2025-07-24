@@ -8,12 +8,6 @@
 float32[] xtl_ytl_xbr_ybr       # [Left-top-x, Left-top-y, Right-bottom-x, Right-bottom-y] [pix]
 ```
 
-### triorb_cv_interface/msg/AprilTagsInCam.msg
-```bash
-std_msgs/Header header              # header of camera
-AprilTag[] tags                     # tags
-```
-
 ### triorb_cv_interface/msg/Detection.msg
 ```bash
 # ==物体検出結果==
@@ -24,17 +18,11 @@ float64[] scores            # Detection scores
 string[] labels             # Object types
 ```
 
-### triorb_cv_interface/msg/AprilTag.msg
-```bash
-std_msgs/Header header              # header of tag
-geometry_msgs/Vector3 position      # position of tag
-geometry_msgs/Vector3 rotation      # rotation of tag
-geometry_msgs/Vector3[] corner2d      # points of corner
-```
-
 ## triorb_cv_interface/srv 
 ### triorb_cv_interface/srv/GetImage.srv
 ```bash
+# ==画像取得サービス==
+
 string fname
 ---
 sensor_msgs/Image image
