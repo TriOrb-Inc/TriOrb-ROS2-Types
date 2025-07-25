@@ -637,7 +637,7 @@ string[] result
 
 ### triorb_static_interface/srv/SetString.srv
 ```bash
-#==文字列の入力==
+#==[Service] 文字列の入力==
 string[] request
 ---
 string result
