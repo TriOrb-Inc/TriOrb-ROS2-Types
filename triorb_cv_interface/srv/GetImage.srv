@@ -14,6 +14,8 @@
 #* limitations under the License.
 #**
 
+# ==画像取得サービス==
+
 string fname
 ---
 sensor_msgs/Image image

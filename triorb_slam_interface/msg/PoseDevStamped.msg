@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==姿勢情報（有効フラグ付き）==
 std_msgs/Header header              # header
 geometry_msgs/Pose pose             # pose array
 bool valid                          # valid

@@ -25,10 +25,10 @@ import subprocess
 BLACK_LIST = ['rosbridge_suite', 'Version.srv']
 
 parser = argparse.ArgumentParser(description='API Referenceを生成する')
-parser.add_argument('-output', '-o', default="./README.md", help='生成するMarkdownファイルのパス')
-parser.add_argument('-version', '-v', default="1.0.0", help='パッケージのバージョン')
-parser.add_argument('-hash', default="", help='パッケージのバージョン(HASH)')
-parser.add_argument('-date', default="", help='パッケージのバージョン(Date)')
+parser.add_argument('--output', '-o', default="./README.md", help='生成するMarkdownファイルのパス')
+parser.add_argument('--version', '-v', default="1.0.0", help='パッケージのバージョン')
+parser.add_argument('--hash', default="", help='パッケージのバージョン(HASH)')
+parser.add_argument('--date', default="2025-07-17", help='パッケージのバージョン(Date)')
 #parser.add_argument('pkg_name', help='パッケージ名')
 #parser.add_argument('dir', help='パッケージディレクトリ')
 args = parser.parse_args()

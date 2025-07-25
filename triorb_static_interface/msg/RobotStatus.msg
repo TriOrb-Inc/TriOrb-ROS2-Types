@@ -30,12 +30,13 @@ float32 battery         # Battery level (0.0 - 1.0)
 
 #---Robot operation state (bit flag)---
 # 0x8000: Motor is being excited
-# 0x4000: Accepting move instruction
+# 0x4000: Accepting move instruction (not implemented)
 # 0x2000: Moving
 # 0x1000: Self-position recognition in progress
-# 0x0800: Generating map
-# 0x0400: During anti-collision control
+# 0x0800: Generating map (not implemented)
+# 0x0400: During anti-collision control (option)
 # 0x0200: Position control move completed
+# 0x0100: Stopped due to anti-collision control (option)
 # 0x0010: Emergency stop is working
 # 0x0001: Status obtained successfully
 

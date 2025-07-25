@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
+#==Keyframe ID（header付きのint32データ）==
 std_msgs/Header header         # header
 int32 id                       # keyframe id

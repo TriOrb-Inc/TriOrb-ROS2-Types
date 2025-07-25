@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+# ==バージョン取得サービス==
 std_msgs/Empty request
 ---
 uint8[] version

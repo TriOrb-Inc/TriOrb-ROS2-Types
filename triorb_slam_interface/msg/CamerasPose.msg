@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
+#==各カメラの姿勢情報==
 std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
