@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==相対位置・姿勢指示による移動==
+#==自律移動pkgの状態通知トピック==
 TriorbPos3 goal_pos     # Latest goal position
 uint8 state             # Navigate state
 
