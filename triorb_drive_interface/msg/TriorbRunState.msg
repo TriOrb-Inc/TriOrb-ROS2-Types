@@ -17,6 +17,8 @@
 #==自律移動pkgの状態通知トピック==
 TriorbPos3 goal_pos     # Latest goal position
 uint8 state             # Navigate state
+float32 cap_vxy         # Capability of velocity xy [m/s]
+float32 cap_vw          # Capability of velocity w  [rad/s]
 
 #---state values---
 # 0: stand by ( No topic subscribed or subscribe /drive/stop )
