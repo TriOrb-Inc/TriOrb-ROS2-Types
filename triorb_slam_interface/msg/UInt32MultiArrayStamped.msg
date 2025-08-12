@@ -14,5 +14,6 @@
 #* limitations under the License.
 #**
 
+#==uint32 array（Header付）==
 std_msgs/Header header  # header
 uint32[] data           # data array
