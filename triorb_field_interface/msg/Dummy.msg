@@ -14,8 +14,4 @@
 #* limitations under the License.
 #**
 
-#==自律移動結果==
-std_msgs/Header header      # Header
-bool success                # Moving result (true: Compleat, false: Feild)
-uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
-TriorbPos3 position         # Last robot position
+uint8 dummy

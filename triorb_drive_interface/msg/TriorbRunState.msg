@@ -14,8 +14,16 @@
 #* limitations under the License.
 #**
 
-#==自律移動結果==
-std_msgs/Header header      # Header
-bool success                # Moving result (true: Compleat, false: Feild)
-uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
-TriorbPos3 position         # Last robot position
+#==自律移動pkgの状態通知トピック==
+TriorbPos3 goal_pos     # Latest goal position
+uint8 state             # Navigate state
+float32 cap_vxy         # Capability of velocity xy [m/s]
+float32 cap_vw          # Capability of velocity w  [rad/s]
+
+#---state values---
+# 0: stand by ( No topic subscribed or subscribe /drive/stop )
+# 1: navigating now
+# 2: pause ( Subscribe /drive/pause )
+# 3: success ( Success navigation. )
+# 4: failed ( Failed navigation. Mostly lost. )
+# 5: leave goal ( Success navigation. But, leave from goal_pos. )

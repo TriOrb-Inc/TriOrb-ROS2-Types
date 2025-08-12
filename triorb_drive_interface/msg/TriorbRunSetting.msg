@@ -20,4 +20,5 @@ float32 ty                  # Target error in Y-axis direction [±m].
 float32 tr                  # Target error in rotation [±deg].
 uint8 force                 # Target force level
 uint8 gain_no               # Number of gain type (not set:0, basic:1)
+uint32 timeout_ms           # Timeout (in ms) for the operation to complete (set:0, disable)
 uint8[] disable_camera_idx  # Camera Index to be excluded from robot pose estimation
