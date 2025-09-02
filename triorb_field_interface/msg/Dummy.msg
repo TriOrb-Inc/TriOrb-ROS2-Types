@@ -14,7 +14,4 @@
 #* limitations under the License.
 #**
 
-std_msgs/Header header              # header of tag
-geometry_msgs/Vector3 position      # position of tag
-geometry_msgs/Vector3 rotation      # rotation of tag
-geometry_msgs/Vector3[] corner2d      # points of corner
+uint8 dummy

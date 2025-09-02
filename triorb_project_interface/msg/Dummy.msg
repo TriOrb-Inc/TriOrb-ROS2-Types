@@ -14,7 +14,4 @@
 #* limitations under the License.
 #**
 
-#==[Service] キーフレーム一覧を取得==
-std_msgs/Empty request
----
-Keyframe[] result
+uint8 dummy

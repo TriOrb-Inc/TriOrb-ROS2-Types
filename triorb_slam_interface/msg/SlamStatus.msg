@@ -14,8 +14,19 @@
 #* limitations under the License.
 #**
 
-#==[Service] 現在位置・姿勢のキーフレームを挿入する==
-std_msgs/Empty request
----
-string result               # Result of the inserting
-Keyframe[] keyframe         # Inserted keyframes
+#==SLAMの実行状況==
+string map_name  # map name
+uint8 state      # mapping now, fix map... etc
+uint8 error      # not working, map load failed... etc
+
+#---slam operation status (bit flag)---
+# 0b00000001: mapping mode(0), fix map(1)
+# 0b00000010: lost(0), localize(1)
+# 0b00000100: processing save map 
+# 0b00001000: processing load map
+ 
+#---error state (bit flag)---
+# 0b00000001: slam is not working
+# 0b00000010: Never detected a known landmark
+# 0b00000100: save map failed
+# 0b00001000: load map failed (cannot find map)

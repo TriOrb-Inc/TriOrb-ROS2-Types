@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==（u16）X arrayと（u16）Y arrayの混合（Header付）==
 std_msgs/Header header  # header
 uint16[] x              # x array
 uint16[] y              # y array

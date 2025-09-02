@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
+#==[Service] Version情報の取得==
 std_msgs/Empty request
 ---
 uint8[] version
