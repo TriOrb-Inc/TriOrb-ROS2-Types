@@ -21,6 +21,9 @@ uint16 btns             # Remote control operation status (bit flag)
 uint16 state            # Robot operation state (bit flag)
 uint16 error            # Error status of the robot (bit flag)
 float32 battery         # Battery level (0.0 - 1.0)
+string collab_id        # collab group id (empty: no group)
+bool manual_mode        # enable manual drive
+bool auto_mode          # enable auto drive
 
 #---Remote control operation status (bit flag)---
 # 0x8000: Remote control Y button
