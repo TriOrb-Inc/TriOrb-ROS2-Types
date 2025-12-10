@@ -18,3 +18,16 @@
 bool success                # Moving result (true: Compleat, false: Feild)
 uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
 TriorbPos3 position         # Last robot position
+
+#---Moving result info---
+- 0: TIMEOUT_FAILED（タイムアウト）
+- 1: HALF_TIMEOUT
+- 2: TRANSFORM_FAILED
+- 3: NO_CHANGE_TIMESTAMP
+- 4: FORCE_STOP（/drive/stopなどで強制停止）
+- 5: NAVIGATION_FAILED
+- 6: NAVIGATION_SUCCESS
+- 7: PROGRESS
+- 8: FORCE_SUCCESS（force success指示）
+- 9: LOST_FAILED（ロスト判定）
+- 255: REJECT（移動中に来た指示や不正引数を拒否）
