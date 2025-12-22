@@ -24,4 +24,4 @@ bool power_cut_from_plc             # PLCが動力遮断中(B接点)
 bool unknown_error_from_plc         # PLCからの不明なエラー(A接点)
 bool permit_auto_move_from_plc      # PLCからの自動移動許可信号(B接点)
 bool permit_manual_move_from_plc    # PLCからの自動移動許可信号(B接点)
-uint8 reserved                      # 予約（未使用ビット）
+bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A接点)
