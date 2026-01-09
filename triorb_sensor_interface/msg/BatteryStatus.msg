@@ -20,7 +20,6 @@ std_msgs/Header header          # header.stamp: 計測/受信時刻
 
 uint32 remaining_mah            # 現在の残量 [mAh]
 float32 remaining_percent       # 残容量 [%] (0.0〜100.0)
-
 float32 total_voltage_v         # バッテリー全体電圧 [V]
-
+bool is_charging                # 充電Flag
 BatteryModuleStatus[] modules
