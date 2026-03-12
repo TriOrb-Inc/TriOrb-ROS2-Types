@@ -40,6 +40,8 @@ bool auto_mode          # enable auto drive
 # 0x0400: During anti-collision control (option)
 # 0x0200: Position control move completed
 # 0x0100: Stopped due to anti-collision control (option)
+# 0x0080: Navigating now
+# 0x0040: Free(Electromagnetic brake is working)
 # 0x0010: Emergency stop is working
 # 0x0001: Status obtained successfully
 
