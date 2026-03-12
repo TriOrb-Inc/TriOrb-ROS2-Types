@@ -23,4 +23,5 @@ bool emergency_stop_to_plc          # PLCへの非常停止要求(B接点)
 bool deactivate_request_to_plc      # PLCへの管理停止要求(A接点)
 bool sls_off_request_to_plc         # PLCへのSLS監視停止要求(A接点)
 bool error_reset_request_to_plc     # PLCへのエラーリセット要求(A接点)
-uint8 reserved                      # 予約（未使用ビット）
+bool auto_selected                  # PLCへの自動選択状態
+bool manual_selected                # PLCへの手動選択状態
