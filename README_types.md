@@ -335,6 +335,7 @@ TriorbRunSetting setting    # 走行設定
 ### triorb_drive_interface/msg/TriorbSetPos3.msg
 ```bash
 #==目標位置・姿勢指示による移動==
+uint32 request_id           # Unique request ID copied to TriorbRunResult (0: downstream assigns)
 TriorbRunPos3 pos           # Goal position
 TriorbRunSetting setting    # Configure of navigation
 ```
@@ -351,6 +352,7 @@ float32 deg     # [deg]
 ```bash
 #==自律移動結果==
 std_msgs/Header header      # Header
+uint32 request_id           # Request ID copied from TriorbSetPos3
 bool success                # Moving result (true: Compleat, false: Feild)
 uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
 TriorbPos3 position         # Last robot position
@@ -359,6 +361,7 @@ TriorbPos3 position         # Last robot position
 ### triorb_drive_interface/msg/TriorbRunResult.msg
 ```bash
 #==自律移動結果==
+uint32 request_id           # Request ID copied from TriorbSetPos3
 bool success                # Moving result (true: Compleat, false: Feild)
 uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
 TriorbPos3 position         # Last robot position
@@ -726,4 +729,3 @@ std_msgs/Header header                              # Header
 string master                                       # Master
 triorb_collaboration_interface/ParentBind[] robots  # Robot informations
 ```
-
