@@ -1,0 +1,64 @@
+name: ROS 2 Humble Build
+
+# Build and test all interface packages inside the official OSRF ROS 2
+# Humble development container on every pull request. This guarantees the
+# interfaces keep building against the latest Humble packages ("humble head")
+# and that no change silently breaks the workspace.
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: colcon build (humble)
+    runs-on: ubuntu-latest
+    container:
+      # OSRF Humble desktop development image; ships the core message
+      # packages (std_msgs, geometry_msgs, sensor_msgs) these interfaces
+      # depend on, plus colcon and the rosidl generators.
+      image: osrf/ros:humble-desktop-full
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: src/TriOrb-ROS2-Types
+
+      - name: Update to latest Humble packages (humble head)
+        shell: bash
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+
+      - name: Install dependencies with rosdep
+        shell: bash
+        run: |
+          rosdep update
+          rosdep install --from-paths src --ignore-src -r -y
+
+      - name: colcon build
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          colcon build --event-handlers console_direct+ \
+            --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+      # No unit tests exist yet. `colcon test` here would only run the
+      # ament_lint_common linter suite (copyright, cpplint, lint_cmake, ...),
+      # which can fail CI on style/copyright issues unrelated to the build.
+      # Re-add a test step once real tests are added, e.g.:
+      #   - name: colcon test
+      #     shell: bash
+      #     run: |
+      #       source /opt/ros/humble/setup.bash
+      #       source install/setup.bash
+      #       colcon test --event-handlers console_direct+
+      #       colcon test-result --verbose
