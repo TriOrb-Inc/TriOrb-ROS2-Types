@@ -1,0 +1,6 @@
+# DRAFT: append one error or warning entry.
+# The service name determines whether the entry is an error or warning.
+RobotError error
+---
+bool success
+string message

@@ -1,0 +1,6 @@
+# DRAFT: get NetworkManager connections and the managed hotspot profile.
+---
+NetworkConnection[] connections
+HotspotConfig hotspot
+bool success
+string message

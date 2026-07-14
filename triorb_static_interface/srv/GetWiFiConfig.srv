@@ -1,0 +1,8 @@
+# DRAFT: get a saved Wi-Fi profile, or the active profile when both IDs are empty.
+string connection_id
+string ssid
+---
+bool found
+WifiConfig config
+bool success
+string message

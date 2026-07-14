@@ -1,0 +1,5 @@
+# DRAFT: scan visible Wi-Fi access points.
+---
+WifiAccessPoint[] access_points
+bool success
+string message

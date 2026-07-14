@@ -1,0 +1,5 @@
+# DRAFT: apply the complete runtime SLAM configuration.
+SlamConfig config
+---
+bool success
+string message

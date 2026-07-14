@@ -1,0 +1,6 @@
+# DRAFT: get typed robot-specific parameters.
+# Expected names include camera_devices, camera_rotations and velocity limits.
+---
+rcl_interfaces/Parameter[] parameters
+bool success
+string message

@@ -1,0 +1,7 @@
+# DRAFT: update, connect or disconnect a saved Wi-Fi profile.
+WifiConfig config
+# Empty means a full update. PATCH callers list only the changed fields.
+string[] update_fields
+---
+bool success
+string message

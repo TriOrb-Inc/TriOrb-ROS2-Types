@@ -1,0 +1,9 @@
+# DRAFT: download one VSLAM map file by its user-visible name.
+string map_name
+---
+string filename
+string content_type
+uint8[] content
+string sha256
+bool success
+string message

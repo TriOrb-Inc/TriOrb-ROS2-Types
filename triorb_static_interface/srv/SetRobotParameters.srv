@@ -1,0 +1,5 @@
+# DRAFT: partially update robot-specific parameters by name.
+rcl_interfaces/Parameter[] parameters
+---
+bool success
+string message

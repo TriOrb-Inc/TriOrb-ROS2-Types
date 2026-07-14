@@ -14,6 +14,7 @@
 #* limitations under the License.
 #**
 
-std_msgs/Header header      # Timestamp
-uint32 error_code           # Error code
-string message              # Human-readable error description
+#==[Service] 文字列の入力==
+string[] request
+---
+string result

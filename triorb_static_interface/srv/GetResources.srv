@@ -1,0 +1,14 @@
+# DRAFT: get a point-in-time host resource snapshot.
+---
+std_msgs/Header header
+float32 cpu_percent
+float32 memory_percent
+uint64 memory_used_bytes
+uint64 memory_total_bytes
+float32 gpu_percent
+float32 gpu_memory_percent
+float32 cpu_temperature_c
+float32 gpu_temperature_c
+DiskUsage[] disks
+bool success
+string message

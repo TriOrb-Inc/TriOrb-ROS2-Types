@@ -1,0 +1,6 @@
+# DRAFT: create or update the managed NetworkManager hotspot profile.
+HotspotConfig config
+---
+bool success
+string message
+string connection_id

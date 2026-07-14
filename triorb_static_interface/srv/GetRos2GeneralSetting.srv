@@ -1,0 +1,5 @@
+# DRAFT: get ROS_DOMAIN_ID, ROS_LOCALHOST_ONLY and ROS_PREFIX.
+---
+SettingROS setting
+bool success
+string message

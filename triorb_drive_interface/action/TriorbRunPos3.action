@@ -1,0 +1,7 @@
+# DRAFT: execute a relative planar motion command.
+TriorbRunPos3 command
+---
+TriorbRunResult result
+string message
+---
+TriorbRunState state

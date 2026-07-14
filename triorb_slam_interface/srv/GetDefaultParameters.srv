@@ -1,0 +1,5 @@
+# DRAFT: get omni_vslam.yaml-equivalent default parameters.
+---
+rcl_interfaces/Parameter[] parameters
+bool success
+string message

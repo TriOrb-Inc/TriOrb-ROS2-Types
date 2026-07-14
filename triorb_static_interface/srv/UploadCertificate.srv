@@ -1,0 +1,13 @@
+# DRAFT: upload a certificate received from REST multipart/form-data.
+string filename
+string content_type
+uint8[] content
+# Lowercase hexadecimal SHA-256. Empty means the server calculates it.
+string sha256
+bool overwrite
+---
+bool success
+string message
+string certificate_id
+string fingerprint
+string installed_path

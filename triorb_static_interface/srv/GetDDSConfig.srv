@@ -1,0 +1,5 @@
+# DRAFT: get the ROS 2 discovery configuration applied at process startup.
+---
+DDSConfig config
+bool success
+string message

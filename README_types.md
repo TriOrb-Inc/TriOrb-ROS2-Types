@@ -675,7 +675,8 @@ uint8[] gateway             # Address of the default gateway
 ### triorb_static_interface/msg/RobotError.msg
 ```bash
 std_msgs/Header header      # Timestamp
-uint8 error                 # error code
+uint32 error_code           # Error code
+string message              # Human-readable error description
 ```
 
 ## triorb_static_interface/srv 
@@ -746,6 +747,14 @@ string[] result
 ### triorb_static_interface/srv/SetString.srv
 ```bash
 #==[Service] 文字列の入力==
+string request
+---
+string result
+```
+
+### triorb_static_interface/srv/SetStringList.srv
+```bash
+#==[Service] 文字列リストの入力==
 string[] request
 ---
 string result
@@ -810,4 +819,3 @@ bool permit_auto_move_from_plc      # PLCからの自動移動許可信号(B接�
 bool permit_manual_move_from_plc    # PLCからの自動移動許可信号(B接点)
 bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A接点)
 ```
-

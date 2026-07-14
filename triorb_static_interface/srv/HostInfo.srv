@@ -1,0 +1,7 @@
+# DRAFT: get the host name, primary address and interface details.
+---
+string hostname
+string primary_ip
+NetworkConnection[] interfaces
+bool success
+string message
