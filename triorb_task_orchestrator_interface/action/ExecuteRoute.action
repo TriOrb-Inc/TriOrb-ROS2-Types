@@ -1,0 +1,11 @@
+string route_csv_name
+float32 ratio_speed
+float32 bias_accuracy_xy
+float32 bias_accuracy_deg
+uint32 loop
+---
+bool success
+string final_state
+string message
+---
+TaskExecutionState state
