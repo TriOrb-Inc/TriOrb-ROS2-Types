@@ -1,0 +1,9 @@
+string current_state
+uint32 loop
+uint32 loop_idx
+uint32 current_sequence_index
+uint32 total_sequences
+string route_csv_name
+string current_sequence_name
+string current_path
+uint32 current_depth

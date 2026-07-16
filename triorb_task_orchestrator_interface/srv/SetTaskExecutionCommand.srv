@@ -1,0 +1,10 @@
+# Request the task executor to change its execution state.
+uint8 COMMAND_PAUSE=1
+uint8 COMMAND_TERMINATE=2
+uint8 COMMAND_RESUME=3
+
+uint8 command
+---
+bool success
+string message
+TaskExecutionState state

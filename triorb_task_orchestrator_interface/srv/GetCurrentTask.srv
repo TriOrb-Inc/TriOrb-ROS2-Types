@@ -1,0 +1,6 @@
+---
+# True when the backend ROS 2 node currently holds a task context.
+bool has_task
+
+# Current task context. Empty when has_task is false.
+CurrentTask task
