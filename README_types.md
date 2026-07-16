@@ -789,6 +789,121 @@ string master                                       # Master
 triorb_collaboration_interface/ParentBind[] robots  # Robot informations
 ```
 
+# triorb_task_orchestrator_interface 
+## triorb_task_orchestrator_interface/action 
+### triorb_task_orchestrator_interface/action/ExecuteRoute.action
+```bash
+string route_csv_name
+float32 ratio_speed
+float32 bias_accuracy_xy
+float32 bias_accuracy_deg
+uint32 loop
+---
+bool success
+string final_state
+string message
+---
+TaskExecutionState state
+```
+
+## triorb_task_orchestrator_interface/msg 
+### triorb_task_orchestrator_interface/msg/CurrentTask.msg
+```bash
+# Task source file name or task identifier held by the backend ROS 2 node.
+string source_file
+
+# Task content serialized as a triorb-route-sequence JSON string.
+string route_sequence_json
+```
+
+### triorb_task_orchestrator_interface/msg/Event.msg
+```bash
+# Navigation event timestamp.
+builtin_interfaces/Time stamp
+
+# Event source name, such as drive/result, lifter/result, or triorb/nav/result.
+string source
+
+# Event result or log message.
+string message
+```
+
+### triorb_task_orchestrator_interface/msg/Result.msg
+```bash
+# Result timestamp.
+builtin_interfaces/Time stamp
+
+# Result source name, such as drive/result, lifter/result, or triorb/nav/result.
+string source
+
+# Result message.
+string message
+```
+
+### triorb_task_orchestrator_interface/msg/TaskExecutionState.msg
+```bash
+string current_state
+uint32 loop
+uint32 loop_idx
+uint32 current_sequence_index
+uint32 total_sequences
+string route_csv_name
+string current_sequence_name
+string current_path
+uint32 current_depth
+```
+
+## triorb_task_orchestrator_interface/srv 
+### triorb_task_orchestrator_interface/srv/GetCurrentTask.srv
+```bash
+---
+# True when the backend ROS 2 node currently holds a task context.
+bool has_task
+
+# Current task context. Empty when has_task is false.
+CurrentTask task
+```
+
+### triorb_task_orchestrator_interface/srv/GetEvents.srv
+```bash
+# Maximum number of events to return. Set 0 to return all available events.
+uint32 limit
+---
+# Collected navigation events.
+Event[] events
+```
+
+### triorb_task_orchestrator_interface/srv/GetResults.srv
+```bash
+# Maximum number of results to return. Set 0 to return all available results.
+uint32 limit
+---
+# Collected navigation results.
+Result[] results
+```
+
+### triorb_task_orchestrator_interface/srv/GetTaskExecutionState.srv
+```bash
+---
+bool success
+string message
+TaskExecutionState state
+```
+
+### triorb_task_orchestrator_interface/srv/SetTaskExecutionCommand.srv
+```bash
+# Request the task executor to change its execution state.
+uint8 COMMAND_PAUSE=1
+uint8 COMMAND_TERMINATE=2
+uint8 COMMAND_RESUME=3
+
+uint8 command
+---
+bool success
+string message
+TaskExecutionState state
+```
+
 # triorb_plc_interface 
 ## triorb_plc_interface/msg 
 ### triorb_plc_interface/msg/BasicDataToPLC.msg
