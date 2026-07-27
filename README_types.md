@@ -205,16 +205,30 @@ uint8 state      # mapping now, fix map... etc
 uint8 error      # not working, map load failed... etc
 
 #---slam operation status (bit flag)---
-# 0b00000001: mapping mode(0), fix map(1)
-# 0b00000010: lost(0), localize(1)
-# 0b00000100: processing save map 
-# 0b00001000: processing load map
- 
+# 地図更新モード(0)ではなく固定地図モード(1)で動作している。
+uint8 STATE_MAP_FIXED=1
+# 自己位置推定が成立している。
+uint8 STATE_LOCALIZED=2
+# 地図保存処理中。
+uint8 STATE_SAVING_MAP=4
+# 地図読込処理中。
+uint8 STATE_LOADING_MAP=8
+# ユーザー操作などでSLAM本体を意図的に休止している。
+uint8 STATE_PAUSED=16
+# 地図ファイルの読込が完了しており、自己位置推定に使える地図名が確定している。
+uint8 STATE_MAP_LOADED=32
+# 地図読込完了後、自己位置推定が未成立または途切れている。
+uint8 STATE_LOST=64
+
 #---error state (bit flag)---
-# 0b00000001: slam is not working
-# 0b00000010: Never detected a known landmark
-# 0b00000100: save map failed
-# 0b00001000: load map failed (cannot find map)
+# SLAM本体が意図せず起動していない。
+uint8 ERROR_NOT_WORKING=1
+# 現在の起動または地図読込後に、まだ一度も自己位置推定が成立していない。
+uint8 ERROR_NEVER_LOCALIZED=2
+# 地図保存に失敗した。
+uint8 ERROR_MAP_SAVE_FAILED=4
+# 地図読込に失敗した。
+uint8 ERROR_MAP_LOAD_FAILED=8
 ```
 
 ### triorb_slam_interface/msg/PointArrayStamped.msg
@@ -372,6 +386,7 @@ TriorbRunSetting setting    # 走行設定
 ### triorb_drive_interface/msg/TriorbSetPos3.msg
 ```bash
 #==目標位置・姿勢指示による移動==
+uint32 request_id           # Unique request ID copied to TriorbRunResult (0: downstream assigns)
 TriorbRunPos3 pos           # Goal position
 TriorbRunSetting setting    # Configure of navigation
 ```
@@ -388,6 +403,7 @@ float32 deg     # [deg]
 ```bash
 #==自律移動結果==
 std_msgs/Header header      # Header
+uint32 request_id           # Request ID copied from TriorbSetPos3
 bool success                # Moving result (true: Compleat, false: Feild)
 uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
 TriorbPos3 position         # Last robot position
@@ -396,6 +412,7 @@ TriorbPos3 position         # Last robot position
 ### triorb_drive_interface/msg/TriorbRunResult.msg
 ```bash
 #==自律移動結果==
+uint32 request_id           # Request ID copied from TriorbSetPos3
 bool success                # Moving result (true: Compleat, false: Feild)
 uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
 TriorbPos3 position         # Last robot position
@@ -800,7 +817,8 @@ bool emergency_stop_to_plc          # PLCへの非常停止要求(B接点)
 bool deactivate_request_to_plc      # PLCへの管理停止要求(A接点)
 bool sls_off_request_to_plc         # PLCへのSLS監視停止要求(A接点)
 bool error_reset_request_to_plc     # PLCへのエラーリセット要求(A接点)
-uint8 reserved                      # 予約（未使用ビット）
+bool auto_selected                  # PLCへの自動選択状態
+bool manual_selected                # PLCへの手動選択状態
 ```
 
 ### triorb_plc_interface/msg/BasicDataFromPLC.msg
@@ -817,4 +835,3 @@ bool permit_auto_move_from_plc      # PLCからの自動移動許可信号(B接�
 bool permit_manual_move_from_plc    # PLCからの自動移動許可信号(B接点)
 bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A接点)
 ```
-
