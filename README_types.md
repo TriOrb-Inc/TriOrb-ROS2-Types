@@ -803,3 +803,35 @@ std_msgs/Header header                              # Header
 string master                                       # Master
 triorb_collaboration_interface/ParentBind[] robots  # Robot informations
 ```
+
+# triorb_plc_interface 
+## triorb_plc_interface/msg 
+### triorb_plc_interface/msg/BasicDataToPLC.msg
+```bash
+#==PLCへ送信する基本データ==
+std_msgs/Header header              # timestamp
+uint8 index                         # Assembly index of the byte array
+bool watchdog_request_from_jetson   # JetsonからPLCへのウォッチドッグ要求
+bool watchdog_response_to_plc       # PLCへのウォッチドッグ応答
+bool emergency_stop_to_plc          # PLCへの非常停止要求(B接点)
+bool deactivate_request_to_plc      # PLCへの管理停止要求(A接点)
+bool sls_off_request_to_plc         # PLCへのSLS監視停止要求(A接点)
+bool error_reset_request_to_plc     # PLCへのエラーリセット要求(A接点)
+bool auto_selected                  # PLCへの自動選択状態
+bool manual_selected                # PLCへの手動選択状態
+```
+
+### triorb_plc_interface/msg/BasicDataFromPLC.msg
+```bash
+#==PLCから受信した基本データ==
+std_msgs/Header header              # timestamp
+uint8 index                         # Assembly index of the byte array
+bool watchdog_request_from_plc      # PLCからのウォッチドッグ要求
+bool watchdog_response_from_plc     # PLCからのウォッチドッグ応答
+bool emergency_stop_from_plc        # PLCが非常停止中(B接点)
+bool power_cut_from_plc             # PLCが動力遮断中(B接点)
+bool unknown_error_from_plc         # PLCからの不明なエラー(A接点)
+bool permit_auto_move_from_plc      # PLCからの自動移動許可信号(B接点)
+bool permit_manual_move_from_plc    # PLCからの自動移動許可信号(B接点)
+bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A接点)
+```
