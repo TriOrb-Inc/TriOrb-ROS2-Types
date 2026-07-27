@@ -1,4 +1,4 @@
-# TriOrb-ROS2-Types v1.2.3 (2025-11-28)
+# TriOrb-ROS2-Types v1.2.4 (2026-04-20)
 
 # triorb_cv_interface 
 ## triorb_cv_interface/msg 
@@ -30,6 +30,18 @@ sensor_msgs/Image image
 
 # triorb_sensor_interface 
 ## triorb_sensor_interface/msg 
+### triorb_sensor_interface/msg/BatteryStatus.msg
+```bash
+std_msgs/Header header          # header.stamp: 計測/受信時刻
+                                # header.frame_id: 任意（例 "battery"）
+
+uint32 remaining_mah            # 現在の残量 [mAh]
+float32 remaining_percent       # 残容量 [%] (0.0〜100.0)
+float32 total_voltage_v         # バッテリー全体電圧 [V]
+bool is_charging                # 充電Flag
+BatteryModuleStatus[] modules
+```
+
 ### triorb_sensor_interface/msg/CameraDevice.msg
 ```bash
 #==カメラデバイス==
@@ -51,6 +63,31 @@ std_msgs/Header header # Timestamp
 float32 yaw
 float32 pitch
 float32 roll
+```
+
+### triorb_sensor_interface/msg/CanFrame.msg
+```bash
+uint32 id
+bool is_rtr
+bool is_extended
+bool is_error
+uint8 dlc
+uint8[8] data
+```
+
+### triorb_sensor_interface/msg/BatteryModuleStatus.msg
+```bash
+# モジュール単位のバッテリー状態
+
+uint8 module_id                 # モジュールID（1,2,...）
+
+float32 voltage_v               # モジュール電圧 [V]
+
+# モジュール電流 [A]
+# 符号ルール:
+#   充電 = +（プラス）
+#   放電 = -（マイナス）
+float32 current_a
 ```
 
 ### triorb_sensor_interface/msg/Obstacles.msg
@@ -379,6 +416,19 @@ uint32 request_id           # Request ID copied from TriorbSetPos3
 bool success                # Moving result (true: Compleat, false: Feild)
 uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
 TriorbPos3 position         # Last robot position
+
+#---Moving result info---
+# 0: TIMEOUT_FAILED（タイムアウト）
+# 1: HALF_TIMEOUT
+# 2: TRANSFORM_FAILED
+# 3: NO_CHANGE_TIMESTAMP
+# 4: FORCE_STOP（/drive/stopなどで強制停止）
+# 5: NAVIGATION_FAILED
+# 6: NAVIGATION_SUCCESS
+# 7: PROGRESS
+# 8: FORCE_SUCCESS（force success指示）
+# 9: LOST_FAILED（ロスト判定）
+# 255: REJECT（移動中に来た指示や不正引数を拒否）
 ```
 
 ### triorb_drive_interface/msg/PathSetting.msg
@@ -421,6 +471,12 @@ float32 vw      # Rotation velocity vector around the Z axis [rad/s]
 ### triorb_drive_interface/msg/TriorbRunSetting.msg
 ```bash
 #==自律移動の位置決め設定==
+# TF source used for localization
+uint32 TF_SOURCE_UNSPECIFIED=0
+uint32 TF_SOURCE_VSLAM=1
+uint32 TF_SOURCE_TAGSLAM=2
+uint32 TF_SOURCE_COLLAB=3
+
 float32 tx                  # Target error in X-axis direction [±m]
 float32 ty                  # Target error in Y-axis direction [±m].
 float32 tr                  # Target error in rotation [±deg].
@@ -428,6 +484,7 @@ uint8 force                 # Target force level
 uint8 gain_no               # Number of gain type (not set:0, basic:1)
 uint32 timeout_ms           # Timeout (in ms) for the operation to complete (set:0, disable)
 uint8[] disable_camera_idx  # Camera Index to be excluded from robot pose estimation
+uint32 tf_source             # TF source used for localization 
 ```
 
 ### triorb_drive_interface/msg/TriorbPos3Stamped.msg
@@ -565,6 +622,9 @@ uint16 btns             # Remote control operation status (bit flag)
 uint16 state            # Robot operation state (bit flag)
 uint16 error            # Error status of the robot (bit flag)
 float32 battery         # Battery level (0.0 - 1.0)
+string collab_id        # collab group id (empty: no group)
+bool manual_mode        # enable manual drive
+bool auto_mode          # enable auto drive
 
 #---Remote control operation status (bit flag)---
 # 0x8000: Remote control Y button
