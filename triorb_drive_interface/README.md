@@ -80,10 +80,19 @@ TriorbPos3 position
 
 ### triorb_drive_interface/msg/TriorbRunSetting
 ```bash
-float32 tx      # Target error in X-axis direction [±m]
-float32 ty      # Target error in Y-axis direction [±m].
-float32 tr      # Target error in rotation [±deg].
-uint8 force     # Target force level
+uint32 TF_SOURCE_UNSPECIFIED=0
+uint32 TF_SOURCE_VSLAM=1
+uint32 TF_SOURCE_TAGSLAM=2
+uint32 TF_SOURCE_COLLAB=3
+
+float32 tx                  # Target error in X-axis direction [±m]
+float32 ty                  # Target error in Y-axis direction [±m].
+float32 tr                  # Target error in rotation [±deg].
+uint8 force                 # Target force level
+uint8 gain_no               # Number of gain type (not set:0, basic:1)
+uint32 timeout_ms           # Timeout (in ms) for the operation to complete (set:0, disable)
+uint8[] disable_camera_idx  # Camera Index to be excluded from robot pose estimation
+uint32 tf_source            # Coordinate frame source (TF_SOURCE_* constants above)
 ```
 
 ### triorb_drive_interface/msg/TriorbRunVel3

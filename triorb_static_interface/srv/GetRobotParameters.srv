@@ -1,6 +1,5 @@
-# DRAFT: get typed robot-specific parameters.
-# Expected names include camera_devices, camera_rotations and velocity limits.
+# Get CAMERA_DEVS, CAMERA_ROTATIONS, and robot_max_vel.yaml.
 ---
-rcl_interfaces/Parameter[] parameters
+RobotParameters parameters
 bool success
 string message

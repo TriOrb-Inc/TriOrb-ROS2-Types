@@ -1,18 +1,14 @@
-# DRAFT: execute a lifter command for one robot or a collaboration group.
-uint8 COMMAND_STOP=0
-uint8 COMMAND_UP=1
-uint8 COMMAND_DOWN=2
-uint8 COMMAND_MIDDLE=3
-uint8 command
+# Execute the String command used by /drive/run_lifter and /collab/run_lifter.
+# Allowed values: "stop", "up", "down", "middle".
+string command
 ---
+# True only when status is "success".
 bool success
+# Raw terminal value from the lifter result topic. Existing implementations
+# publish "success", "failed", or an "error: ..." string.
+string status
 string message
 ---
-uint8 STATE_UNKNOWN=0
-uint8 STATE_ACCEPTED=1
-uint8 STATE_MOVING=2
-uint8 STATE_STOPPED=3
-uint8 STATE_SUCCEEDED=4
-uint8 STATE_FAILED=5
-uint8 state
+# Raw state reported by the lifter bridge, for example "direction: up".
+string state
 string message

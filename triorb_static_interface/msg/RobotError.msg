@@ -16,4 +16,4 @@
 
 std_msgs/Header header      # Timestamp
 uint32 error_code           # Error code
-string message              # Human-readable error description
+string message              # Human-readable error or warning description

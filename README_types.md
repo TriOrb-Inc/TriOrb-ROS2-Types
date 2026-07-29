@@ -454,6 +454,11 @@ float32 vw      # Rotation velocity vector around the Z axis [rad/s]
 ### triorb_drive_interface/msg/TriorbRunSetting.msg
 ```bash
 #==自律移動の位置決め設定==
+uint32 TF_SOURCE_UNSPECIFIED=0
+uint32 TF_SOURCE_VSLAM=1
+uint32 TF_SOURCE_TAGSLAM=2
+uint32 TF_SOURCE_COLLAB=3
+
 float32 tx                  # Target error in X-axis direction [±m]
 float32 ty                  # Target error in Y-axis direction [±m].
 float32 tr                  # Target error in rotation [±deg].
@@ -461,6 +466,7 @@ uint8 force                 # Target force level
 uint8 gain_no               # Number of gain type (not set:0, basic:1)
 uint32 timeout_ms           # Timeout (in ms) for the operation to complete (set:0, disable)
 uint8[] disable_camera_idx  # Camera Index to be excluded from robot pose estimation
+uint32 tf_source            # Coordinate frame source (TF_SOURCE_* constants above)
 ```
 
 ### triorb_drive_interface/msg/TriorbPos3Stamped.msg
@@ -572,12 +578,26 @@ TriorbPos3[] result
 
 # triorb_static_interface 
 ## triorb_static_interface/msg 
+### triorb_static_interface/msg/PackageVersions.msg
+```bash
+# Selectable versions returned for one software package.
+string name
+string[] versions
+```
+
+### triorb_static_interface/msg/PackageVersion.msg
+```bash
+# Installed or requested version of one software package.
+string name
+string version
+```
+
 ### triorb_static_interface/msg/SettingROS.msg
 ```bash
 #==ROS2環境==
-bool ros_localhost_only # ROS_LOCALHOST_ONLY
-uint16 ros_domain_id # ROS_DOMAIN_ID
-string ros_prefix # ROS_PREFIX
+bool localhost_only # ROS_LOCALHOST_ONLY
+uint16 domain_id # ROS_DOMAIN_ID
+string ros_namespace # ROS namespace; exposed as "namespace" by the REST mapping
 ```
 
 ### triorb_static_interface/msg/SettingSSID.msg
@@ -676,10 +696,56 @@ uint8[] gateway             # Address of the default gateway
 ```bash
 std_msgs/Header header      # Timestamp
 uint32 error_code           # Error code
-string message              # Human-readable error description
+string message              # Human-readable error or warning description
 ```
 
 ## triorb_static_interface/srv 
+### triorb_static_interface/srv/ErrorAppend.srv
+```bash
+std_msgs/Header header
+uint32 error_code
+string message
+---
+bool success
+string message
+```
+
+### triorb_static_interface/srv/GetAvailableVersions.srv
+```bash
+---
+PackageVersions[] packages
+bool success
+string message
+```
+
+### triorb_static_interface/srv/GetHealth.srv
+```bash
+---
+std_msgs/Header header
+```
+
+### triorb_static_interface/srv/GetLicense.srv
+```bash
+---
+string name
+string key
+```
+
+### triorb_static_interface/srv/SetLicense.srv
+```bash
+string name
+PackageVersion[] packages
+---
+bool success
+string message
+```
+
+### triorb_static_interface/srv/GetPackageVersions.srv
+```bash
+---
+PackageVersion[] packages
+```
+
 ### triorb_static_interface/srv/GetImage.srv
 ```bash
 #==[Service] 画像の取得==
@@ -818,4 +884,232 @@ bool unknown_error_from_plc         # PLCからの不明なエラー(A接点)
 bool permit_auto_move_from_plc      # PLCからの自動移動許可信号(B接点)
 bool permit_manual_move_from_plc    # PLCからの自動移動許可信号(B接点)
 bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A接点)
+```
+
+# triorb_navigation_interface
+## triorb_navigation_interface/msg
+### triorb_navigation_interface/msg/NavigationPose.msg
+```bash
+uint32 tf_source
+triorb_drive_interface/TriorbPos3 pose
+```
+
+### triorb_navigation_interface/msg/NavigationResult.msg
+```bash
+uint16 TIMEOUT_FAILED=0
+uint16 HALF_TIMEOUT=1
+uint16 TRANSFORM_FAILED=2
+uint16 NO_CHANGE_TIMESTAMP=3
+uint16 FORCE_STOP=4
+uint16 NAVIGATION_FAILED=5
+uint16 NAVIGATION_SUCCESS=6
+uint16 PROGRESS=7
+uint16 FORCE_SUCCESS=8
+uint16 LOST_FAILED=9
+uint16 BLOCKED_BY_PERMIT=10
+uint16 REJECT=255
+uint16 NONE=65535
+uint16 result
+```
+
+### triorb_navigation_interface/msg/NavigationState.msg
+```bash
+std_msgs/Header header
+triorb_drive_interface/TriorbSetPos3 target
+NavigationPose current_pose
+uint8 STAND_BY=0
+uint8 NAVIGATE=1
+uint8 PAUSE=2
+uint8 SUCCESS=3
+uint8 FAILED=4
+uint8 LEAVE_GOAL=5
+uint8 navigate_state
+float32 elapsed_sec
+NavigationResult navigation_result
+```
+
+## triorb_navigation_interface/action
+### triorb_navigation_interface/action/ExecuteTriorbSetPos3.action
+```bash
+triorb_drive_interface/TriorbSetPos3 target
+---
+NavigationState state
+---
+NavigationState state
+```
+
+# triorb_task_orchestrator_interface
+## triorb_task_orchestrator_interface/msg
+### triorb_task_orchestrator_interface/msg/Event.msg
+```bash
+builtin_interfaces/Time stamp
+string source
+string message
+```
+
+### triorb_task_orchestrator_interface/msg/Result.msg
+```bash
+builtin_interfaces/Time stamp
+string source
+string message
+```
+
+### triorb_task_orchestrator_interface/msg/RouteFileInfo.msg
+```bash
+string file_name
+builtin_interfaces/Time created_at
+builtin_interfaces/Time updated_at
+uint64 size_bytes
+```
+
+### triorb_task_orchestrator_interface/msg/RouteSequenceItem.msg
+```bash
+string type
+string name
+string value
+```
+
+### triorb_task_orchestrator_interface/msg/TaskExecutionState.msg
+```bash
+string current_state
+uint32 loop
+uint32 loop_index
+uint32 current_sequence_index
+uint32 total_sequences
+string source_file
+string current_sequence_name
+string current_path
+uint32 current_depth
+```
+
+## triorb_task_orchestrator_interface/srv
+### triorb_task_orchestrator_interface/srv/DeleteTaskFile.srv
+```bash
+string file_name
+---
+bool deleted
+string file_name
+string message
+```
+
+### triorb_task_orchestrator_interface/srv/DownloadTaskFile.srv
+```bash
+string file_name
+---
+bool success
+string file_name
+uint8[] data
+string message
+```
+
+### triorb_task_orchestrator_interface/srv/GetCurrentTask.srv
+```bash
+---
+bool success
+bool has_task
+string message
+string source_file
+RouteSequenceItem[] sequence
+float32 ratio_speed
+float32 bias_accuracy_xy
+float32 bias_accuracy_deg
+uint32 loop
+```
+
+### triorb_task_orchestrator_interface/srv/GetEvents.srv
+```bash
+uint32 limit
+---
+bool success
+string message
+Event[] events
+```
+
+### triorb_task_orchestrator_interface/srv/GetResults.srv
+```bash
+uint32 limit
+---
+bool success
+string message
+Result[] results
+```
+
+### triorb_task_orchestrator_interface/srv/GetRoute.srv
+```bash
+string file_name
+---
+bool success
+string message
+string source_file
+RouteSequenceItem[] sequence
+```
+
+### triorb_task_orchestrator_interface/srv/ListTasks.srv
+```bash
+---
+bool success
+string message
+RouteFileInfo[] routefiles
+```
+
+### triorb_task_orchestrator_interface/srv/SaveRoute.srv
+```bash
+string source_file
+RouteSequenceItem[] sequence
+---
+bool success
+string message
+RouteFileInfo routefile
+```
+
+### triorb_task_orchestrator_interface/srv/SetTaskExecutionCommand.srv
+```bash
+uint8 COMMAND_PAUSE=1
+uint8 COMMAND_TERMINATE=2
+uint8 COMMAND_RESUME=3
+uint8 command
+---
+bool success
+string message
+TaskExecutionState state
+```
+
+### triorb_task_orchestrator_interface/srv/UploadTaskFile.srv
+```bash
+string file_name
+uint8[] data
+---
+bool success
+string file_name
+builtin_interfaces/Time created_at
+builtin_interfaces/Time updated_at
+uint64 size_bytes
+string message
+```
+
+## triorb_task_orchestrator_interface/action
+### triorb_task_orchestrator_interface/action/ExecuteRoute.action
+```bash
+RouteSequenceItem[] sequence
+float32 ratio_speed
+float32 bias_accuracy_xy
+float32 bias_accuracy_deg
+uint32 loop
+---
+bool success
+---
+TaskExecutionState state
+```
+
+### triorb_task_orchestrator_interface/action/ExecuteTaskFile.action
+```bash
+string file_name
+float32 ratio_speed
+float32 bias_accuracy_xy
+float32 bias_accuracy_deg
+uint32 loop
+---
+bool success
+---
+TaskExecutionState state
 ```

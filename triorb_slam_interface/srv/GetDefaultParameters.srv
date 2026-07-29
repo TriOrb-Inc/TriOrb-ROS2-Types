@@ -1,5 +1,6 @@
-# DRAFT: get omni_vslam.yaml-equivalent default parameters.
+# Get omni_vslam.yaml without flattening nested YAML or losing comments.
 ---
-rcl_interfaces/Parameter[] parameters
+string yaml
+string sha256
 bool success
 string message

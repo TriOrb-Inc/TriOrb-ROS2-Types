@@ -1,13 +1,15 @@
-# DRAFT: upload a certificate received from REST multipart/form-data.
+# Upload a certificate received from REST multipart/form-data.
 string filename
 string content_type
 uint8[] content
+# "ca", "client", "private_key", or "pkcs12".
+string cert_type
 # Lowercase hexadecimal SHA-256. Empty means the server calculates it.
 string sha256
 bool overwrite
 ---
 bool success
 string message
-string certificate_id
-string fingerprint
-string installed_path
+string stored_path
+string filename
+string cert_type

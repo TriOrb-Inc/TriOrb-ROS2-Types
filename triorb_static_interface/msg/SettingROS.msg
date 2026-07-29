@@ -15,6 +15,6 @@
 #**
 
 #==ROS2環境==
-bool ros_localhost_only # ROS_LOCALHOST_ONLY
-uint16 ros_domain_id # ROS_DOMAIN_ID
-string ros_prefix # ROS_PREFIX
+bool localhost_only # ROS_LOCALHOST_ONLY
+uint16 domain_id # ROS_DOMAIN_ID
+string ros_namespace # ROS namespace; exposed as "namespace" by the REST mapping

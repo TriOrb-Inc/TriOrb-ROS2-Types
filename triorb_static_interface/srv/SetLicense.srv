@@ -1,0 +1,5 @@
+string name
+PackageVersion[] packages
+---
+bool success
+string message

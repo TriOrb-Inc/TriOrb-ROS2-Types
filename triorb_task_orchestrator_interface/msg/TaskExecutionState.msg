@@ -1,0 +1,9 @@
+string current_state
+uint32 loop
+uint32 loop_index
+uint32 current_sequence_index
+uint32 total_sequences
+string source_file
+string current_sequence_name
+string current_path
+uint32 current_depth

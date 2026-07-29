@@ -1,8 +1,0 @@
-# DRAFT: run a string command and report its textual state.
-string request
----
-bool success
-string message
----
-string status
-string message

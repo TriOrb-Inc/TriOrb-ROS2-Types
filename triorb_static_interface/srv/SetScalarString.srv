@@ -1,0 +1,4 @@
+# Set one scalar string without changing the legacy SetString service hash.
+string request
+---
+string result

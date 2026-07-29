@@ -1,7 +1,13 @@
-# DRAFT: execute a relative planar motion command.
+# Execute the relative movement published on /drive/run_pos.
 TriorbRunPos3 command
 ---
-TriorbRunResult result
+# Existing producers publish "done", "failed", or "stopped" on
+# /drive/run_pos/result rather than a navigation TriorbRunResult.
+bool success
+string status
 string message
 ---
-TriorbRunState state
+# Bridge lifecycle state, such as "command_sent" or "running".
+# The existing run_pos implementation does not publish a per-goal pose.
+string state
+string message
