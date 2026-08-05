@@ -114,6 +114,28 @@ float32[] mount_xyz         # Mounting location [m]
 float32[] mount_ypr         # Mounting orientation [deg]
 ```
 
+### triorb_sensor_interface/msg/PicoStatus.msg
+```bash
+#==制御ECUから取得できるステータス==
+uint16 state
+uint16 error
+float32 voltage
+
+# state フィールド（uint16 ビットフラグ）
+# 0x8000 is_excite`（bool）：モータ励磁中
+# 0x2000 is_moving`（bool）：移動中
+# 0x0200 is_posdrv`（bool）：位置制御移動完了
+# 0x0040 is_free`（bool）：電磁ブレーキ作動中（フリー）
+# 0x0010 is_emergency`（bool）：非常停止中（2 連続確認で確定）
+# 0x0001 is_success`（bool）：モータステータス取得成功
+ 
+# error フィールド（uint16 ビットフラグ）**
+# 0x8000 motor_error`（bool）：モータ接続エラー（alarm=0x2D）
+# 0x1000 voltage_error`（bool）：モータドライバが受け取っている電圧異常（alarm=0x25）
+# 0x0001 pico_con_error`（bool）：Pico 接続エラー
+```
+
+
 ## triorb_sensor_interface/action 
 ### triorb_sensor_interface/action/CameraCalibrationInternal.action
 ```bash
@@ -272,6 +294,32 @@ bool valid                          # valid
 #==各カメラの姿勢情報==
 std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
+```
+
+## triorb_slam_interface/srv 
+### triorb_slam_interface/srv/InitializeMap.srv
+```bash
+#==[Service] TagSLAM地図初期化の設定用==
+uint16 origin_tag_id
+float32 origin_tag_size
+float32 origin_tag_pos_z
+float32 origin_tag_pos_deg
+float32 default_tag_size
+float32 minimum_viewing_angle
+uint32 minimum_tag_area
+---
+bool success
+string message
+```
+
+### triorb_slam_interface/srv/LoadMap.srv
+```bash
+#==[Service] TagSLAM地図読み込み用==
+string map_name
+bool is_static
+---
+bool success
+string message
 ```
 
 # triorb_field_interface 
