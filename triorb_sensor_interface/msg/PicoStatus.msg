@@ -18,3 +18,4 @@
 uint16 state
 uint16 error
 float32 voltage
+uint8 lifter_state

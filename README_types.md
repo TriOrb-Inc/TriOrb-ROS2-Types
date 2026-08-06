@@ -120,6 +120,7 @@ float32[] mount_ypr         # Mounting orientation [deg]
 uint16 state
 uint16 error
 float32 voltage
+uint8 lifter_state
 
 # state フィールド（uint16 ビットフラグ）
 # 0x8000 is_excite`（bool）：モータ励磁中
@@ -129,10 +130,30 @@ float32 voltage
 # 0x0010 is_emergency`（bool）：非常停止中（2 連続確認で確定）
 # 0x0001 is_success`（bool）：モータステータス取得成功
  
-# error フィールド（uint16 ビットフラグ）**
+# error フィールド（uint16 ビットフラグ）
 # 0x8000 motor_error`（bool）：モータ接続エラー（alarm=0x2D）
 # 0x1000 voltage_error`（bool）：モータドライバが受け取っている電圧異常（alarm=0x25）
 # 0x0001 pico_con_error`（bool）：Pico 接続エラー
+
+# lifter_state フィールド ()
+# 0x00: 位置不明(起動直後など)
+# 0x01: 停止命令時
+# 0x02: リフトアップ状態
+# 0x03: リフトダウン状態
+# 0x04: リフトアップ中
+# 0x05: リフトダウン中
+# 0x06: 中間点移動中
+# 0x07: 中間点到達状態
+# 0x08: STOP_ONWAY
+# 0x09: リフトアップ状態、荷物偏り
+# 0x0A: リフトアップ状態、空荷
+# 0x0B: モータエラー（alarm）
+# 0x0C: モータエラー（qstop）
+# 0x0D: モータエラー（watchdog）
+# 0x0E: IO接続異常
+# 0x0F: 未定義
+# 0xFE: リフト状態取得不可機体
+# 0xFF: リフト機能無し
 ```
 
 
