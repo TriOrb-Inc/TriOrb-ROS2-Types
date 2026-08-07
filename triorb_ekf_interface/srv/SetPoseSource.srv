@@ -1,0 +1,9 @@
+uint8 SOURCE_VSLAM=1
+uint8 SOURCE_TAGSLAM=2
+uint8 SOURCE_COLLAB_TF=3
+
+uint8 source
+---
+bool success
+string message
+uint8 active_source

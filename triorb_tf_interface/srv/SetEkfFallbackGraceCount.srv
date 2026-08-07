@@ -1,0 +1,6 @@
+int64 ekf_fallback_grace_count
+---
+bool success
+string message
+int64 active_ekf_fallback_grace_count
+float64 ekf_fallback_grace_sec
