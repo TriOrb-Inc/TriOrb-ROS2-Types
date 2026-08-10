@@ -317,10 +317,10 @@ float32 cap_vw          # Capability of velocity w  [rad/s]
 ### triorb_drive_interface/msg/TriorbSpeed.msg
 ```bash
 #==加減速時間・速度の設定==
-uint32 acc  # Acceleration time [ms]
-uint32 dec  # Deceleration time [ms]
-float32 xy  # Translation velocity [m/s]
-float32 w   # Rotation speed [rad/s]
+uint32 acc 1000  # Acceleration time [ms]
+uint32 dec 1000  # Deceleration time [ms]
+float32 xy 0.6   # Maximum translational speed [m/s]
+float32 w 0.6    # Maximum angular speed [rad/s]
 ```
 
 ### triorb_drive_interface/msg/MotorStatus.msg
@@ -521,6 +521,30 @@ Route[] result
 std_msgs/Empty request
 ---
 MotorParams result
+```
+
+### triorb_drive_interface/srv/TriorbRunLifter.srv
+```bash
+# Execute one lifter command and wait for the lifter operation to finish.
+
+# Stop the lifter immediately.
+uint16 COMMAND_STOP=0
+# Raise the lifter.
+uint16 COMMAND_UP=1
+# Lower the lifter.
+uint16 COMMAND_DOWN=2
+# Move the lifter to its middle position.
+uint16 COMMAND_MIDDLE=3
+
+# Lifter command. Use one of the COMMAND_* constants defined above.
+uint16 command
+---
+# True when the lifter command completed successfully.
+bool success
+# Terminal status reported by the lifter implementation, such as "success" or "failed".
+string status
+# Human-readable completion or error details.
+string message
 ```
 
 ### triorb_drive_interface/srv/TriorbRunPos3.srv
