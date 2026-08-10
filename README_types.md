@@ -523,6 +523,30 @@ std_msgs/Empty request
 MotorParams result
 ```
 
+### triorb_drive_interface/srv/TriorbRunLifter.srv
+```bash
+# Execute one lifter command and wait for the lifter operation to finish.
+
+# Stop the lifter immediately.
+uint16 COMMAND_STOP=0
+# Raise the lifter.
+uint16 COMMAND_UP=1
+# Lower the lifter.
+uint16 COMMAND_DOWN=2
+# Move the lifter to its middle position.
+uint16 COMMAND_MIDDLE=3
+
+# Lifter command. Use one of the COMMAND_* constants defined above.
+uint16 command
+---
+# True when the lifter command completed successfully.
+bool success
+# Terminal status reported by the lifter implementation, such as "success" or "failed".
+string status
+# Human-readable completion or error details.
+string message
+```
+
 ### triorb_drive_interface/srv/TriorbRunPos3.srv
 ```bash
 #==[Service] 相対位置・姿勢指示による移動と結果の取得==
