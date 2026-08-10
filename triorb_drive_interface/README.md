@@ -149,6 +149,7 @@ uint16 COMMAND_STOP=0    # Stop the lifter immediately.
 uint16 COMMAND_UP=1      # Raise the lifter.
 uint16 COMMAND_DOWN=2    # Lower the lifter.
 uint16 COMMAND_MIDDLE=3  # Move the lifter to its middle position.
+# @ros-openapi: enum=closed
 uint16 command
 ---
 bool success
