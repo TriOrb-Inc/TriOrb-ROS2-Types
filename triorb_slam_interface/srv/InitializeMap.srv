@@ -1,0 +1,10 @@
+uint16 origin_tag_id
+float32 origin_tag_size
+float32 origin_tag_pos_z
+float32 origin_tag_pos_deg
+float32 default_tag_size
+float32 minimum_viewing_angle
+uint32 minimum_tag_area
+---
+bool success
+string message
