@@ -15,6 +15,10 @@
 #**
 
 #==平面内の位置・姿勢==
-float32 x       # [m]
-float32 y       # [m]
-float32 deg     # [deg]
+
+# Translation along the X axis [m]. For relative movement, forward is positive.
+float32 x
+# Translation along the Y axis [m]. For relative movement, left is positive.
+float32 y
+# Heading angle [deg]. For relative movement, counter-clockwise is positive.
+float32 deg

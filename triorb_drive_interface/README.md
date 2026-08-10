@@ -114,10 +114,10 @@ TriorbSetPos3[] path
 
 ### triorb_drive_interface/msg/TriorbSpeed
 ```bash
-uint32 acc  # Acceleration time [ms]
-uint32 dec  # Deceleration time [ms]
-float32 xy  # Translation velocity [m/s]
-float32 w   # Rotation speed [rad/s]
+uint32 acc 1000  # Acceleration time [ms]
+uint32 dec 1000  # Deceleration time [ms]
+float32 xy 0.6   # Maximum translational speed [m/s]
+float32 w 0.6    # Maximum angular speed [rad/s]
 ```
 
 ### triorb_drive_interface/msg/TriorbVel3
@@ -141,6 +141,19 @@ TriorbRunVel3 request
 ---
 std_msgs/Header header
 uint8 result
+```
+
+### triorb_drive_interface/srv/TriorbRunLifter
+```bash
+uint16 COMMAND_STOP=0    # Stop the lifter immediately.
+uint16 COMMAND_UP=1      # Raise the lifter.
+uint16 COMMAND_DOWN=2    # Lower the lifter.
+uint16 COMMAND_MIDDLE=3  # Move the lifter to its middle position.
+uint16 command
+---
+bool success
+string status
+string message
 ```
 
 ### triorb_drive_interface/srv/TriorbSetPos3
