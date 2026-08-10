@@ -25,6 +25,7 @@ uint16 COMMAND_DOWN=2
 # Move the lifter to its middle position.
 uint16 COMMAND_MIDDLE=3
 
+# @ros-openapi: enum=closed
 # Lifter command. Use one of the COMMAND_* constants defined above.
 uint16 command
 ---
