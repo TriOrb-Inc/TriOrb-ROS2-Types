@@ -17,7 +17,7 @@
 #==PLCから受信した非常停止詳細データ==
 std_msgs/Header header              # timestamp
 uint8 index                         # Assembly index of the byte array
-uint8 power_cutted                  # 動力遮断されている
+uint8 power_cut                     # 動力遮断されている
 uint8 switch_pushed                 # 非常停止ボタンが押されている
 uint8 sls_detected                  # SLSが障害物検知している
 uint8 remote_switch_disabled        # リモコン非常停止状態
