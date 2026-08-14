@@ -1,0 +1,8 @@
+# Maximum number of events to return. Set 0 to return all available events.
+uint32 limit
+---
+bool success
+string message
+
+# Collected navigation events.
+Event[] events

@@ -1,0 +1,6 @@
+# Saved route CSV file name to delete.
+string file_name
+---
+bool deleted
+string file_name
+string message

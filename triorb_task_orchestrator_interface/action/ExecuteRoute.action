@@ -1,0 +1,22 @@
+# route 1 本の実行を triorb_task_orchestrator に要求する。
+#
+# **route の中身を goal で渡す。** サーバ上の CSV 名を指定する形ではない。
+# triorb_task_orchestrator は受け取った sequence を route_directory 配下の一時 CSV
+# （".tmp_<時刻>.csv"）へ書き出し、そこから実行する。
+#
+# 待機状態でなければ reject する（同時実行は不可）。
+
+# ---- goal ----
+RouteSequenceItem[] sequence   # route CSV の行に相当。1 件以上。空なら reject
+float32 ratio_speed            # 速度倍率。vxy / vw に掛かる。0 以下は reject
+float32 bias_accuracy_xy       # 位置の許容誤差に足すオフセット [m]
+float32 bias_accuracy_deg      # 姿勢の許容誤差に足すオフセット [deg]
+uint32 loop                    # 周回数。0 は reject
+---
+# ---- result ----
+bool success
+string final_status  # Finished / RouteError / Stopped / Canceled
+string message       # 失敗理由。RouteError では展開に失敗した箇所が入る
+---
+# ---- feedback ----
+TaskExecutionStatus status

@@ -1,0 +1,8 @@
+# Maximum number of results to return. Set 0 to return all available results.
+uint32 limit
+---
+bool success
+string message
+
+# Collected navigation results.
+Result[] results

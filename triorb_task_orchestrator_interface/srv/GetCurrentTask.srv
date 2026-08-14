@@ -1,0 +1,15 @@
+# No request fields.
+---
+bool success
+
+# True when a task execution context is currently available.
+bool has_task
+string message
+
+# These fields are empty/default when has_task is false.
+string source_file
+RouteSequenceItem[] sequence
+float32 ratio_speed
+float32 bias_accuracy_xy
+float32 bias_accuracy_deg
+uint32 loop

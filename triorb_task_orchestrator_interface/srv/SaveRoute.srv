@@ -1,0 +1,9 @@
+# Destination route CSV file name.
+string source_file
+
+# Route content to validate and save.
+RouteSequenceItem[] sequence
+---
+bool success
+string message
+RouteFileInfo routefile

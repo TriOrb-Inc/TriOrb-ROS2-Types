@@ -1,0 +1,41 @@
+# triorb_task_orchestrator に実行状態の変更を要求する。
+#
+# pause / resume / exit の 3 service を 1 本にまとめたもの。
+#
+# **route を実行していないときは navigation モジュールへ転送される。**
+# 転送先は triorb_automove_task の SetAutomoveTaskCommand で、command 番号は
+# こちらと**違う**（あちらは PAUSE=0 / RESUME=1 / STOP=2）。詰め替えは triorb_task_orchestrator が持つ。
+#
+# **転送するのは RouteState が Idle / Finished のとき（＝ route を持っていないとき）だけ。**
+# route を握っている間は、その command に該当しない状態でも転送せず失敗を返す。
+#
+# | command   | route を握っている                          | Idle / Finished |
+# |-----------|---------------------------------------------|-----------------|
+# | PAUSE     | Running なら一時停止。他は "route is not running" | navigation へ転送 |
+# | RESUME    | Paused / FailureHold なら再開。他は失敗      | navigation へ転送 |
+# | TERMINATE | route 自体を停止する                        | navigation へ転送 |
+
+uint8 COMMAND_PAUSE=1
+uint8 COMMAND_TERMINATE=2
+uint8 COMMAND_RESUME=3
+
+uint8 command
+---
+# **success は「要求を送り出した」まで。適用の成立ではない。**
+# triorb_task_orchestrator は応答を待てない（単一スレッドの spin で待つとデッドロックする）ので、
+# 相手が受理したかどうかは応答時点では分からない。
+#
+# route 側の成立は status.current_state が Paused になったかで判定する。
+# navigation 側の成立は navigation の status を見ること。
+bool success
+
+# 何をどこへ送ったか、または何が失敗したかが分かる文言を入れる。
+# 転送した場合は "forwarded to navigation" を含む。
+string message
+
+# **ハンドラ処理後**の route 実行状態。route を持っていなければ current_state は Idle。
+#
+# 「要求を受けた時点」ではなく「処理を終えた時点」を返す。
+# 例えば FailureHold からの RESUME は再送予約で Running に変わるので、
+# ここには Running が入る（message と食い違わないようにするため）。
+TaskExecutionStatus status

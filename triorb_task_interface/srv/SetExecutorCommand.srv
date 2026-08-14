@@ -1,0 +1,11 @@
+# 実行中の sequence を一時停止 / 再開する。
+#
+# 終了は action の cancel を使う（COMMAND_STOP は用意しない）。
+# result が CANCELED で返るのを待てるため、A 側の Stopping が正しく機能する。
+uint8 COMMAND_PAUSE=0
+uint8 COMMAND_RESUME=1
+uint8 command
+---
+# 受理したか否かを即座に返す
+bool success
+string message
