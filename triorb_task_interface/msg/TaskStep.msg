@@ -3,10 +3,11 @@
 # kind と target の語彙をこの msg に置いている。両ノードが別々の C++ 表を持つと
 # 版ズレするため、契約は message 側の 1 箇所に集約する。
 #
-# 結果待ちの上限 (timeout) はここに載せない。B が parameter で持つ。
-# 「そのデバイスがどれだけ待たせるか」はデバイス知識であり B の担当。
+# 結果待ちの上限 (timeout) はここに載せない。task_executor が parameter で持つ。
+# 「そのデバイスがどれだけ待たせるか」はデバイス知識であり task_executor の担当。
 # 一方 settle_sec は値の選択が waypoint type 依存（relative の start_move だけ 0.3 s、
-# 他の start_move は aux_event_delay_sec）なので、type を知る A が決めて渡す。
+# 他の start_move は aux_event_delay_sec）なので、type を知る task_orchestrator が
+# 決めて渡す。
 
 # ---- step の種類 ----
 uint8 KIND_PUBLISH_STRING=0      # 文字列を 1 つ publish して即完了（aux event / policy / map パス など）
@@ -26,9 +27,10 @@ uint8 kind
 # ---- endpoint の選択。意味は kind ごとに決まる ----
 #
 # **番号は定数で持つ。コメントだけにしないこと。**
-# 以前ここが `#` コメントだけだったため、A は独自の constexpr 13 個を、
-# B は vector の並び順を、B のテストはもう一度並び順を持っていた。
-# target を 1 つ挿入すると B が黙って別トピックへ publish する状態だった。
+# 以前ここが `#` コメントだけだったため、task_orchestrator は独自の constexpr 13 個を、
+# task_executor は vector の並び順を、task_executor のテストはもう一度並び順を
+# 持っていた。target を 1 つ挿入すると task_executor が黙って別トピックへ
+# publish する状態だった。
 #
 # 追加するときはこのブロックに定数を足し、両ノードでその名前を使う。
 
@@ -36,7 +38,7 @@ uint8 kind
 uint8 TARGET_STRING_AUX_EVENT=0        # aux/event
 uint8 TARGET_STRING_COLLAB_AUX_EVENT=1 # collab/aux/event
 uint8 TARGET_STRING_ACTION_EVENT=2     # action/event
-uint8 TARGET_STRING_SNR_MUX=3          # snr_mux (topic 名は B の parameter)
+uint8 TARGET_STRING_SNR_MUX=3          # snr_mux (topic 名は task_executor の parameter)
 uint8 TARGET_STRING_COLLAB_POLICY=4    # collab/navigation_policy
 # map パスの publish は AWAIT_MAP_CHANGE / AWAIT_TAGSLAM_MAP の中で行うので
 # ここには含めない。
@@ -47,7 +49,7 @@ uint8 TARGET_NUMBER_ERROR_RESET=1      # triorb/error/reset (uint8)
 uint8 TARGET_NUMBER_POSITIONING_MODE=2 # drive/set_positioning_timeout_mode (uint8)
 
 # KIND_MOVE の測位源。**triorb_drive_interface/TriorbRunSetting の TF_SOURCE_* と
-# 同じ値でなければならない。** B 側に static_assert がある。
+# 同じ値でなければならない。** task_executor 側に static_assert がある。
 uint8 TARGET_MOVE_UNSPECIFIED=0
 uint8 TARGET_MOVE_VSLAM=1
 uint8 TARGET_MOVE_TAGSLAM=2

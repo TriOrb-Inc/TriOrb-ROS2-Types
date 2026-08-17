@@ -1,28 +1,29 @@
 # task_orchestrator が組み立てた sequence 1 件を、task_executor に実行させる。
-# A は sequence を 1 つずつ送り、result を受けて次を送る。
+# task_orchestrator は sequence を 1 つずつ送り、result を受けて次を送る。
 
 # ---- goal ----
 string sequence_name              # 表示名（feedback に載せる）
-TaskStep[] steps                  # prepare -> main -> post（A が展開済み）
+TaskStep[] steps                  # prepare -> main -> post（task_orchestrator が展開済み）
 TaskStep[] resume_prologue        # resume 時に先に流す step（0 or 1 件）
 ---
 # ---- result ----
 bool success
 uint32 failed_step_index          # success=false のとき、失敗した step の位置
-string message                    # 失敗理由（A の FailureHold ログに使う）
+string message                    # 失敗理由（task_orchestrator の FailureHold ログに使う）
 ---
 # ---- feedback ----
 # runner の状態。
 #
 # **文字列は定数で持つ。コメントだけにしないこと。**
-# B の runnerStateName() と A の onRunnerState() が別々の綴りを持つと、
-# 片方を変えただけで A が黙って状態を写さなくなる（コンパイルもテストも通る）。
+# task_executor の runnerStateName() と task_orchestrator の onRunnerState() が
+# 別々の綴りを持つと、片方を変えただけで task_orchestrator が黙って状態を
+# 写さなくなる（コンパイルもテストも通る）。
 string RUNNER_RUNNING=Running
 string RUNNER_PAUSED=Paused
-string RUNNER_HELD=Held           # step 失敗後、A の指示を待って保持している
+string RUNNER_HELD=Held           # step 失敗後、task_orchestrator の指示を待って保持している
 string RUNNER_CANCELING=Canceling
 
-# 終端。**A はこの 2 つを feedback からは見ない**（結末は result で受け取る）。
+# 終端。**task_orchestrator はこの 2 つを feedback からは見ない**（結末は result で受け取る）。
 # feedback にも現れるので、語彙としてはここに含める。
 string RUNNER_SUCCEEDED=Succeeded
 string RUNNER_CANCELED=Canceled
