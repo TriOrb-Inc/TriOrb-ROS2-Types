@@ -771,6 +771,25 @@ std_msgs/Header header      # Timestamp
 uint8 error                 # error code
 ```
 
+### triorb_static_interface/msg/IpAddress.msg
+```bash
+#==割り当てIPアドレス==
+# Mirrors triorb.system.v1.IpAddress (triorb-system-core hostinfo.proto)
+string address      # textual form, e.g. "192.168.1.10" or "fe80::1"
+uint8 prefix_length # network prefix length, e.g. 24 (IPv4) / 64 (IPv6)
+```
+
+### triorb_static_interface/msg/NetworkInterface.msg
+```bash
+#==ネットワークインターフェース情報==
+# Mirrors triorb.system.v1.NetworkInterface (triorb-system-core hostinfo.proto)
+string name                  # interface name, e.g. "eth0"
+bool is_up                   # administrative/link state (IFF_UP)
+bool is_loopback             # IFF_LOOPBACK
+IpAddress[] ipv4_addresses   # assigned IPv4 addresses
+IpAddress[] ipv6_addresses   # assigned IPv6 addresses
+```
+
 ## triorb_static_interface/srv 
 ### triorb_static_interface/srv/GetImage.srv
 ```bash
@@ -850,6 +869,20 @@ string result
 sensor_msgs/Image image
 ---
 string result
+```
+
+### triorb_static_interface/srv/HostInfo.srv
+```bash
+#==[Service] ホスト情報(hostname/IPアドレス)の取得==
+# GUI API: GET /network/host -> ROS 2 service /network/host/info
+# The service server node calls triorb-system-cored GetHostInfo
+# (gRPC over UDS, triorb.system.v1.HostInfoService) and relays the result.
+std_msgs/Empty request
+---
+bool success                    # false if the gRPC call to triorb-system-cored failed
+string message                  # error detail when success is false, empty otherwise
+string hostname                 # static hostname of the host
+NetworkInterface[] interfaces   # all interfaces, loopback included
 ```
 
 # triorb_collaboration_interface 
