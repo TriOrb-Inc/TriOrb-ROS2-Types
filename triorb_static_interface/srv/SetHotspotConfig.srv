@@ -1,6 +1,9 @@
-# DRAFT: create or update the managed NetworkManager hotspot profile.
+# Hotspot profile to create or update in NetworkManager.
 HotspotConfig config
 ---
+# True when the hotspot profile was created or updated successfully.
 bool success
+# Human-readable completion or error details.
 string message
+# NetworkManager connection ID of the resulting hotspot profile.
 string connection_id
