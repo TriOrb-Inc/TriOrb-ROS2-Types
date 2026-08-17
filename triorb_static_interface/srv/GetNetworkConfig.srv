@@ -1,6 +1,9 @@
-# DRAFT: get NetworkManager connections and the managed hotspot profile.
 ---
+# NetworkManager connection profiles, including ethernet, wifi, and hotspot.
 NetworkConnection[] connections
+# Managed hotspot profile. This is in addition to any hotspot entry in connections.
 HotspotConfig hotspot
+# True when the query completed successfully.
 bool success
+# Human-readable completion or error details.
 string message

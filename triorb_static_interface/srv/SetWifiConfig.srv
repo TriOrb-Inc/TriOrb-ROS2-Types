@@ -1,7 +1,9 @@
-# DRAFT: update, connect or disconnect a saved Wi-Fi profile.
+# Wi-Fi profile to update, connect, or disconnect.
 WifiConfig config
-# Empty means a full update. PATCH callers list only the changed fields.
+# WifiConfig top-level field names to apply. Empty means a full update. Non-empty means only the listed fields are applied.
 string[] update_fields
 ---
+# True when the update, connect, or disconnect completed successfully.
 bool success
+# Human-readable completion or error details.
 string message

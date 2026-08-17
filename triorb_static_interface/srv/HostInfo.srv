@@ -1,7 +1,11 @@
-# DRAFT: get the host name, primary address and interface details.
 ---
+# Host name of this robot.
 string hostname
+# Representative IPv4 address used to reach this robot.
 string primary_ip
+# Network interfaces and their runtime configuration.
 NetworkConnection[] interfaces
+# True when the query completed successfully.
 bool success
+# Human-readable completion or error details.
 string message

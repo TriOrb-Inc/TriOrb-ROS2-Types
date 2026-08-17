@@ -1,0 +1,8 @@
+# Get the NetworkManager Wi-Fi radio ON/OFF state.
+---
+# True when Wi-Fi radio is ON, false when it is OFF.
+bool enabled
+# True when the query completed successfully.
+bool success
+# Human-readable completion or error details.
+string message

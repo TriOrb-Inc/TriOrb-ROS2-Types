@@ -1,15 +1,23 @@
-# Upload a certificate received from REST multipart/form-data.
+# Original filename of the uploaded certificate.
 string filename
+# MIME type reported with the uploaded file.
 string content_type
+# Certificate file bytes.
 uint8[] content
-# "ca", "client", "private_key", or "pkcs12".
+# Certificate kind. Known values: "ca", "client", "private_key", or "pkcs12".
 string cert_type
-# Lowercase hexadecimal SHA-256. Empty means the server calculates it.
+# Lowercase hexadecimal SHA-256 of the file. Empty means the server calculates it.
 string sha256
+# True to replace an existing stored certificate of the same kind and name.
 bool overwrite
 ---
+# True when the certificate was stored successfully.
 bool success
+# Human-readable completion or error details.
 string message
+# Path where the certificate was stored.
 string stored_path
+# Stored filename.
 string filename
+# Stored certificate kind.
 string cert_type

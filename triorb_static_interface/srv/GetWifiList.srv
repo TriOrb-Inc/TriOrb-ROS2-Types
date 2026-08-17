@@ -1,5 +1,8 @@
-# DRAFT: scan visible Wi-Fi access points.
+# Scan visible Wi-Fi access points via NetworkManager.
 ---
+# Access points visible at the time of the scan.
 WifiAccessPoint[] access_points
+# True when the scan completed successfully.
 bool success
+# Human-readable completion or error details.
 string message
