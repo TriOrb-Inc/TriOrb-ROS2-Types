@@ -14,14 +14,12 @@
 #* limitations under the License.
 #**
 
-#==PLCへ送信するアプリケーションデータ==
+#==SICK Safety PLCから受信した非常停止詳細データ==
 std_msgs/Header header              # timestamp
 uint8 index                         # Assembly index of the byte array
-bool is_moving                      # 移動中
-bool lifter_moving                  # リフター動作中
-bool has_error                      # エラー発生中
-bool battery_low                    # バッテリー残量低下
-bool is_collab                      # 協調中
-bool lifter_up                      # リフターUP状態
-bool lifter_down                    # リフターDOWN状態
-uint8 reserved                      # 予約（未使用ビット）
+bool power_cut                      # 動力遮断されている
+bool switch_pushed                  # 非常停止ボタンが押されている
+bool sls_detected                   # SLSが障害物検知している
+bool remote_switch_disabled         # リモコン非常停止状態
+bool watchdog_error                 # ウォッチドッグ監視エラー
+bool estop_from_jetson              # Jetsonからの非常停止要求あり

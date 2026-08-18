@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>triorb_plc_interface</name>
+  <name>triorb_sick_safety_plc_interface</name>
   <version>1.0.0</version>
-  <description>PLCとのEIP通信に用いる共通インターフェース</description>
+  <description>SICK Safety PLCとのEIP通信に用いるインターフェース</description>
   <maintainer email="tobata.masakazu@triorb.co.jp">root</maintainer>
   <license>Apache License, Version 2.0</license>
 
@@ -12,6 +12,7 @@
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
+  <test_depend>ament_cmake_pytest</test_depend>
 
   <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>

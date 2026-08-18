@@ -14,14 +14,13 @@
 #* limitations under the License.
 #**
 
-#==PLCから受信した基本データ==
+#==SICK Safety PLCへ送信するアプリケーションデータ==
 std_msgs/Header header              # timestamp
 uint8 index                         # Assembly index of the byte array
-bool watchdog_request_from_plc      # PLCからのウォッチドッグ要求
-bool watchdog_response_from_plc     # PLCからのウォッチドッグ応答
-bool emergency_stop_from_plc        # PLCが非常停止中(B接点)
-bool power_cut_from_plc             # PLCが動力遮断中(B接点)
-bool unknown_error_from_plc         # PLCからの不明なエラー(A接点)
-bool permit_auto_move_from_plc      # PLCからの自動移動許可信号(B接点)
-bool permit_manual_move_from_plc    # PLCからの自動移動許可信号(B接点)
-bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A接点)
+bool is_moving                      # 移動中
+bool lifter_moving                  # リフター動作中
+bool has_error                      # エラー発生中
+bool battery_low                    # バッテリー残量低下
+bool is_collab                      # 協調中
+bool lifter_up                      # リフターUP状態
+bool lifter_down                    # リフターDOWN状態
