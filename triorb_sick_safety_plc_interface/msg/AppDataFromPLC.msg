@@ -14,14 +14,10 @@
 #* limitations under the License.
 #**
 
-#==PLCへ送信する基本データ==
+#==SICK Safety PLCから受信したアプリケーションデータ==
 std_msgs/Header header              # timestamp
 uint8 index                         # Assembly index of the byte array
-bool watchdog_request_from_jetson   # JetsonからPLCへのウォッチドッグ要求
-bool watchdog_response_to_plc       # PLCへのウォッチドッグ応答
-bool emergency_stop_to_plc          # PLCへの非常停止要求(B接点)
-bool deactivate_request_to_plc      # PLCへの管理停止要求(A接点)
-bool sls_off_request_to_plc         # PLCへのSLS監視停止要求(A接点)
-bool error_reset_request_to_plc     # PLCへのエラーリセット要求(A接点)
-bool auto_selected                  # PLCへの自動選択状態
-bool manual_selected                # PLCへの手動選択状態
+bool error_reset_from_plc           # PLCからのエラーリセット要求
+bool ready_to_drive                 # PLCからの運転準備完了信号
+bool selected_auto_drive_mode       # PLCからの自動運転モード選択信号
+bool selected_manual_drive_mode     # PLCからの手動運転モード選択信号

@@ -14,14 +14,12 @@
 #* limitations under the License.
 #**
 
-#==PLCから受信した基本データ==
+#==SICK Safety PLCから受信した非常停止詳細データ==
 std_msgs/Header header              # timestamp
 uint8 index                         # Assembly index of the byte array
-bool watchdog_request_from_plc      # PLCからのウォッチドッグ要求
-bool watchdog_response_from_plc     # PLCからのウォッチドッグ応答
-bool emergency_stop_from_plc        # PLCが非常停止中(B接点)
-bool power_cut_from_plc             # PLCが動力遮断中(B接点)
-bool unknown_error_from_plc         # PLCからの不明なエラー(A接点)
-bool permit_auto_move_from_plc      # PLCからの自動移動許可信号(B接点)
-bool permit_manual_move_from_plc    # PLCからの自動移動許可信号(B接点)
-bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A接点)
+bool power_cut                      # 動力遮断されている
+bool switch_pushed                  # 非常停止ボタンが押されている
+bool sls_detected                   # SLSが障害物検知している
+bool remote_switch_disabled         # リモコン非常停止状態
+bool watchdog_error                 # ウォッチドッグ監視エラー
+bool estop_from_jetson              # Jetsonからの非常停止要求あり
