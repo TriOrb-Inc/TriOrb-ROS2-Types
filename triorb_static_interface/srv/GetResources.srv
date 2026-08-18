@@ -1,14 +1,26 @@
-# DRAFT: get a point-in-time host resource snapshot.
+# Get a point-in-time host resource snapshot.
 ---
+# Timestamp and source of this snapshot.
 std_msgs/Header header
+# CPU utilization percent in the range 0 to 100.
 float32 cpu_percent
+# System memory utilization percent in the range 0 to 100.
 float32 memory_percent
+# Currently used system memory in bytes.
 uint64 memory_used_bytes
+# Total system memory in bytes.
 uint64 memory_total_bytes
+# GPU utilization percent in the range 0 to 100. 0 when no GPU is present.
 float32 gpu_percent
+# GPU memory utilization percent in the range 0 to 100. 0 when no GPU is present.
 float32 gpu_memory_percent
+# CPU temperature in degrees Celsius.
 float32 cpu_temperature_c
+# GPU temperature in degrees Celsius. 0 when no GPU is present.
 float32 gpu_temperature_c
+# Per-mount filesystem usage. Empty when disk information is unavailable.
 DiskUsage[] disks
+# True when the snapshot was collected successfully.
 bool success
+# Human-readable completion or error details.
 string message

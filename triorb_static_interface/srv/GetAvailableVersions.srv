@@ -1,4 +1,10 @@
+# Refresh update metadata and return selectable package versions.
+# Analogous to refreshing an index and listing upgradable/selectable versions.
+# This does not apply updates.
 ---
+# Packages with selectable versions. Empty when none are available.
 PackageVersions[] packages
+# True when the inquiry completed successfully.
 bool success
+# Human-readable completion or error details.
 string message
