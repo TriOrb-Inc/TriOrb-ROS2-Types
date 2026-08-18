@@ -1,0 +1,12 @@
+# 保存済み地図 file の一覧を取得する。
+#
+# directory が空なら既定の地図 directory を見る。limit が 0 なら既定 (32) を使う。
+string directory
+uint32 limit
+---
+bool success
+# 一覧の JSON。形式:
+#   {"root_path": "...",
+#    "files": [{"path","file_name","format","size_bytes","modified_at"}, ...]}
+string result_json
+string message
