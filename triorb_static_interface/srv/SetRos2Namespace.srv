@@ -1,0 +1,7 @@
+# Persist the ROS namespace.
+string data
+---
+# True when the persist request completed successfully.
+bool success
+# Human-readable completion or error details.
+string message

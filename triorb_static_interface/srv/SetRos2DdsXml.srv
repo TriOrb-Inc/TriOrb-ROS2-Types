@@ -1,0 +1,11 @@
+# Persist the RMW DDS XML configuration.
+# `xml` is the full file contents. Backend chooses the file path and RMW format.
+string xml
+---
+# True when the persist request completed successfully.
+bool success
+# Human-readable completion or error details.
+string message
+# Absolute filesystem path of the file that was written.
+# Empty if the persist did not complete or the path is unknown.
+string path

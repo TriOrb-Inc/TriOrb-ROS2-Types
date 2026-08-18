@@ -1,0 +1,8 @@
+# Get the persisted RMW DDS XML configuration as a raw string.
+---
+# Absolute filesystem path of the DDS XML file.
+# Empty if the implementation has not yet written or located the file.
+string path
+# Full contents of the DDS XML file. Empty if the file is missing.
+# This is vendor XML (Fast DDS profiles or CycloneDDS), not a TriOrb YAML.
+string xml

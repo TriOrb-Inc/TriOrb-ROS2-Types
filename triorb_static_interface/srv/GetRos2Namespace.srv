@@ -1,0 +1,4 @@
+# Get the ROS namespace.
+---
+# ROS namespace. Empty means the default (no extra namespace).
+string data

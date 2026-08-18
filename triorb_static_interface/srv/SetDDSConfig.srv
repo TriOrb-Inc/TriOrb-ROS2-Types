@@ -1,6 +1,0 @@
-# DRAFT: persist the ROS 2 discovery configuration.
-DDSConfig config
----
-bool success
-string message
-bool restart_required

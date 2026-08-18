@@ -1,0 +1,11 @@
+# Apply software package updates chosen by the backend.
+# Analogous to upgrading packages. The goal has no fields; the backend
+# selects the target set. This does not refresh the available-version list.
+---
+# True when the upgrade finished successfully.
+bool success
+# Human-readable completion or error details.
+string message
+---
+# Human-readable progress details while the upgrade is running.
+string message

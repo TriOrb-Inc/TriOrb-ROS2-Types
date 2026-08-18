@@ -1,0 +1,9 @@
+# Persist ROS_DOMAIN_ID.
+# Backend may write an environment variable and/or edit the DDS XML Domain Id.
+# Typical DDS range is 0 to 232.
+uint16 data
+---
+# True when the persist request completed successfully.
+bool success
+# Human-readable completion or error details.
+string message

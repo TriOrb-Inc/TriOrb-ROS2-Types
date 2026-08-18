@@ -1,0 +1,4 @@
+# Get ROS_DOMAIN_ID.
+---
+# ROS_DOMAIN_ID. Typical DDS range is 0 to 232.
+uint16 data

@@ -1,5 +1,10 @@
+# Activate the host for licensed use.
+# This includes hardware serial acquisition, hostname change, license-server
+# registration, and persisting the issued key. It is not license registration only.
 string name
 PackageVersion[] packages
 ---
+# True when the activation request completed successfully.
 bool success
+# Human-readable completion or error details.
 string message

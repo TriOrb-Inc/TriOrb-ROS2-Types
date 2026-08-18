@@ -1,3 +1,6 @@
+# Get the currently stored license name and key.
 ---
+# Display name of the current license.
 string name
+# License key currently stored on the host.
 string key

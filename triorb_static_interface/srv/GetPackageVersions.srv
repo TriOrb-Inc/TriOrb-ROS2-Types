@@ -1,2 +1,6 @@
+# Get currently installed software package versions.
+# This is a snapshot of what is installed, not selectable/upgradable versions.
 ---
+# Currently installed packages and their versions.
+# Empty when none are known.
 PackageVersion[] packages
