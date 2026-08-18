@@ -24,9 +24,9 @@ find_package(rcl_interfaces REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
-file(GLOB msg_files RELATIVE "${CMAKE_SOURCE_DIR}" "msg/*.msg")
-file(GLOB srv_files RELATIVE "${CMAKE_SOURCE_DIR}" "srv/*.srv")
-file(GLOB action_files RELATIVE "${CMAKE_SOURCE_DIR}" "action/*.action")
+file(GLOB msg_files CONFIGURE_DEPENDS RELATIVE "${CMAKE_SOURCE_DIR}" "msg/*.msg")
+file(GLOB srv_files CONFIGURE_DEPENDS RELATIVE "${CMAKE_SOURCE_DIR}" "srv/*.srv")
+file(GLOB action_files CONFIGURE_DEPENDS RELATIVE "${CMAKE_SOURCE_DIR}" "action/*.action")
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   ${msg_files}
