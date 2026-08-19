@@ -1,0 +1,5 @@
+# DRAFT: get the latest planar robot pose cached by the server.
+---
+TriorbPos3Stamped pose
+bool success
+string message
