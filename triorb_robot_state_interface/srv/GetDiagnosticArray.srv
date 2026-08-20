@@ -1,0 +1,4 @@
+# 指定 prefix に一致する現在の集約診断を返す。prefix が空文字なら全件。
+string prefix
+---
+diagnostic_msgs/DiagnosticArray result
