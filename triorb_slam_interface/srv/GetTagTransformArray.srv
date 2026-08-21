@@ -14,13 +14,6 @@
 #* limitations under the License.
 #**
 
-#==SLAM地図データを保存==
-string filename
-string content_type
-uint8[] content
-string sha256
-bool overwrite
+#==Tag情報一覧取得==
 ---
-bool success
-string message
-string map_name
+TagTransform[] tags

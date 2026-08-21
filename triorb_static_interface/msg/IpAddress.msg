@@ -1,5 +1,5 @@
 #**
-#* Copyright 2023 TriOrb Inc.
+#* Copyright 2026 TriOrb Inc.
 #*
 #* Licensed under the Apache License, Version 2.0 (the "License");
 #* you may not use this file except in compliance with the License.
@@ -14,13 +14,7 @@
 #* limitations under the License.
 #**
 
-#==SLAM地図データを保存==
-string filename
-string content_type
-uint8[] content
-string sha256
-bool overwrite
----
-bool success
-string message
-string map_name
+#==割り当てIPアドレス==
+# Mirrors triorb.system.v1.IpAddress (triorb-system-core hostinfo.proto)
+string address      # textual form, e.g. "192.168.1.10" or "fe80::1"
+uint8 prefix_length # network prefix length, e.g. 24 (IPv4) / 64 (IPv6)

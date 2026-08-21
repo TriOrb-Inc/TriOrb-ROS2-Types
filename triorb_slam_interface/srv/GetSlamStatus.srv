@@ -14,13 +14,6 @@
 #* limitations under the License.
 #**
 
-#==SLAM地図データを保存==
-string filename
-string content_type
-uint8[] content
-string sha256
-bool overwrite
+#==SlamStatusを返答==
 ---
-bool success
-string message
-string map_name
+SlamStatus status

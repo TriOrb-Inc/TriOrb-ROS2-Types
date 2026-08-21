@@ -114,6 +114,49 @@ float32[] mount_xyz         # Mounting location [m]
 float32[] mount_ypr         # Mounting orientation [deg]
 ```
 
+### triorb_sensor_interface/msg/PicoStatus.msg
+```bash
+#==制御ECUから取得できるステータス==
+uint16 state
+uint16 error
+float32 voltage
+uint8 lifter_state
+
+# state フィールド（uint16 ビットフラグ）
+# 0x8000 is_excite`（bool）：モータ励磁中
+# 0x2000 is_moving`（bool）：移動中
+# 0x0200 is_posdrv`（bool）：位置制御移動完了
+# 0x0040 is_free`（bool）：電磁ブレーキ作動中（フリー）
+# 0x0010 is_emergency`（bool）：非常停止中（2 連続確認で確定）
+# 0x0001 is_success`（bool）：モータステータス取得成功
+ 
+# error フィールド（uint16 ビットフラグ）
+# 0x8000 motor_error`（bool）：モータ接続エラー（alarm=0x2D）
+# 0x1000 voltage_error`（bool）：モータドライバが受け取っている電圧異常（alarm=0x25）
+# 0x0001 pico_con_error`（bool）：Pico 接続エラー
+
+# lifter_state フィールド ()
+# 0x00: 位置不明(起動直後など)
+# 0x01: 停止命令時
+# 0x02: リフトアップ状態
+# 0x03: リフトダウン状態
+# 0x04: リフトアップ中
+# 0x05: リフトダウン中
+# 0x06: 中間点移動中
+# 0x07: 中間点到達状態
+# 0x08: STOP_ONWAY
+# 0x09: リフトアップ状態、荷物偏り
+# 0x0A: リフトアップ状態、空荷
+# 0x0B: モータエラー（alarm）
+# 0x0C: モータエラー（qstop）
+# 0x0D: モータエラー（watchdog）
+# 0x0E: IO接続異常
+# 0x0F: 未定義
+# 0xFE: リフト状態取得不可機体
+# 0xFF: リフト機能無し
+```
+
+
 ## triorb_sensor_interface/action 
 ### triorb_sensor_interface/action/CameraCalibrationInternal.action
 ```bash
@@ -205,16 +248,30 @@ uint8 state      # mapping now, fix map... etc
 uint8 error      # not working, map load failed... etc
 
 #---slam operation status (bit flag)---
-# 0b00000001: mapping mode(0), fix map(1)
-# 0b00000010: lost(0), localize(1)
-# 0b00000100: processing save map 
-# 0b00001000: processing load map
- 
+# 地図更新モード(0)ではなく固定地図モード(1)で動作している。
+uint8 STATE_MAP_FIXED=1
+# 自己位置推定が成立している。
+uint8 STATE_LOCALIZED=2
+# 地図保存処理中。
+uint8 STATE_SAVING_MAP=4
+# 地図読込処理中。
+uint8 STATE_LOADING_MAP=8
+# ユーザー操作などでSLAM本体を意図的に休止している。
+uint8 STATE_PAUSED=16
+# 地図ファイルの読込が完了しており、自己位置推定に使える地図名が確定している。
+uint8 STATE_MAP_LOADED=32
+# 地図読込完了後、自己位置推定が未成立または途切れている。
+uint8 STATE_LOST=64
+
 #---error state (bit flag)---
-# 0b00000001: slam is not working
-# 0b00000010: Never detected a known landmark
-# 0b00000100: save map failed
-# 0b00001000: load map failed (cannot find map)
+# SLAM本体が意図せず起動していない。
+uint8 ERROR_NOT_WORKING=1
+# 現在の起動または地図読込後に、まだ一度も自己位置推定が成立していない。
+uint8 ERROR_NEVER_LOCALIZED=2
+# 地図保存に失敗した。
+uint8 ERROR_MAP_SAVE_FAILED=4
+# 地図読込に失敗した。
+uint8 ERROR_MAP_LOAD_FAILED=8
 ```
 
 ### triorb_slam_interface/msg/PointArrayStamped.msg
@@ -258,6 +315,32 @@ bool valid                          # valid
 #==各カメラの姿勢情報==
 std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
+```
+
+## triorb_slam_interface/srv 
+### triorb_slam_interface/srv/InitializeMap.srv
+```bash
+#==[Service] TagSLAM地図初期化の設定用==
+uint16 origin_tag_id
+float32 origin_tag_size
+float32 origin_tag_pos_z
+float32 origin_tag_pos_deg
+float32 default_tag_size
+float32 minimum_viewing_angle
+uint32 minimum_tag_area
+---
+bool success
+string message
+```
+
+### triorb_slam_interface/srv/LoadMap.srv
+```bash
+#==[Service] TagSLAM地図読み込み用==
+string map_name
+bool is_static
+---
+bool success
+string message
 ```
 
 # triorb_field_interface 
@@ -372,6 +455,7 @@ TriorbRunSetting setting    # 走行設定
 ### triorb_drive_interface/msg/TriorbSetPos3.msg
 ```bash
 #==目標位置・姿勢指示による移動==
+uint32 request_id           # Unique request ID copied to TriorbRunResult (0: downstream assigns)
 TriorbRunPos3 pos           # Goal position
 TriorbRunSetting setting    # Configure of navigation
 ```
@@ -388,6 +472,7 @@ float32 deg     # [deg]
 ```bash
 #==自律移動結果==
 std_msgs/Header header      # Header
+uint32 request_id           # Request ID copied from TriorbSetPos3
 bool success                # Moving result (true: Compleat, false: Feild)
 uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
 TriorbPos3 position         # Last robot position
@@ -396,6 +481,7 @@ TriorbPos3 position         # Last robot position
 ### triorb_drive_interface/msg/TriorbRunResult.msg
 ```bash
 #==自律移動結果==
+uint32 request_id           # Request ID copied from TriorbSetPos3
 bool success                # Moving result (true: Compleat, false: Feild)
 uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
 TriorbPos3 position         # Last robot position
@@ -724,6 +810,25 @@ uint32 error_code           # Error code
 string message              # Human-readable error or warning description
 ```
 
+### triorb_static_interface/msg/IpAddress.msg
+```bash
+#==割り当てIPアドレス==
+# Mirrors triorb.system.v1.IpAddress (triorb-system-core hostinfo.proto)
+string address      # textual form, e.g. "192.168.1.10" or "fe80::1"
+uint8 prefix_length # network prefix length, e.g. 24 (IPv4) / 64 (IPv6)
+```
+
+### triorb_static_interface/msg/NetworkInterface.msg
+```bash
+#==ネットワークインターフェース情報==
+# Mirrors triorb.system.v1.NetworkInterface (triorb-system-core hostinfo.proto)
+string name                  # interface name, e.g. "eth0"
+bool is_up                   # administrative/link state (IFF_UP)
+bool is_loopback             # IFF_LOOPBACK
+IpAddress[] ipv4_addresses   # assigned IPv4 addresses
+IpAddress[] ipv6_addresses   # assigned IPv6 addresses
+```
+
 ## triorb_static_interface/srv 
 ### triorb_static_interface/srv/ErrorAppend.srv
 ```bash
@@ -859,6 +964,20 @@ sensor_msgs/Image image
 string result
 ```
 
+### triorb_static_interface/srv/HostInfo.srv
+```bash
+#==[Service] ホスト情報(hostname/IPアドレス)の取得==
+# GUI API: GET /network/host -> ROS 2 service /network/host/info
+# The service server node calls triorb-system-cored GetHostInfo
+# (gRPC over UDS, triorb.system.v1.HostInfoService) and relays the result.
+std_msgs/Empty request
+---
+bool success                    # false if the gRPC call to triorb-system-cored failed
+string message                  # error detail when success is false, empty otherwise
+string hostname                 # static hostname of the host
+NetworkInterface[] interfaces   # all interfaces, loopback included
+```
+
 # triorb_collaboration_interface 
 ## triorb_collaboration_interface/msg 
 ### triorb_collaboration_interface/msg/ParentBind.msg
@@ -893,7 +1012,8 @@ bool emergency_stop_to_plc          # PLCへの非常停止要求(B接点)
 bool deactivate_request_to_plc      # PLCへの管理停止要求(A接点)
 bool sls_off_request_to_plc         # PLCへのSLS監視停止要求(A接点)
 bool error_reset_request_to_plc     # PLCへのエラーリセット要求(A接点)
-uint8 reserved                      # 予約（未使用ビット）
+bool auto_selected                  # PLCへの自動選択状態
+bool manual_selected                # PLCへの手動選択状態
 ```
 
 ### triorb_plc_interface/msg/BasicDataFromPLC.msg

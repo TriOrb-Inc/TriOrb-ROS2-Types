@@ -1,5 +1,5 @@
 #**
-#* Copyright 2023 TriOrb Inc.
+#* Copyright 2026 TriOrb Inc.
 #*
 #* Licensed under the Apache License, Version 2.0 (the "License");
 #* you may not use this file except in compliance with the License.
@@ -14,13 +14,10 @@
 #* limitations under the License.
 #**
 
-#==SLAM地図データを保存==
-string filename
-string content_type
-uint8[] content
-string sha256
-bool overwrite
----
-bool success
-string message
-string map_name
+#==ネットワークインターフェース情報==
+# Mirrors triorb.system.v1.NetworkInterface (triorb-system-core hostinfo.proto)
+string name                  # interface name, e.g. "eth0"
+bool is_up                   # administrative/link state (IFF_UP)
+bool is_loopback             # IFF_LOOPBACK
+IpAddress[] ipv4_addresses   # assigned IPv4 addresses
+IpAddress[] ipv6_addresses   # assigned IPv6 addresses

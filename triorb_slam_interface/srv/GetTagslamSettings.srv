@@ -14,13 +14,12 @@
 #* limitations under the License.
 #**
 
-#==SLAM地図データを保存==
-string filename
-string content_type
-uint8[] content
-string sha256
-bool overwrite
+#==TagSLAMの初期設定を返答==
 ---
-bool success
-string message
-string map_name
+uint16 origin_tag_id
+float32 origin_tag_size
+float32 origin_tag_pos_z
+float32 origin_tag_pos_deg
+float32 default_tag_size
+float32 minimum_viewing_angle
+uint32 minimum_tag_area

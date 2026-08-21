@@ -14,13 +14,8 @@
 #* limitations under the License.
 #**
 
-#==SLAM地図データを保存==
-string filename
-string content_type
-uint8[] content
-string sha256
-bool overwrite
----
-bool success
-string message
-string map_name
+#==制御ECUの状態==
+uint16 state
+uint16 error
+float32 voltage
+uint8 lifter_state
