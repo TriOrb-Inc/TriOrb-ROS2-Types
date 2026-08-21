@@ -1,7 +1,0 @@
-uint32 TF_SOURCE_VSLAM=1
-uint32 TF_SOURCE_TAGSLAM=2
-uint32 TF_SOURCE_COLLAB=3
-uint32 source
----
-bool success
-string message

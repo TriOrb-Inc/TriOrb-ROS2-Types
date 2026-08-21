@@ -1,9 +1,0 @@
-std_msgs/Header header
-
-uint32 request_id
-NavigationResult result
-NavigationPose current_pose
-NavigationMotionConstraint motion_constraint
-
-float32 elapsed_sec
-string message

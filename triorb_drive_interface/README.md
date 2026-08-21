@@ -74,7 +74,6 @@ TriorbPos3 position
 
 ### triorb_drive_interface/msg/TriorbRunResult
 ```bash
-uint32 request_id
 bool success
 TriorbPos3 position
 ```
@@ -104,7 +103,6 @@ TriorbVel3 velocity
 
 ### triorb_drive_interface/msg/TriorbSetPos3
 ```bash
-uint32 request_id
 TriorbRunPos3 pos
 TriorbRunSetting setting
 ```

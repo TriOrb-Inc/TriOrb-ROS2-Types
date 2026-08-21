@@ -1,6 +1,0 @@
----
-bool success
-string message
-
-# Current navigation status
-NavigationStatus navigation_status
