@@ -1,4 +1,11 @@
 # 指定 prefix に一致する現在の集約診断を返す。prefix が空文字なら全件。
 string prefix
 ---
-diagnostic_msgs/DiagnosticArray result
+# フィールド名は BE / FE との契約に合わせて diagnostics とする。**変更しないこと。**
+#
+# Web API の Gateway（ros-openapi-gateway）は応答に対する変換（map.fromRos）を
+# 持たないため、**ここのフィールド名がそのまま HTTP 応答の JSON キーになる**。
+# FE の型 GetRobotStateResponse は { diagnostics: { header, status[] } } を期待しており、
+# FE の型は自動生成ではなく手書きであるため、名前を変えると FE の修正が要る。
+# （2026-08-22 に FE → BE → ROS の 3 層で実測して確認）
+diagnostic_msgs/DiagnosticArray diagnostics
