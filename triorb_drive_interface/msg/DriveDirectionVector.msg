@@ -14,6 +14,11 @@
 #* limitations under the License.
 #**
 
-float32 direction            # [deg]
-float32 translational_speed  # [m/s]
-float32 angular_velocity     # [rad/s]
+#==走行方向・並進速度・角速度==
+
+float32 direction            # 走行方向[deg],range [-180,180] 並進速度が0の場合、走行方向に意味は無い
+float32 translational_speed  # 並進速度[m/s] > 0
+float32 angular_velocity     # 角速度[rad/s]
+
+# 座標定義
+# ロボット座標系の+Y軸(前面方向)を0degとし時計回りを正とする
