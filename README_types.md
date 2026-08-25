@@ -767,8 +767,12 @@ uint8[] gateway             # Address of the default gateway
 
 ### triorb_static_interface/msg/RobotError.msg
 ```bash
+#==エラー・警告 1件==
+# Mirrors triorb.system.v1.RobotError (triorb-system-core common.proto).
+# Shared by /system/errors and /system/warnings (the warnings API reuses this type).
 std_msgs/Header header      # Timestamp
-uint8 error                 # error code
+uint32 error_code           # error (or warning) code
+string message              # human-readable description
 ```
 
 ### triorb_static_interface/msg/IpAddress.msg
@@ -788,6 +792,96 @@ bool is_up                   # administrative/link state (IFF_UP)
 bool is_loopback             # IFF_LOOPBACK
 IpAddress[] ipv4_addresses   # assigned IPv4 addresses
 IpAddress[] ipv6_addresses   # assigned IPv6 addresses
+```
+
+### triorb_static_interface/msg/DiskUsage.msg
+```bash
+#==ディスク使用量==
+# Mirrors triorb.system.v1.DiskUsage (triorb-system-core system.proto)
+string path         # mount point
+uint64 total_bytes  # total capacity in bytes
+uint64 used_bytes   # used capacity in bytes
+```
+
+### triorb_static_interface/msg/PackageVersion.msg
+```bash
+#==ソフトウェアパッケージのバージョン==
+# Mirrors triorb.system.v1.PackageVersion (triorb-system-core common.proto)
+string name     # package name
+string version  # installed / requested version
+```
+
+### triorb_static_interface/msg/PackageUpdate.msg
+```bash
+#==ソフトウェアパッケージの選択可能バージョン一覧==
+# Mirrors triorb.system.v1.PackageUpdate (triorb-system-core system.proto)
+string name         # package name
+string[] versions   # selectable versions
+```
+
+### triorb_static_interface/msg/ConnectionProfile.msg
+```bash
+#==NetworkManager接続プロファイル==
+# Mirrors triorb.system.v1.ConnectionProfile (triorb-system-core network.proto)
+string id         # connection id (NetworkManager "NAME")
+string type       # e.g. "802-3-ethernet", "802-11-wireless"
+string device     # bound device, "" if none
+bool active       # currently active
+bool autoconnect  # autoconnect enabled
+```
+
+### triorb_static_interface/msg/HotspotConfig.msg
+```bash
+#==Hotspot設定==
+# Mirrors triorb.system.v1.HotspotConfig (triorb-system-core network.proto)
+string ssid          # hotspot SSID
+string password      # write-only: accepted in requests, never populated in responses
+string band          # "2.4GHz" | "5GHz" ("" = backend default)
+uint16 channel       # 0 = automatic
+string ipv4_address  # gateway address of the hotspot subnet
+bool enabled         # hotspot enabled
+```
+
+### triorb_static_interface/msg/WifiNetwork.msg
+```bash
+#==Wi-Fiスキャン結果 1件==
+# Mirrors triorb.system.v1.WifiNetwork (triorb-system-core network.proto)
+string ssid            # SSID
+string bssid           # BSSID (AP MAC address)
+uint8 signal_strength  # 0..100
+string security        # e.g. "WPA2", "" = open
+uint32 frequency_mhz   # channel frequency [MHz]
+bool in_use            # currently connected AP
+```
+
+### triorb_static_interface/msg/WifiConfig.msg
+```bash
+#==Wi-Fi(station)接続設定==
+# Mirrors triorb.system.v1.WifiConfig (triorb-system-core network.proto)
+string ssid          # SSID to connect to
+string password      # write-only: accepted in requests, never populated in responses
+bool autoconnect     # autoconnect enabled
+string ipv4_method   # "auto" (DHCP) | "manual" (static)
+string ipv4_address  # static only
+uint8 ipv4_prefix    # static only, network prefix length
+string ipv4_gateway  # static only
+string[] dns         # static only
+bool connected       # connection state (read-only in config set; toggled by /network/wifi/connect/toggle)
+```
+
+## triorb_static_interface/action
+### triorb_static_interface/action/ApplyUpdates.action
+```bash
+#==[Action] ソフトウェアパッケージのアップグレード==
+# GUI API: POST /system/upgrade -> ROS 2 action /system/upgrade
+# The action server calls triorb-system-cored SystemService.Upgrade
+# (gRPC server streaming): FEEDBACK events -> feedback, the final RESULT event -> result.
+# Goal is empty: the target package set is decided by the daemon.
+---
+bool success    # result of the upgrade
+string message  # human-readable result / error detail
+---
+string message  # progress message
 ```
 
 ## triorb_static_interface/srv 
@@ -883,6 +977,274 @@ bool success                    # false if the gRPC call to triorb-system-cored 
 string message                  # error detail when success is false, empty otherwise
 string hostname                 # static hostname of the host
 NetworkInterface[] interfaces   # all interfaces, loopback included
+```
+
+### triorb_static_interface/srv/GetHealth.srv
+```bash
+#==[Service] ヘルスチェック==
+# GUI API: GET /system/health -> ROS 2 service /system/health/check
+# Backend: triorb-system-cored SystemService.GetHealth (gRPC over UDS)
+---
+std_msgs/Header header  # stamp = now, frame_id = "system"
+```
+
+### triorb_static_interface/srv/ErrorAppend.srv
+```bash
+#==[Service] エラー・警告の追加==
+# GUI API: POST /system/errors   -> ROS 2 service /system/errors/append
+#          POST /system/warnings -> ROS 2 service /system/warnings/append
+# Backend: triorb-system-cored SystemService.AppendError / AppendWarning
+# Request fields match one RobotError element (field name error_code is shared with warnings).
+std_msgs/Header header  # Timestamp
+uint32 error_code       # error (or warning) code
+string message          # human-readable description
+---
+bool success            # false if the entry could not be appended
+string message          # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetLicense.srv
+```bash
+#==[Service] ライセンス情報の取得==
+# GUI API: GET /system/license -> ROS 2 service /system/license/get
+# Backend: triorb-system-cored SystemService.GetLicense
+# Until license-server integration lands, name is a temporary system name
+# and key is generated locally.
+---
+string name  # license (system) name
+string key   # license key
+```
+
+### triorb_static_interface/srv/SetLicense.srv
+```bash
+#==[Service] ライセンスの有効化==
+# GUI API: POST /system/license/activate -> ROS 2 service /system/license/set
+# Backend: triorb-system-cored SystemService.ActivateLicense
+string name                  # license (system) name
+PackageVersion[] packages    # packages to license
+---
+bool success                 # false if activation failed
+string message               # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/SetScalarString.srv
+```bash
+#==[Service] 文字列引数1つの汎用コマンド==
+# Shared by:
+#   POST   /system/shutdown                     -> /system/shutdown            (request: "" | "now" | "-r now" | "-f")
+#   DELETE /network/config/{connection_id}      -> /network/config/delete      (request: connection_id)
+#   DELETE /network/wifi/known-networks/{ssid}  -> /network/wifi/details/delete (request: ssid)
+# Backend: triorb-system-cored SystemService.Shutdown /
+#          NetworkService.DeleteConnection / ForgetWifiNetwork
+string request  # scalar string argument (meaning depends on the service name)
+---
+string result   # result string
+```
+
+### triorb_static_interface/srv/GetResources.srv
+```bash
+#==[Service] システムリソース使用状況の取得==
+# GUI API: GET /system/resources -> ROS 2 service /system/resources/get
+# Backend: triorb-system-cored SystemService.GetResources
+---
+std_msgs/Header header           # snapshot timestamp
+float64 cpu_percent              # 0..100, all cores aggregated
+float64 cpu_temperature_celsius  # 0 when unavailable
+float64 gpu_percent              # 0 when unavailable
+float64 gpu_temperature_celsius  # 0 when unavailable
+float64 memory_percent           # 0..100
+uint64 memory_total_bytes        # total physical memory
+uint64 memory_used_bytes         # used physical memory
+DiskUsage[] disks                # per mount point
+bool success                     # false if the snapshot could not be taken
+string message                   # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetRos2DdsXml.srv
+```bash
+#==[Service] DDS設定XMLの取得==
+# GUI API: GET /system/config/ros2/dds -> ROS 2 service /system/config/ros2/dds/get
+# Backend: triorb-system-cored SystemService.GetRos2DdsConfig
+---
+string path  # persisted file path (set even when the file is absent)
+string xml   # verbatim file content ("" when absent)
+```
+
+### triorb_static_interface/srv/SetRos2DdsXml.srv
+```bash
+#==[Service] DDS設定XMLの保存==
+# GUI API: PUT /system/config/ros2/dds -> ROS 2 service /system/config/ros2/dds/set
+# Backend: triorb-system-cored SystemService.SetRos2DdsConfig
+# The XML is not schema-validated (RMW-dependent). May require /system/restart to apply.
+string xml      # verbatim file content; the daemon decides the path
+---
+bool success    # false if the content could not be persisted
+string message  # error detail when success is false, empty otherwise
+string path     # where the content was persisted
+```
+
+### triorb_static_interface/srv/GetRos2DomainId.srv
+```bash
+#==[Service] ROS_DOMAIN_IDの取得==
+# GUI API: GET /system/config/ros2/domain_id -> ROS 2 service /system/config/ros2/domain_id/get
+# Backend: triorb-system-cored SystemService.GetRos2DomainId
+---
+uint16 data  # persisted ROS_DOMAIN_ID (0..232)
+```
+
+### triorb_static_interface/srv/SetRos2DomainId.srv
+```bash
+#==[Service] ROS_DOMAIN_IDの保存==
+# GUI API: PUT /system/config/ros2/domain_id -> ROS 2 service /system/config/ros2/domain_id/set
+# Backend: triorb-system-cored SystemService.SetRos2DomainId
+# May require /system/restart to apply.
+uint16 data     # ROS_DOMAIN_ID (0..232)
+---
+bool success    # false if the value was rejected or could not be persisted
+string message  # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetRos2LocalhostOnly.srv
+```bash
+#==[Service] ROS_LOCALHOST_ONLYの取得==
+# GUI API: GET /system/config/ros2/localhost_only -> ROS 2 service /system/config/ros2/localhost_only/get
+# Backend: triorb-system-cored SystemService.GetRos2LocalhostOnly
+---
+uint8 data  # persisted ROS_LOCALHOST_ONLY equivalent (0 | 1)
+```
+
+### triorb_static_interface/srv/SetRos2LocalhostOnly.srv
+```bash
+#==[Service] ROS_LOCALHOST_ONLYの保存==
+# GUI API: PUT /system/config/ros2/localhost_only -> ROS 2 service /system/config/ros2/localhost_only/set
+# Backend: triorb-system-cored SystemService.SetRos2LocalhostOnly
+# May require /system/restart to apply.
+uint8 data      # ROS_LOCALHOST_ONLY equivalent (0 | 1)
+---
+bool success    # false if the value was rejected or could not be persisted
+string message  # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetRos2Namespace.srv
+```bash
+#==[Service] ROS namespaceの取得==
+# GUI API: GET /system/config/ros2/namespace -> ROS 2 service /system/config/ros2/namespace/get
+# Backend: triorb-system-cored SystemService.GetRos2Namespace
+---
+string data  # persisted ROS namespace ("" = no extra namespace)
+```
+
+### triorb_static_interface/srv/SetRos2Namespace.srv
+```bash
+#==[Service] ROS namespaceの保存==
+# GUI API: PUT /system/config/ros2/namespace -> ROS 2 service /system/config/ros2/namespace/set
+# Backend: triorb-system-cored SystemService.SetRos2Namespace
+# Unrelated to the DDS XML. May require /system/restart to apply.
+string data     # ROS namespace ("" allowed; validated as a ROS namespace)
+---
+bool success    # false if the value was rejected or could not be persisted
+string message  # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetAvailableVersions.srv
+```bash
+#==[Service] 選択可能なパッケージバージョンの取得==
+# GUI API: GET /system/update -> ROS 2 service /system/update/get
+# Backend: triorb-system-cored SystemService.GetAvailableUpdates
+# Queries the update server (index refresh + candidate list; not apt itself).
+---
+PackageUpdate[] packages  # per package: name and selectable versions
+bool success              # false if the update server could not be queried
+string message            # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetPackageVersions.srv
+```bash
+#==[Service] インストール済みパッケージバージョンの取得==
+# GUI API: GET /system/version -> ROS 2 service /system/version/get
+# Backend: triorb-system-cored SystemService.GetVersion
+---
+PackageVersion[] packages  # currently installed software package versions
+```
+
+### triorb_static_interface/srv/UploadCertificate.srv
+```bash
+#==[Service] ネットワーク証明書のアップロード==
+# GUI API: POST /network/certificate/upload -> ROS 2 service /network/certificate/upload
+# Backend: triorb-system-cored NetworkService.UploadCertificate
+string filename      # basename only; path separators are rejected
+string content_type  # e.g. "application/x-pem-file"
+uint8[] content      # file content
+string cert_type     # e.g. "ca", "client"
+string sha256        # optional lowercase hex digest; verified if set
+bool overwrite       # false -> refuse to replace an existing file
+---
+bool success         # false if the file was rejected or could not be stored
+string message       # error detail when success is false, empty otherwise
+string stored_path   # where the file was stored
+string filename      # stored basename
+string cert_type     # stored certificate type
+```
+
+### triorb_static_interface/srv/GetNetworkConfig.srv
+```bash
+#==[Service] ネットワーク設定一覧の取得==
+# GUI API: GET /network/config -> ROS 2 service /network/config/get
+# Backend: triorb-system-cored NetworkService.GetNetworkConfig
+---
+ConnectionProfile[] connections  # all NetworkManager connection profiles
+HotspotConfig hotspot            # hotspot configuration (password is always empty)
+bool success                     # false if the configuration could not be read
+string message                   # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/SetHotspotConfig.srv
+```bash
+#==[Service] Hotspot設定の変更==
+# GUI API: PUT /network/hotspot/config -> ROS 2 service /network/hotspot/config/set
+# Backend: triorb-system-cored NetworkService.SetHotspotConfig
+# Applies the configuration to NetworkManager.
+HotspotConfig config  # desired hotspot configuration (password is write-only)
+---
+bool success          # false if the configuration was rejected or could not be applied
+string message        # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetWifiList.srv
+```bash
+#==[Service] 周辺Wi-Fiネットワークのスキャン==
+# GUI API: GET /network/wifi/scan -> ROS 2 service /network/wifi/scan
+# Backend: triorb-system-cored NetworkService.ScanWifi
+---
+WifiNetwork[] networks  # nearby SSIDs
+bool success            # false if the scan failed
+string message          # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/SetWifiConfig.srv
+```bash
+#==[Service] Wi-Fi(station)接続設定の変更==
+# GUI API: PUT   /network/wifi/config  -> ROS 2 service /network/wifi/config/set
+#          PATCH /network/wifi/connect -> ROS 2 service /network/wifi/connect/toggle
+#                                          (only config.connected is meaningful)
+# Backend: triorb-system-cored NetworkService.SetWifiConfig / SetWifiConnect
+WifiConfig config  # desired Wi-Fi configuration (password is write-only)
+---
+bool success       # false if the configuration was rejected or could not be applied
+string message     # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetWifiConfig.srv
+```bash
+#==[Service] Wi-Fi接続設定の取得==
+# GUI API: GET /network/wifi/details               -> ROS 2 service /network/wifi/details/get (ssid = "")
+#          GET /network/wifi/known-networks/{ssid} -> ROS 2 service /network/wifi/details/get (ssid set)
+# Backend: triorb-system-cored NetworkService.GetWifiConfig
+string ssid        # "" = currently connected network, otherwise the saved (known) network
+---
+WifiConfig config  # Wi-Fi configuration (password is always empty)
+bool success       # false if the network is unknown or could not be read
+string message     # error detail when success is false, empty otherwise
 ```
 
 # triorb_collaboration_interface 

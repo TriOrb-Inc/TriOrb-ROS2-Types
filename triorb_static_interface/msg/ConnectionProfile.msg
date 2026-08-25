@@ -1,5 +1,5 @@
 #**
-#* Copyright 2023 TriOrb Inc.
+#* Copyright 2026 TriOrb Inc.
 #*
 #* Licensed under the Apache License, Version 2.0 (the "License");
 #* you may not use this file except in compliance with the License.
@@ -14,9 +14,10 @@
 #* limitations under the License.
 #**
 
-#==エラー・警告 1件==
-# Mirrors triorb.system.v1.RobotError (triorb-system-core common.proto).
-# Shared by /system/errors and /system/warnings (the warnings API reuses this type).
-std_msgs/Header header      # Timestamp
-uint32 error_code           # error (or warning) code
-string message              # human-readable description
+#==NetworkManager接続プロファイル==
+# Mirrors triorb.system.v1.ConnectionProfile (triorb-system-core network.proto)
+string id         # connection id (NetworkManager "NAME")
+string type       # e.g. "802-3-ethernet", "802-11-wireless"
+string device     # bound device, "" if none
+bool active       # currently active
+bool autoconnect  # autoconnect enabled

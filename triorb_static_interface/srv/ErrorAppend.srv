@@ -1,0 +1,27 @@
+#**
+#* Copyright 2026 TriOrb Inc.
+#*
+#* Licensed under the Apache License, Version 2.0 (the "License");
+#* you may not use this file except in compliance with the License.
+#* You may obtain a copy of the License at
+#*
+#*     http://www.apache.org/licenses/LICENSE-2.0
+#*
+#* Unless required by applicable law or agreed to in writing, software
+#* distributed under the License is distributed on an "AS IS" BASIS,
+#* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#* See the License for the specific language governing permissions and
+#* limitations under the License.
+#**
+
+#==[Service] エラー・警告の追加==
+# GUI API: POST /system/errors   -> ROS 2 service /system/errors/append
+#          POST /system/warnings -> ROS 2 service /system/warnings/append
+# Backend: triorb-system-cored SystemService.AppendError / AppendWarning
+# Request fields match one RobotError element (field name error_code is shared with warnings).
+std_msgs/Header header  # Timestamp
+uint32 error_code       # error (or warning) code
+string message          # human-readable description
+---
+bool success            # false if the entry could not be appended
+string message          # error detail when success is false, empty otherwise
