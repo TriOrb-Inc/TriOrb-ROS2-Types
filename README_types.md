@@ -28,6 +28,14 @@ string fname
 sensor_msgs/Image image
 ```
 
+### triorb_cv_interface/srv/Version.srv
+```bash
+# ==バージョン取得サービス==
+std_msgs/Empty request
+---
+uint8[] version
+```
+
 # triorb_sensor_interface 
 ## triorb_sensor_interface/msg 
 ### triorb_sensor_interface/msg/BatteryStatus.msg
@@ -223,6 +231,15 @@ std_msgs/Empty request
 CameraDevice[] result
 ```
 
+### triorb_sensor_interface/srv/AutoGainTarget.srv
+```bash
+#==[Service] カメラの明るさ補正==
+float32 target
+---
+bool success
+string message
+```
+
 # triorb_slam_interface 
 ## triorb_slam_interface/msg 
 ### triorb_slam_interface/msg/UInt32MultiArrayStamped.msg
@@ -317,10 +334,26 @@ std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
 ```
 
-## triorb_slam_interface/srv 
-### triorb_slam_interface/srv/InitializeMap.srv
+### triorb_slam_interface/msg/MapInfo.msg
 ```bash
-#==[Service] TagSLAM地図初期化の設定用==
+string name
+string format
+uint64 size_bytes
+builtin_interfaces/Time modified_at
+bool current
+string sha256
+```
+
+### triorb_slam_interface/msg/TagTransform.msg
+```bash
+uint32 id       # tag id
+bool look       # tag is detected in latest frame
+float32 size    # tag size
+geometry_msgs/Transform transform # tag pose
+```
+
+### triorb_slam_interface/msg/TagslamSettings.msg
+```bash
 uint16 origin_tag_id
 float32 origin_tag_size
 float32 origin_tag_pos_z
@@ -328,6 +361,32 @@ float32 origin_tag_pos_deg
 float32 default_tag_size
 float32 minimum_viewing_angle
 uint32 minimum_tag_area
+```
+
+## triorb_slam_interface/srv 
+### triorb_slam_interface/srv/InitializeMap.srv
+```bash
+# 地図を初期化 (または既存地図を読み込み) する。初期化時にだけ意味を持つ
+# parameter は、この request の parameters_json で指定する。
+#
+# 空なら新規地図として初期化し、指定すればその地図を読み込む。
+string map_path
+# init scope 以下の parameter を初期化の前に適用する。
+# 形式は set_runtime_parameters と同じ。startup scope の parameter は
+# 起動 config でしか設定できないため rejected に入る。
+string parameters_json
+---
+# 初期化に成功したか。
+bool success
+# parameter 適用結果の JSON (set_runtime_parameters と同じ形式)。
+string parameters_result_json
+# 失敗時の理由。成功時は空文字列。
+string message
+```
+
+### triorb_slam_interface/srv/InitializeTagslam.srv
+```bash
+TagslamSettings setting
 ---
 bool success
 string message
@@ -341,6 +400,63 @@ bool is_static
 ---
 bool success
 string message
+```
+
+### triorb_slam_interface/srv/GetMapFile.srv
+```bash
+#==地図名を指定し、内容をuint8配列で返答==
+string map_name
+---
+string filename
+string content_type
+uint8[] content
+string sha256
+bool success
+string message
+```
+
+### triorb_slam_interface/srv/SetMapFile.srv
+```bash
+#==SLAM地図データを保存==
+string filename
+string content_type
+uint8[] content
+string sha256
+bool overwrite
+---
+bool success
+string message
+string map_name
+```
+
+### triorb_slam_interface/srv/GetMapList.srv
+```bash
+#==地図一覧を返答==
+---
+MapInfo[] maps
+bool success
+string message
+```
+
+### triorb_slam_interface/srv/GetSlamStatus.srv
+```bash
+#==SlamStatusを返答==
+---
+SlamStatus status
+```
+
+### triorb_slam_interface/srv/GetTagslamSettings.srv
+```bash
+#==TagSLAMの初期設定を返答==
+---
+TagslamSettings setting
+```
+
+### triorb_slam_interface/srv/GetTagTransformArray.srv
+```bash
+#==Tag情報一覧取得==
+---
+TagTransform[] tags
 ```
 
 # triorb_field_interface 
@@ -556,6 +672,19 @@ uint8[] disable_camera_idx  # Camera Index to be excluded from robot pose estima
 uint32 tf_source             # TF source used for localization 
 ```
 
+### triorb_drive_interface/msg/TriorbPositioningTimeoutMode.msg
+```bash
+# 位置決め停滞/振動検出を無効化し、従来通り通常の移動終了判定だけを使う。
+uint8 DISABLED=0
+# 位置決め停滞/振動検出時に移動失敗として扱い、ERROR通知を発報する。
+uint8 FAIL=1
+# 位置決め停滞/振動検出時に到達困難だが許容完了として扱い、WARN通知を発報する。
+uint8 SUCCESS=2
+
+# navigation_managerからNavigatorへ配信する現在の位置決めタイムアウト動作モード。
+uint8 mode
+```
+
 ### triorb_drive_interface/msg/TriorbPos3Stamped.msg
 ```bash
 #==平面内の位置・姿勢==
@@ -661,6 +790,15 @@ uint8 gauss_k_size
 float32 sigma
 ---
 TriorbPos3[] result
+```
+
+### triorb_drive_interface/srv/GetPos3Stamped.srv
+```bash
+# DRAFT: get the latest planar robot pose cached by the server.
+---
+TriorbPos3Stamped pose
+bool success
+string message
 ```
 
 # triorb_static_interface 
@@ -863,6 +1001,14 @@ string[] request
 string result
 ```
 
+### triorb_static_interface/srv/SetScalarString.srv
+```bash
+#==文字列の送信および返答==
+string request
+---
+string result
+```
+
 ### triorb_static_interface/srv/SetImage.srv
 ```bash
 #==[Service] 画像の入力==
@@ -883,6 +1029,52 @@ bool success                    # false if the gRPC call to triorb-system-cored 
 string message                  # error detail when success is false, empty otherwise
 string hostname                 # static hostname of the host
 NetworkInterface[] interfaces   # all interfaces, loopback included
+```
+
+### triorb_static_interface/srv/Version.srv
+```bash
+#==[Service] Version情報の取得==
+std_msgs/Empty request
+---
+uint8[] version
+```
+
+# triorb_ekf_interface
+## triorb_ekf_interface/srv
+### triorb_ekf_interface/srv/SetPoseSource.srv
+```bash
+uint8 SOURCE_VSLAM=1
+uint8 SOURCE_TAGSLAM=2
+uint8 SOURCE_COLLAB_TF=3
+
+uint8 source
+---
+bool success
+string message
+uint8 active_source
+```
+
+# triorb_tf_interface
+## triorb_tf_interface/srv
+### triorb_tf_interface/srv/SetEkfFallbackGraceCount.srv
+```bash
+int64 ekf_fallback_grace_count
+---
+bool success
+string message
+int64 active_ekf_fallback_grace_count
+float64 ekf_fallback_grace_sec
+```
+
+### triorb_tf_interface/srv/SetTfSource.srv
+```bash
+uint32 TF_SOURCE_VSLAM=1
+uint32 TF_SOURCE_TAGSLAM=2
+uint32 TF_SOURCE_COLLAB=3
+uint32 source
+---
+bool success
+string message
 ```
 
 # triorb_collaboration_interface 
@@ -936,4 +1128,230 @@ bool unknown_error_from_plc         # PLCからの不明なエラー(A接点)
 bool permit_auto_move_from_plc      # PLCからの自動移動許可信号(B接点)
 bool permit_manual_move_from_plc    # PLCからの自動移動許可信号(B接点)
 bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A接点)
+```
+
+# triorb_navigation_interface
+## triorb_navigation_interface/msg
+### triorb_navigation_interface/msg/NavigationPose.msg
+```bash
+std_msgs/Header header   # この姿勢の時刻と frame_i
+
+# TF source used for localization
+uint32 TF_SOURCE_UNSPECIFIED=0
+uint32 TF_SOURCE_VSLAM=1
+uint32 TF_SOURCE_TAGSLAM=2
+uint32 TF_SOURCE_COLLAB=3
+uint32 source
+
+float64 x
+float64 y
+float64 deg
+bool valid #現在姿勢が取れているか
+
+uint8 CONFIDENCE_LOW=0
+uint8 CONFIDENCE_MIDDLE=1
+uint8 CONFIDENCE_HIGH =2
+uint8 confidence
+```
+
+### triorb_navigation_interface/msg/NavigationMotionConstraint.msg
+```bash
+uint32 OMNI_DIRECTIONAL=0
+uint32 ROTATION_ONLY=8
+uint32 TRANSLATION_ONLY=16
+uint32 PATH_CONSTRAINED=32
+
+uint32 constraint
+```
+
+### triorb_navigation_interface/msg/NavigationResult.msg
+```bash
+uint16 TIMEOUT_FAILED=0
+uint16 HALF_TIMEOUT=1
+uint16 TRANSFORM_FAILED=2
+uint16 NO_CHANGE_TIMESTAMP=3
+uint16 FORCE_STOP=4
+uint16 NAVIGATION_FAILED=5
+uint16 NAVIGATION_SUCCESS=6
+uint16 PROGRESS=7
+uint16 FORCE_SUCCESS=8
+uint16 LOST_FAILED=9
+uint16 BLOCKED_BY_PERMIT=10
+uint16 REJECT=255
+uint16 NONE=65535
+
+uint16 result
+```
+
+### triorb_navigation_interface/msg/NavigationCommand.msg
+```bash
+std_msgs/Header header
+
+uint32 CONTROLLER_UNSPECIFIED=0
+uint32 CONTROLLER_VELOCITY=1
+
+uint32 request_id
+uint32 controller_type
+uint8 gain_no
+triorb_drive_interface/TriorbSpeed speed
+NavigationPose start_pose
+NavigationPose current_pose
+NavigationPose goal_pose
+NavigationMotionConstraint motion_constraint
+
+bool valid
+```
+
+### triorb_navigation_interface/msg/NavigationPlannerResult.msg
+```bash
+std_msgs/Header header
+
+uint32 request_id
+NavigationResult result
+NavigationPose current_pose
+NavigationMotionConstraint motion_constraint
+
+float32 elapsed_sec
+string message
+```
+
+### triorb_navigation_interface/msg/NavigationStatus.msg
+```bash
+std_msgs/Header header
+
+# 移動要求
+triorb_drive_interface/TriorbSetPos3 target
+
+# 現在pose
+NavigationPose current_pose
+
+# 状態
+uint8 STAND_BY=0
+uint8 NAVIGATE=1
+uint8 PAUSE=2
+uint8 SUCCESS=3
+uint8 FAILED=4
+uint8 LEAVE_GOAL=5
+uint8 navigate_state
+
+# 経過時間 [sec]
+float32 elapsed_sec
+
+# navigation result
+NavigationResult navigation_result
+```
+
+### triorb_navigation_interface/msg/PathPlannerCommand.msg
+```bash
+# Command published by automove_task to control path_planner.
+uint8 COMMAND_SET_POS_TARGET=0
+uint8 COMMAND_PAUSE=1
+uint8 COMMAND_TERMINATE=2
+uint8 COMMAND_RESUME=3
+
+uint8 command
+
+# Used only when command is COMMAND_SET_POS_TARGET.
+triorb_drive_interface/TriorbSetPos3 target
+
+# Termination reason.
+# Used only when command is COMMAND_TERMINATE.
+
+uint16 TIMEOUT_FAILED=0
+uint16 FORCE_STOP=4
+uint16 BLOCKED_BY_PERMIT=10
+
+uint16 terminate_reason
+```
+
+### triorb_navigation_interface/msg/PathPlannerStatus.msg
+```bash
+std_msgs/Header header
+
+uint8 STAND_BY=0
+uint8 NAVIGATE=1
+uint8 PAUSE=2
+uint8 SUCCESS=3
+uint8 FAILED=4
+uint8 LEAVE_GOAL=5
+
+uint16 TIMEOUT_FAILED=0
+uint16 HALF_TIMEOUT=1
+uint16 TRANSFORM_FAILED=2
+uint16 NO_CHANGE_TIMESTAMP=3
+uint16 FORCE_STOP=4
+uint16 NAVIGATION_FAILED=5
+uint16 NAVIGATION_SUCCESS=6
+uint16 PROGRESS=7
+uint16 FORCE_SUCCESS=8
+uint16 LOST_FAILED=9
+uint16 BLOCKED_BY_PERMIT=10
+uint16 REJECT=255
+uint16 NONE=65535
+
+uint32 request_id
+uint8 state
+uint16 result
+float32 elapsed_sec
+string message
+```
+
+## triorb_navigation_interface/srv
+### triorb_navigation_interface/srv/GetNavigationStatus.srv
+```bash
+---
+bool success
+string message
+
+# Current navigation status
+NavigationStatus navigation_status
+```
+
+### triorb_navigation_interface/srv/SetAutomoveTaskCommand.srv
+```bash
+# Request AutomoveTask to pause, resume, or stop the active navigation.
+uint8 COMMAND_PAUSE=0
+uint8 COMMAND_RESUME=1
+uint8 COMMAND_STOP=2
+
+uint8 command
+---
+# Returned immediately after AutomoveTask accepts or rejects the request.
+bool success
+string message
+```
+
+### triorb_navigation_interface/srv/SetPathPlannerCommand.srv
+```bash
+# Request the path planner to change its execution state.
+uint8 COMMAND_SET_POS_TARGET=0
+uint8 COMMAND_PAUSE=1
+uint8 COMMAND_TERMINATE=2
+uint8 COMMAND_RESUME=3
+
+uint8 command
+
+# COMMAND_SET_POS_TARGET のときだけ使用
+triorb_drive_interface/TriorbSetPos3 target
+
+# Termination reason.
+# Used only when command is COMMAND_TERMINATE.
+uint16 TIMEOUT_FAILED=0
+uint16 FORCE_STOP=4
+uint16 BLOCKED_BY_PERMIT=10
+uint16 terminate_reason
+
+---
+bool success
+string message
+```
+
+## triorb_navigation_interface/action
+### triorb_navigation_interface/action/TriorbSetPos.action
+```bash
+triorb_drive_interface/TriorbSetPos3 target
+---
+NavigationStatus status
+---
+NavigationStatus status
 ```
