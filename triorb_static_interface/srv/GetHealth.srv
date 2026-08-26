@@ -1,5 +1,5 @@
 #**
-#* Copyright 2023 TriOrb Inc.
+#* Copyright 2026 TriOrb Inc.
 #*
 #* Licensed under the Apache License, Version 2.0 (the "License");
 #* you may not use this file except in compliance with the License.
@@ -14,9 +14,8 @@
 #* limitations under the License.
 #**
 
-#==One error or warning entry==
-# Mirrors triorb.system.v1.RobotError (triorb-system-core common.proto).
-# Shared by /system/errors and /system/warnings (the warnings API reuses this type).
-std_msgs/Header header      # Timestamp
-uint32 error_code           # error (or warning) code
-string message              # human-readable description
+#==[Service] Health check==
+# GUI API: GET /system/health -> ROS 2 service /system/health/check
+# Backend: triorb-system-cored SystemService.GetHealth (gRPC over UDS)
+---
+std_msgs/Header header  # stamp = now, frame_id = "system"

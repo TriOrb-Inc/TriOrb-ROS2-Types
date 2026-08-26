@@ -1,5 +1,5 @@
 #**
-#* Copyright 2023 TriOrb Inc.
+#* Copyright 2026 TriOrb Inc.
 #*
 #* Licensed under the Apache License, Version 2.0 (the "License");
 #* you may not use this file except in compliance with the License.
@@ -14,9 +14,11 @@
 #* limitations under the License.
 #**
 
-#==One error or warning entry==
-# Mirrors triorb.system.v1.RobotError (triorb-system-core common.proto).
-# Shared by /system/errors and /system/warnings (the warnings API reuses this type).
-std_msgs/Header header      # Timestamp
-uint32 error_code           # error (or warning) code
-string message              # human-readable description
+#==[Service] Get license information==
+# GUI API: GET /system/license -> ROS 2 service /system/license/get
+# Backend: triorb-system-cored SystemService.GetLicense
+# Until license-server integration lands, name is a temporary system name
+# and key is generated locally.
+---
+string name  # license (system) name
+string key   # license key

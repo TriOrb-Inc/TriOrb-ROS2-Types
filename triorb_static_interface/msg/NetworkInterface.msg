@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==ネットワークインターフェース情報==
+#==Network interface information==
 # Mirrors triorb.system.v1.NetworkInterface (triorb-system-core hostinfo.proto)
 string name                  # interface name, e.g. "eth0"
 bool is_up                   # administrative/link state (IFF_UP)

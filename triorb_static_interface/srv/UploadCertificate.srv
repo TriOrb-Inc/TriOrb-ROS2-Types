@@ -1,0 +1,31 @@
+#**
+#* Copyright 2026 TriOrb Inc.
+#*
+#* Licensed under the Apache License, Version 2.0 (the "License");
+#* you may not use this file except in compliance with the License.
+#* You may obtain a copy of the License at
+#*
+#*     http://www.apache.org/licenses/LICENSE-2.0
+#*
+#* Unless required by applicable law or agreed to in writing, software
+#* distributed under the License is distributed on an "AS IS" BASIS,
+#* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#* See the License for the specific language governing permissions and
+#* limitations under the License.
+#**
+
+#==[Service] Upload network certificate==
+# GUI API: POST /network/certificate/upload -> ROS 2 service /network/certificate/upload
+# Backend: triorb-system-cored NetworkService.UploadCertificate
+string filename      # basename only; path separators are rejected
+string content_type  # e.g. "application/x-pem-file"
+uint8[] content      # file content
+string cert_type     # e.g. "ca", "client"
+string sha256        # optional lowercase hex digest; verified if set
+bool overwrite       # false -> refuse to replace an existing file
+---
+bool success         # false if the file was rejected or could not be stored
+string message       # error detail when success is false, empty otherwise
+string stored_path   # where the file was stored
+string filename      # stored basename
+string cert_type     # stored certificate type

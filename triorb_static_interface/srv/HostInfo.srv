@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] ホスト情報(hostname/IPアドレス)の取得==
+#==[Service] Get host information (hostname / IP addresses)==
 # GUI API: GET /network/host -> ROS 2 service /network/host/info
 # The service server node calls triorb-system-cored GetHostInfo
 # (gRPC over UDS, triorb.system.v1.HostInfoService) and relays the result.
