@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==Wi-Fiスキャン結果 1件==
+#==One Wi-Fi scan result==
 # Mirrors triorb.system.v1.WifiNetwork (triorb-system-core network.proto)
 string ssid            # SSID
 string bssid           # BSSID (AP MAC address)

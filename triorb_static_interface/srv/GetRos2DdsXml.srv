@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] DDS設定XMLの取得==
+#==[Service] Get DDS configuration XML==
 # GUI API: GET /system/config/ros2/dds -> ROS 2 service /system/config/ros2/dds/get
 # Backend: triorb-system-cored SystemService.GetRos2DdsConfig
 ---

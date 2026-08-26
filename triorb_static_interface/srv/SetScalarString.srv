@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] 文字列引数1つの汎用コマンド==
+#==[Service] Generic command with one string argument==
 # Shared by:
 #   POST   /system/shutdown                     -> /system/shutdown            (request: "" | "now" | "-r now" | "-f")
 #   DELETE /network/config/{connection_id}      -> /network/config/delete      (request: connection_id)

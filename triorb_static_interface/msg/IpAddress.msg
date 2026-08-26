@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==割り当てIPアドレス==
+#==Assigned IP address==
 # Mirrors triorb.system.v1.IpAddress (triorb-system-core hostinfo.proto)
 string address      # textual form, e.g. "192.168.1.10" or "fe80::1"
 uint8 prefix_length # network prefix length, e.g. 24 (IPv4) / 64 (IPv6)

@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] 周辺Wi-Fiネットワークのスキャン==
+#==[Service] Scan nearby Wi-Fi networks==
 # GUI API: GET /network/wifi/scan -> ROS 2 service /network/wifi/scan
 # Backend: triorb-system-cored NetworkService.ScanWifi
 ---

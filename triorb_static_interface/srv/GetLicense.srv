@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] ライセンス情報の取得==
+#==[Service] Get license information==
 # GUI API: GET /system/license -> ROS 2 service /system/license/get
 # Backend: triorb-system-cored SystemService.GetLicense
 # Until license-server integration lands, name is a temporary system name

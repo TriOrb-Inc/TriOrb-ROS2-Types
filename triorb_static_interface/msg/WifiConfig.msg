@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==Wi-Fi(station)接続設定==
+#==Wi-Fi (station) connection configuration==
 # Mirrors triorb.system.v1.WifiConfig (triorb-system-core network.proto)
 string ssid          # SSID to connect to
 string password      # write-only: accepted in requests, never populated in responses

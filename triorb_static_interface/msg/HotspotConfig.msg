@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==Hotspot設定==
+#==Hotspot configuration==
 # Mirrors triorb.system.v1.HotspotConfig (triorb-system-core network.proto)
 string ssid          # hotspot SSID
 string password      # write-only: accepted in requests, never populated in responses

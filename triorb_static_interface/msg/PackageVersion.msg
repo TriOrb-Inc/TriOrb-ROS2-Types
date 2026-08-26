@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==ソフトウェアパッケージのバージョン==
+#==Software package version==
 # Mirrors triorb.system.v1.PackageVersion (triorb-system-core common.proto)
 string name     # package name
 string version  # installed / requested version

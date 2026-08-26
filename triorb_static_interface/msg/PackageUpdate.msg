@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==ソフトウェアパッケージの選択可能バージョン一覧==
+#==Selectable versions of a software package==
 # Mirrors triorb.system.v1.PackageUpdate (triorb-system-core system.proto)
 string name         # package name
 string[] versions   # selectable versions

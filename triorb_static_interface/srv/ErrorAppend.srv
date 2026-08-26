@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] エラー・警告の追加==
+#==[Service] Append an error or warning==
 # GUI API: POST /system/errors   -> ROS 2 service /system/errors/append
 #          POST /system/warnings -> ROS 2 service /system/warnings/append
 # Backend: triorb-system-cored SystemService.AppendError / AppendWarning

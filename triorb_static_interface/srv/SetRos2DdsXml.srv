@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] DDS設定XMLの保存==
+#==[Service] Set DDS configuration XML==
 # GUI API: PUT /system/config/ros2/dds -> ROS 2 service /system/config/ros2/dds/set
 # Backend: triorb-system-cored SystemService.SetRos2DdsConfig
 # The XML is not schema-validated (RMW-dependent). May require /system/restart to apply.

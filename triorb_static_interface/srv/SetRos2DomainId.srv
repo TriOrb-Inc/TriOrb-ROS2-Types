@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] ROS_DOMAIN_IDの保存==
+#==[Service] Set ROS_DOMAIN_ID==
 # GUI API: PUT /system/config/ros2/domain_id -> ROS 2 service /system/config/ros2/domain_id/set
 # Backend: triorb-system-cored SystemService.SetRos2DomainId
 # May require /system/restart to apply.

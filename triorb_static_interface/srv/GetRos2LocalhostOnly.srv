@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] ROS_LOCALHOST_ONLYの取得==
+#==[Service] Get ROS_LOCALHOST_ONLY==
 # GUI API: GET /system/config/ros2/localhost_only -> ROS 2 service /system/config/ros2/localhost_only/get
 # Backend: triorb-system-cored SystemService.GetRos2LocalhostOnly
 ---

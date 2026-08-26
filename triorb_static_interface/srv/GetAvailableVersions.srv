@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] 選択可能なパッケージバージョンの取得==
+#==[Service] Get selectable package versions==
 # GUI API: GET /system/update -> ROS 2 service /system/update/get
 # Backend: triorb-system-cored SystemService.GetAvailableUpdates
 # Queries the update server (index refresh + candidate list; not apt itself).

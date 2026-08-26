@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] システムリソース使用状況の取得==
+#==[Service] Get system resource usage==
 # GUI API: GET /system/resources -> ROS 2 service /system/resources/get
 # Backend: triorb-system-cored SystemService.GetResources
 ---

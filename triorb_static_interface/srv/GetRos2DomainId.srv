@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] ROS_DOMAIN_IDの取得==
+#==[Service] Get ROS_DOMAIN_ID==
 # GUI API: GET /system/config/ros2/domain_id -> ROS 2 service /system/config/ros2/domain_id/get
 # Backend: triorb-system-cored SystemService.GetRos2DomainId
 ---

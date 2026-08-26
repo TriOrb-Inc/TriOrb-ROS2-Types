@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] ネットワーク設定一覧の取得==
+#==[Service] Get network configuration list==
 # GUI API: GET /network/config -> ROS 2 service /network/config/get
 # Backend: triorb-system-cored NetworkService.GetNetworkConfig
 ---

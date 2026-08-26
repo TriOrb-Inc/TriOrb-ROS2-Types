@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] Wi-Fi接続設定の取得==
+#==[Service] Get Wi-Fi connection configuration==
 # GUI API: GET /network/wifi/details               -> ROS 2 service /network/wifi/details/get (ssid = "")
 #          GET /network/wifi/known-networks/{ssid} -> ROS 2 service /network/wifi/details/get (ssid set)
 # Backend: triorb-system-cored NetworkService.GetWifiConfig

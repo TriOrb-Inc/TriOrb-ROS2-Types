@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Action] ソフトウェアパッケージのアップグレード==
+#==[Action] Upgrade software packages==
 # GUI API: POST /system/upgrade -> ROS 2 action /system/upgrade
 # The action server calls triorb-system-cored SystemService.Upgrade
 # (gRPC server streaming): FEEDBACK events -> feedback, the final RESULT event -> result.

@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==NetworkManager接続プロファイル==
+#==NetworkManager connection profile==
 # Mirrors triorb.system.v1.ConnectionProfile (triorb-system-core network.proto)
 string id         # connection id (NetworkManager "NAME")
 string type       # e.g. "802-3-ethernet", "802-11-wireless"

@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] Hotspot設定の変更==
+#==[Service] Set hotspot configuration==
 # GUI API: PUT /network/hotspot/config -> ROS 2 service /network/hotspot/config/set
 # Backend: triorb-system-cored NetworkService.SetHotspotConfig
 # Applies the configuration to NetworkManager.

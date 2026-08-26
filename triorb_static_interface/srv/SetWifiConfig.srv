@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] Wi-Fi(station)接続設定の変更==
+#==[Service] Set Wi-Fi (station) connection configuration==
 # GUI API: PUT   /network/wifi/config  -> ROS 2 service /network/wifi/config/set
 #          PATCH /network/wifi/connect -> ROS 2 service /network/wifi/connect/toggle
 #                                          (only config.connected is meaningful)

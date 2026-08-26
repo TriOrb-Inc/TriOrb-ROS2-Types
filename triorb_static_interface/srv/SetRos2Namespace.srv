@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] ROS namespaceの保存==
+#==[Service] Set ROS namespace==
 # GUI API: PUT /system/config/ros2/namespace -> ROS 2 service /system/config/ros2/namespace/set
 # Backend: triorb-system-cored SystemService.SetRos2Namespace
 # Unrelated to the DDS XML. May require /system/restart to apply.

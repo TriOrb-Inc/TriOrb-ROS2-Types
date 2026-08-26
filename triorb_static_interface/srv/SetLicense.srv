@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==[Service] ライセンスの有効化==
+#==[Service] Activate license==
 # GUI API: POST /system/license/activate -> ROS 2 service /system/license/set
 # Backend: triorb-system-cored SystemService.ActivateLicense
 string name                  # license (system) name

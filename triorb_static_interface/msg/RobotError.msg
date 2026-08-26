@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==エラー・警告 1件==
+#==One error or warning entry==
 # Mirrors triorb.system.v1.RobotError (triorb-system-core common.proto).
 # Shared by /system/errors and /system/warnings (the warnings API reuses this type).
 std_msgs/Header header      # Timestamp

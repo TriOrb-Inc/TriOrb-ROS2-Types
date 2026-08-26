@@ -14,7 +14,7 @@
 #* limitations under the License.
 #**
 
-#==ディスク使用量==
+#==Disk usage==
 # Mirrors triorb.system.v1.DiskUsage (triorb-system-core system.proto)
 string path         # mount point
 uint64 total_bytes  # total capacity in bytes
