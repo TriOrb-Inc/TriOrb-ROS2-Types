@@ -438,13 +438,6 @@ bool success
 string message
 ```
 
-### triorb_slam_interface/srv/GetSlamStatus.srv
-```bash
-#==SlamStatusを返答==
----
-SlamStatus status
-```
-
 ### triorb_slam_interface/srv/GetTagslamSettings.srv
 ```bash
 #==TagSLAMの初期設定を返答==
