@@ -1,0 +1,6 @@
+# DRAFT: replace the collaboration group and robot bind poses.
+triorb_collaboration_interface/GroupCreate config
+bool replace_existing
+---
+bool success
+string message

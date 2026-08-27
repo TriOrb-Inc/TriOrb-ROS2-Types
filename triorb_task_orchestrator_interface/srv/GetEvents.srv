@@ -1,0 +1,6 @@
+# Maximum number of events to return. Zero returns all available events.
+uint32 limit
+---
+bool success
+string message
+Event[] events

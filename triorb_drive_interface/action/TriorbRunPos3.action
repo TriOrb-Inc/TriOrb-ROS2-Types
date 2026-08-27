@@ -1,0 +1,24 @@
+# Execute one planar movement relative to the robot pose at goal execution.
+# Goal parameters:
+# - `command.position.x`: forward-positive translation from the current position [m].
+# - `command.position.y`: left-positive translation from the current position [m].
+# - `command.position.deg`: counter-clockwise-positive heading change [deg].
+# - `command.speed.acc`: acceleration time [ms]. Default: 1000.
+# - `command.speed.dec`: deceleration time [ms]. Default: 1000.
+# - `command.speed.xy`: maximum translational speed [m/s]. Default: 0.6; must be positive when x or y is non-zero.
+# - `command.speed.w`: maximum angular speed [rad/s]. Default: 0.6; must be positive when deg is non-zero.
+# The bridge publishes this command to `/drive/run_pos` and waits for `/drive/run_pos/result`.
+TriorbRunPos3 command
+---
+# True only when the relative movement finishes with status `done`.
+bool success
+# Terminal value received from `/drive/run_pos/result`: `done`, `failed`, or `stopped`.
+string status
+# Human-readable terminal details supplied by the Action bridge.
+string message
+---
+# Action bridge lifecycle state, such as `command_sent` or `running`.
+# This is not a measured robot pose or movement progress value.
+string state
+# Human-readable lifecycle details supplied by the Action bridge.
+string message

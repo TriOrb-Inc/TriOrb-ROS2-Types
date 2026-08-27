@@ -1,0 +1,8 @@
+# Atomically update selected robot parameter files.
+RobotParameters parameters
+# Allowed values: camera_devs, camera_rotations, robot_max_vel_yaml.
+string[] update_fields
+---
+bool success
+string message
+bool restart_required

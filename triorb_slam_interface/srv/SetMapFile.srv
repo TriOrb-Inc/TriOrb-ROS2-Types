@@ -1,0 +1,10 @@
+# DRAFT: upload one VSLAM map file.
+string filename
+string content_type
+uint8[] content
+string sha256
+bool overwrite
+---
+bool success
+string message
+string map_name
