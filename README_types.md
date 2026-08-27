@@ -707,9 +707,9 @@ TriorbPos3[] result
 ### triorb_static_interface/msg/SettingROS.msg
 ```bash
 #==ROS2環境==
-bool localhost_only # ROS_LOCALHOST_ONLY
-uint16 domain_id # ROS_DOMAIN_ID
-string ros_namespace # ROS namespace; exposed as "namespace" by the REST mapping
+bool ros_localhost_only # ROS_LOCALHOST_ONLY
+uint16 ros_domain_id # ROS_DOMAIN_ID
+string ros_prefix # ROS_PREFIX
 ```
 
 ### triorb_static_interface/msg/SettingSSID.msg
@@ -1001,14 +1001,6 @@ string[] result
 ### triorb_static_interface/srv/SetString.srv
 ```bash
 #==[Service] 文字列の入力==
-string[] request
----
-string result
-```
-
-### triorb_static_interface/srv/SetStringList.srv
-```bash
-#==[Service] 文字列リストの入力==
 string[] request
 ---
 string result
@@ -1369,8 +1361,24 @@ bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A�
 
 ### triorb_navigation_interface/msg/NavigationPose.msg
 ```bash
-uint32 tf_source
-triorb_drive_interface/TriorbPos3 pose
+std_msgs/Header header   # この姿勢の時刻と frame_i
+
+# TF source used for localization
+uint32 TF_SOURCE_UNSPECIFIED=0
+uint32 TF_SOURCE_VSLAM=1
+uint32 TF_SOURCE_TAGSLAM=2
+uint32 TF_SOURCE_COLLAB=3
+uint32 source
+
+float64 x
+float64 y
+float64 deg
+bool valid #現在姿勢が取れているか
+
+uint8 CONFIDENCE_LOW=0
+uint8 CONFIDENCE_MIDDLE=1
+uint8 CONFIDENCE_HIGH =2
+uint8 confidence
 ```
 
 ### triorb_navigation_interface/msg/NavigationResult.msg
