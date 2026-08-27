@@ -933,74 +933,6 @@ string message  # progress message
 
 ## triorb_static_interface/srv
 
-### triorb_static_interface/srv/ErrorAppend.srv
-```bash
-#==[Service] Append an error or warning==
-# GUI API: POST /system/errors   -> ROS 2 service /system/errors/append
-#          POST /system/warnings -> ROS 2 service /system/warnings/append
-# Backend: triorb-system-cored SystemService.AppendError / AppendWarning
-# Request fields match one RobotError element (field name error_code is shared with warnings).
-std_msgs/Header header  # Timestamp
-uint32 error_code       # error (or warning) code
-string message          # human-readable description
----
-bool success            # false if the entry could not be appended
-string message          # error detail when success is false, empty otherwise
-```
-
-### triorb_static_interface/srv/GetAvailableVersions.srv
-```bash
-#==[Service] Get selectable package versions==
-# GUI API: GET /system/update -> ROS 2 service /system/update/get
-# Backend: triorb-system-cored SystemService.GetAvailableUpdates
-# Queries the update server (index refresh + candidate list; not apt itself).
----
-PackageUpdate[] packages  # per package: name and selectable versions
-bool success              # false if the update server could not be queried
-string message            # error detail when success is false, empty otherwise
-```
-
-### triorb_static_interface/srv/GetHealth.srv
-```bash
-#==[Service] Health check==
-# GUI API: GET /system/health -> ROS 2 service /system/health/check
-# Backend: triorb-system-cored SystemService.GetHealth (gRPC over UDS)
----
-std_msgs/Header header  # stamp = now, frame_id = "system"
-```
-
-### triorb_static_interface/srv/GetLicense.srv
-```bash
-#==[Service] Get license information==
-# GUI API: GET /system/license -> ROS 2 service /system/license/get
-# Backend: triorb-system-cored SystemService.GetLicense
-# Until license-server integration lands, name is a temporary system name
-# and key is generated locally.
----
-string name  # license (system) name
-string key   # license key
-```
-
-### triorb_static_interface/srv/SetLicense.srv
-```bash
-#==[Service] Activate license==
-# GUI API: POST /system/license/activate -> ROS 2 service /system/license/set
-# Backend: triorb-system-cored SystemService.ActivateLicense
-string name                  # license (system) name
-PackageVersion[] packages    # packages to license
----
-bool success                 # false if activation failed
-string message               # error detail when success is false, empty otherwise
-```
-
-### triorb_static_interface/srv/GetPackageVersions.srv
-```bash
-#==[Service] Get installed package versions==
-# GUI API: GET /system/version -> ROS 2 service /system/version/get
-# Backend: triorb-system-cored SystemService.GetVersion
----
-PackageVersion[] packages  # currently installed software package versions
-```
 
 ### triorb_static_interface/srv/GetImage.srv
 ```bash
@@ -1069,7 +1001,7 @@ string[] result
 ### triorb_static_interface/srv/SetString.srv
 ```bash
 #==[Service] 文字列の入力==
-string request
+string[] request
 ---
 string result
 ```
@@ -1098,10 +1030,65 @@ string result
 # (gRPC over UDS, triorb.system.v1.HostInfoService) and relays the result.
 std_msgs/Empty request
 ---
-bool success                    # false if the gRPC call to triorb-system-cored failed
-string message                  # error detail when success is false, empty otherwise
-string hostname                 # static hostname of the host
-NetworkInterface[] interfaces   # all interfaces, loopback included
+# True when the query completed successfully.
+# false if the gRPC call to triorb-system-cored failed.
+bool success
+# Human-readable completion or error details.
+# Empty when success is true; error detail when success is false.
+string message
+# Host name of this robot.
+string hostname
+# Network interfaces and their runtime configuration.
+# All interfaces are included, loopback included.
+NetworkInterface[] interfaces
+```
+
+### triorb_static_interface/srv/GetHealth.srv
+```bash
+#==[Service] Health check==
+# GUI API: GET /system/health -> ROS 2 service /system/health/check
+# Backend: triorb-system-cored SystemService.GetHealth (gRPC over UDS)
+---
+std_msgs/Header header  # stamp = now, frame_id = "system"
+```
+
+### triorb_static_interface/srv/ErrorAppend.srv
+```bash
+#==[Service] Append an error or warning==
+# GUI API: POST /system/errors   -> ROS 2 service /system/errors/append
+#          POST /system/warnings -> ROS 2 service /system/warnings/append
+# Backend: triorb-system-cored SystemService.AppendError / AppendWarning
+# Request fields match one RobotError element (field name error_code is shared with warnings).
+std_msgs/Header header  # Timestamp
+uint32 error_code       # error (or warning) code
+string message          # human-readable description
+---
+bool success            # false if the entry could not be appended
+string message          # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetLicense.srv
+```bash
+#==[Service] Get license information==
+# GUI API: GET /system/license -> ROS 2 service /system/license/get
+# Backend: triorb-system-cored SystemService.GetLicense
+# Until license-server integration lands, name is a temporary system name
+# and key is generated locally.
+---
+string name  # license (system) name
+string key   # license key
+```
+
+### triorb_static_interface/srv/SetLicense.srv
+```bash
+#==[Service] Activate license==
+# GUI API: POST /system/license/activate -> ROS 2 service /system/license/set
+# Backend: triorb-system-cored SystemService.ActivateLicense
+string name                  # license (system) name
+PackageVersion[] packages    # packages to license
+---
+bool success                 # false if activation failed
+string message               # error detail when success is false, empty otherwise
 ```
 
 ### triorb_static_interface/srv/SetScalarString.srv
@@ -1221,6 +1208,27 @@ string data     # ROS namespace ("" allowed; validated as a ROS namespace)
 ---
 bool success    # false if the value was rejected or could not be persisted
 string message  # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetAvailableVersions.srv
+```bash
+#==[Service] Get selectable package versions==
+# GUI API: GET /system/update -> ROS 2 service /system/update/get
+# Backend: triorb-system-cored SystemService.GetAvailableUpdates
+# Queries the update server (index refresh + candidate list; not apt itself).
+---
+PackageUpdate[] packages  # per package: name and selectable versions
+bool success              # false if the update server could not be queried
+string message            # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetPackageVersions.srv
+```bash
+#==[Service] Get installed package versions==
+# GUI API: GET /system/version -> ROS 2 service /system/version/get
+# Backend: triorb-system-cored SystemService.GetVersion
+---
+PackageVersion[] packages  # currently installed software package versions
 ```
 
 ### triorb_static_interface/srv/UploadCertificate.srv
