@@ -411,10 +411,10 @@ float32 cap_vw          # Capability of velocity w  [rad/s]
 ### triorb_drive_interface/msg/TriorbSpeed.msg
 ```bash
 #==加減速時間・速度の設定==
-uint32 acc 1000  # Acceleration time [ms]
-uint32 dec 1000  # Deceleration time [ms]
-float32 xy 0.6   # Maximum translational speed [m/s]
-float32 w 0.6    # Maximum angular speed [rad/s]
+uint32 acc  # Acceleration time [ms]
+uint32 dec  # Deceleration time [ms]
+float32 xy  # Translation velocity [m/s]
+float32 w   # Rotation speed [rad/s]
 ```
 
 ### triorb_drive_interface/msg/MotorStatus.msg
