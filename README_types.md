@@ -18,7 +18,8 @@ float64[] scores            # Detection scores
 string[] labels             # Object types
 ```
 
-## triorb_cv_interface/srv 
+## triorb_cv_interface/srv
+
 ### triorb_cv_interface/srv/GetImage.srv
 ```bash
 # ==画像取得サービス==
@@ -29,7 +30,8 @@ sensor_msgs/Image image
 ```
 
 # triorb_sensor_interface 
-## triorb_sensor_interface/msg 
+## triorb_sensor_interface/msg
+
 ### triorb_sensor_interface/msg/BatteryStatus.msg
 ```bash
 std_msgs/Header header          # header.stamp: 計測/受信時刻
@@ -188,7 +190,8 @@ string progress
 sensor_msgs/CompressedImage image       # Image on the way
 ```
 
-## triorb_sensor_interface/srv 
+## triorb_sensor_interface/srv
+
 ### triorb_sensor_interface/srv/CameraCapture.srv
 ```bash
 #==[Service] カメラキャプチャ指示==
@@ -224,7 +227,8 @@ CameraDevice[] result
 ```
 
 # triorb_slam_interface 
-## triorb_slam_interface/msg 
+## triorb_slam_interface/msg
+
 ### triorb_slam_interface/msg/UInt32MultiArrayStamped.msg
 ```bash
 #==uint32 array（Header付）==
@@ -317,7 +321,8 @@ std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
 ```
 
-## triorb_slam_interface/srv 
+## triorb_slam_interface/srv
+
 ### triorb_slam_interface/srv/InitializeMap.srv
 ```bash
 #==[Service] TagSLAM地図初期化の設定用==
@@ -344,21 +349,27 @@ string message
 ```
 
 # triorb_field_interface 
-## triorb_field_interface/msg 
+## triorb_field_interface/msg
+
+# triorb_field_interface 
+## triorb_field_interface/msg
+
 ### triorb_field_interface/msg/Dummy.msg
 ```bash
 uint8 dummy
 ```
 
 # triorb_project_interface 
-## triorb_project_interface/msg 
+## triorb_project_interface/msg
+
 ### triorb_project_interface/msg/Dummy.msg
 ```bash
 uint8 dummy
 ```
 
 # triorb_drive_interface 
-## triorb_drive_interface/msg 
+## triorb_drive_interface/msg
+
 ### triorb_drive_interface/msg/MotorParams.msg
 ```bash
 #==モーター制御パラメーター==
@@ -553,7 +564,7 @@ uint8 force                 # Target force level
 uint8 gain_no               # Number of gain type (not set:0, basic:1)
 uint32 timeout_ms           # Timeout (in ms) for the operation to complete (set:0, disable)
 uint8[] disable_camera_idx  # Camera Index to be excluded from robot pose estimation
-uint32 tf_source             # TF source used for localization 
+uint32 tf_source            # TF source used for localization
 ```
 
 ### triorb_drive_interface/msg/TriorbPos3Stamped.msg
@@ -581,7 +592,8 @@ float32 w_d     # rotation D gain
 TriorbSetPos3[] path
 ```
 
-## triorb_drive_interface/action 
+## triorb_drive_interface/action
+
 ### triorb_drive_interface/action/TriorbSetPath.action
 ```bash
 #==[Action] Waypointリストを入力、途中経過を通知、完了ステータスを返却===
@@ -593,7 +605,8 @@ uint32 way_idx           # Index of waypoint currently moving
 TriorbPos3 now           # Current robot position
 ```
 
-## triorb_drive_interface/srv 
+## triorb_drive_interface/srv
+
 ### triorb_drive_interface/srv/GetRoute.srv
 ```bash
 #==[Service] 現在の自律移動経路を取得==
@@ -608,6 +621,31 @@ Route[] result
 std_msgs/Empty request
 ---
 MotorParams result
+```
+
+### triorb_drive_interface/srv/TriorbRunLifter.srv
+```bash
+# Execute one lifter command and wait for the lifter operation to finish.
+
+# Stop the lifter immediately.
+uint16 COMMAND_STOP=0
+# Raise the lifter.
+uint16 COMMAND_UP=1
+# Lower the lifter.
+uint16 COMMAND_DOWN=2
+# Move the lifter to its middle position.
+uint16 COMMAND_MIDDLE=3
+
+# @ros-openapi: enum=closed
+# Lifter command. Use one of the COMMAND_* constants defined above.
+uint16 command
+---
+# True when the lifter command completed successfully.
+bool success
+# Terminal status reported by the lifter implementation, such as "success" or "failed".
+string status
+# Human-readable completion or error details.
+string message
 ```
 
 ### triorb_drive_interface/srv/TriorbRunPos3.srv
@@ -664,13 +702,14 @@ TriorbPos3[] result
 ```
 
 # triorb_static_interface 
-## triorb_static_interface/msg 
+## triorb_static_interface/msg
+
 ### triorb_static_interface/msg/SettingROS.msg
 ```bash
 #==ROS2環境==
-bool ros_localhost_only # ROS_LOCALHOST_ONLY
-uint16 ros_domain_id # ROS_DOMAIN_ID
-string ros_prefix # ROS_PREFIX
+bool localhost_only # ROS_LOCALHOST_ONLY
+uint16 domain_id # ROS_DOMAIN_ID
+string ros_namespace # ROS namespace; exposed as "namespace" by the REST mapping
 ```
 
 ### triorb_static_interface/msg/SettingSSID.msg
@@ -811,6 +850,13 @@ string name     # package name
 string version  # installed / requested version
 ```
 
+### triorb_static_interface/msg/PackageVersions.msg
+```bash
+# Selectable versions returned for one software package.
+string name
+string[] versions
+```
+
 ### triorb_static_interface/msg/PackageUpdate.msg
 ```bash
 #==Selectable versions of a software package==
@@ -870,6 +916,7 @@ bool connected       # connection state (read-only in config set; toggled by /ne
 ```
 
 ## triorb_static_interface/action
+
 ### triorb_static_interface/action/ApplyUpdates.action
 ```bash
 #==[Action] Upgrade software packages==
@@ -884,7 +931,9 @@ string message  # human-readable result / error detail
 string message  # progress message
 ```
 
-## triorb_static_interface/srv 
+## triorb_static_interface/srv
+
+
 ### triorb_static_interface/srv/GetImage.srv
 ```bash
 #==[Service] 画像の取得==
@@ -957,6 +1006,14 @@ string[] request
 string result
 ```
 
+### triorb_static_interface/srv/SetStringList.srv
+```bash
+#==[Service] 文字列リストの入力==
+string[] request
+---
+string result
+```
+
 ### triorb_static_interface/srv/SetImage.srv
 ```bash
 #==[Service] 画像の入力==
@@ -973,10 +1030,17 @@ string result
 # (gRPC over UDS, triorb.system.v1.HostInfoService) and relays the result.
 std_msgs/Empty request
 ---
-bool success                    # false if the gRPC call to triorb-system-cored failed
-string message                  # error detail when success is false, empty otherwise
-string hostname                 # static hostname of the host
-NetworkInterface[] interfaces   # all interfaces, loopback included
+# True when the query completed successfully.
+# false if the gRPC call to triorb-system-cored failed.
+bool success
+# Human-readable completion or error details.
+# Empty when success is true; error detail when success is false.
+string message
+# Host name of this robot.
+string hostname
+# Network interfaces and their runtime configuration.
+# All interfaces are included, loopback included.
+NetworkInterface[] interfaces
 ```
 
 ### triorb_static_interface/srv/GetHealth.srv
@@ -1248,7 +1312,8 @@ string message     # error detail when success is false, empty otherwise
 ```
 
 # triorb_collaboration_interface 
-## triorb_collaboration_interface/msg 
+## triorb_collaboration_interface/msg
+
 ### triorb_collaboration_interface/msg/ParentBind.msg
 ```bash
 # ==[協調搬送] 仮想（荷物など）原点に対するロボットの相対姿勢==
@@ -1270,6 +1335,7 @@ triorb_collaboration_interface/ParentBind[] robots  # Robot informations
 
 # triorb_sick_safety_plc_interface
 ## triorb_sick_safety_plc_interface/msg
+
 ### triorb_sick_safety_plc_interface/msg/BasicDataToPLC.msg
 ```bash
 #==SICK Safety PLCへ送信する基本データ==
@@ -1297,3 +1363,237 @@ bool permit_auto_move_from_plc      # PLCからの自動移動許可信号(B接�
 bool permit_manual_move_from_plc    # PLCからの自動移動許可信号(B接点)
 bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A接点)
 ```
+
+# triorb_navigation_interface
+## triorb_navigation_interface/msg
+
+### triorb_navigation_interface/msg/NavigationPose.msg
+```bash
+uint32 tf_source
+triorb_drive_interface/TriorbPos3 pose
+```
+
+### triorb_navigation_interface/msg/NavigationResult.msg
+```bash
+uint16 TIMEOUT_FAILED=0
+uint16 HALF_TIMEOUT=1
+uint16 TRANSFORM_FAILED=2
+uint16 NO_CHANGE_TIMESTAMP=3
+uint16 FORCE_STOP=4
+uint16 NAVIGATION_FAILED=5
+uint16 NAVIGATION_SUCCESS=6
+uint16 PROGRESS=7
+uint16 FORCE_SUCCESS=8
+uint16 LOST_FAILED=9
+uint16 BLOCKED_BY_PERMIT=10
+uint16 REJECT=255
+uint16 NONE=65535
+uint16 result
+```
+
+### triorb_navigation_interface/msg/NavigationState.msg
+```bash
+std_msgs/Header header
+triorb_drive_interface/TriorbSetPos3 target
+NavigationPose current_pose
+uint8 STAND_BY=0
+uint8 NAVIGATE=1
+uint8 PAUSE=2
+uint8 SUCCESS=3
+uint8 FAILED=4
+uint8 LEAVE_GOAL=5
+uint8 navigate_state
+float32 elapsed_sec
+NavigationResult navigation_result
+```
+
+## triorb_navigation_interface/action
+
+### triorb_navigation_interface/action/ExecuteTriorbSetPos3.action
+```bash
+triorb_drive_interface/TriorbSetPos3 target
+---
+NavigationState state
+---
+NavigationState state
+```
+
+# triorb_task_orchestrator_interface
+## triorb_task_orchestrator_interface/msg
+
+### triorb_task_orchestrator_interface/msg/Event.msg
+```bash
+builtin_interfaces/Time stamp
+string source
+string message
+```
+
+### triorb_task_orchestrator_interface/msg/Result.msg
+```bash
+builtin_interfaces/Time stamp
+string source
+string message
+```
+
+### triorb_task_orchestrator_interface/msg/RouteFileInfo.msg
+```bash
+string file_name
+builtin_interfaces/Time created_at
+builtin_interfaces/Time updated_at
+uint64 size_bytes
+```
+
+### triorb_task_orchestrator_interface/msg/RouteSequenceItem.msg
+```bash
+string type
+string name
+string value
+```
+
+### triorb_task_orchestrator_interface/msg/TaskExecutionState.msg
+```bash
+string current_state
+uint32 loop
+uint32 loop_index
+uint32 current_sequence_index
+uint32 total_sequences
+string source_file
+string current_sequence_name
+string current_path
+uint32 current_depth
+```
+
+## triorb_task_orchestrator_interface/srv
+
+### triorb_task_orchestrator_interface/srv/DeleteTaskFile.srv
+```bash
+string file_name
+---
+bool deleted
+string file_name
+string message
+```
+
+### triorb_task_orchestrator_interface/srv/DownloadTaskFile.srv
+```bash
+string file_name
+---
+bool success
+string file_name
+uint8[] data
+string message
+```
+
+### triorb_task_orchestrator_interface/srv/GetCurrentTask.srv
+```bash
+---
+bool success
+bool has_task
+string message
+string source_file
+RouteSequenceItem[] sequence
+float32 ratio_speed
+float32 bias_accuracy_xy
+float32 bias_accuracy_deg
+uint32 loop
+```
+
+### triorb_task_orchestrator_interface/srv/GetEvents.srv
+```bash
+uint32 limit
+---
+bool success
+string message
+Event[] events
+```
+
+### triorb_task_orchestrator_interface/srv/GetResults.srv
+```bash
+uint32 limit
+---
+bool success
+string message
+Result[] results
+```
+
+### triorb_task_orchestrator_interface/srv/GetRoute.srv
+```bash
+string file_name
+---
+bool success
+string message
+string source_file
+RouteSequenceItem[] sequence
+```
+
+### triorb_task_orchestrator_interface/srv/ListTasks.srv
+```bash
+---
+bool success
+string message
+RouteFileInfo[] routefiles
+```
+
+### triorb_task_orchestrator_interface/srv/SaveRoute.srv
+```bash
+string source_file
+RouteSequenceItem[] sequence
+---
+bool success
+string message
+RouteFileInfo routefile
+```
+
+### triorb_task_orchestrator_interface/srv/SetTaskExecutionCommand.srv
+```bash
+uint8 COMMAND_PAUSE=1
+uint8 COMMAND_TERMINATE=2
+uint8 COMMAND_RESUME=3
+uint8 command
+---
+bool success
+string message
+TaskExecutionState state
+```
+
+### triorb_task_orchestrator_interface/srv/UploadTaskFile.srv
+```bash
+string file_name
+uint8[] data
+---
+bool success
+string file_name
+builtin_interfaces/Time created_at
+builtin_interfaces/Time updated_at
+uint64 size_bytes
+string message
+```
+
+## triorb_task_orchestrator_interface/action
+
+### triorb_task_orchestrator_interface/action/ExecuteRoute.action
+```bash
+RouteSequenceItem[] sequence
+float32 ratio_speed
+float32 bias_accuracy_xy
+float32 bias_accuracy_deg
+uint32 loop
+---
+bool success
+---
+TaskExecutionState state
+```
+
+### triorb_task_orchestrator_interface/action/ExecuteTaskFile.action
+```bash
+string file_name
+float32 ratio_speed
+float32 bias_accuracy_xy
+float32 bias_accuracy_deg
+uint32 loop
+---
+bool success
+---
+TaskExecutionState state
+```
+
