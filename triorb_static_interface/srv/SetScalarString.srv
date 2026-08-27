@@ -1,5 +1,5 @@
 #**
-#* Copyright 2023 TriOrb Inc.
+#* Copyright 2026 TriOrb Inc.
 #*
 #* Licensed under the Apache License, Version 2.0 (the "License");
 #* you may not use this file except in compliance with the License.
@@ -14,7 +14,13 @@
 #* limitations under the License.
 #**
 
-#==文字列の送信および返答==
-string request
+#==[Service] Generic command with one string argument==
+# Shared by:
+#   POST   /system/shutdown                     -> /system/shutdown            (request: "" | "now" | "-r now" | "-f")
+#   DELETE /network/config/{connection_id}      -> /network/config/delete      (request: connection_id)
+#   DELETE /network/wifi/known-networks/{ssid}  -> /network/wifi/details/delete (request: ssid)
+# Backend: triorb-system-cored SystemService.Shutdown /
+#          NetworkService.DeleteConnection / ForgetWifiNetwork
+string request  # scalar string argument (meaning depends on the service name)
 ---
-string result
+string result   # result string
