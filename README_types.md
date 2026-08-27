@@ -326,6 +326,24 @@ std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
 ```
 
+### triorb_slam_interface/msg/MapInfo.msg
+```bash
+string name
+string format
+uint64 size_bytes
+builtin_interfaces/Time modified_at
+bool current
+string sha256
+```
+
+### triorb_slam_interface/msg/TagTransform.msg
+```bash
+uint32 id       # tag id
+bool look       # tag is detected in latest frame
+float32 size    # tag size
+geometry_msgs/Transform transform # tag pose
+```
+
 ### triorb_slam_interface/msg/TagslamSettings.msg
 ```bash
 uint16 origin_tag_id           # tag id
