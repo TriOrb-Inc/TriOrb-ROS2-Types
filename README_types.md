@@ -182,6 +182,51 @@ CameraDevice[] result
 
 # triorb_slam_interface 
 ## triorb_slam_interface/msg 
+### triorb_sensor_interface/msg/PicoStatus.msg
+```bash
+#==制御ECUから取得できるステータス==
+uint16 state
+uint16 error
+float32 voltage
+uint8 lifter_state
+
+# state フィールド（uint16 ビットフラグ）
+# 0x8000 is_excite`（bool）：モータ励磁中
+# 0x2000 is_moving`（bool）：移動中
+# 0x0200 is_posdrv`（bool）：位置制御移動完了
+# 0x0040 is_free`（bool）：電磁ブレーキ作動中（フリー）
+# 0x0010 is_emergency`（bool）：非常停止中（2 連続確認で確定）
+# 0x0001 is_success`（bool）：モータステータス取得成功
+ 
+# error フィールド（uint16 ビットフラグ）
+# 0x8000 motor_error`（bool）：モータ接続エラー（alarm=0x2D）
+# 0x1000 voltage_error`（bool）：モータドライバが受け取っている電圧異常（alarm=0x25）
+# 0x0001 pico_con_error`（bool）：Pico 接続エラー
+
+# lifter_state フィールド ()
+# 0x00: 位置不明(起動直後など)
+# 0x01: 停止命令時
+# 0x02: リフトアップ状態
+# 0x03: リフトダウン状態
+# 0x04: リフトアップ中
+# 0x05: リフトダウン中
+# 0x06: 中間点移動中
+# 0x07: 中間点到達状態
+# 0x08: STOP_ONWAY
+# 0x09: リフトアップ状態、荷物偏り
+# 0x0A: リフトアップ状態、空荷
+# 0x0B: モータエラー（alarm）
+# 0x0C: モータエラー（qstop）
+# 0x0D: モータエラー（watchdog）
+# 0x0E: IO接続異常
+# 0x0F: 未定義
+# 0xFE: リフト状態取得不可機体
+# 0xFF: リフト機能無し
+```
+
+
+## triorb_sensor_interface/action
+
 ### triorb_slam_interface/msg/UInt32MultiArrayStamped.msg
 ```bash
 #==uint32 array（Header付）==
@@ -205,16 +250,30 @@ uint8 state      # mapping now, fix map... etc
 uint8 error      # not working, map load failed... etc
 
 #---slam operation status (bit flag)---
-# 0b00000001: mapping mode(0), fix map(1)
-# 0b00000010: lost(0), localize(1)
-# 0b00000100: processing save map 
-# 0b00001000: processing load map
- 
+# 地図更新モード(0)ではなく固定地図モード(1)で動作している。
+uint8 STATE_MAP_FIXED=1
+# 自己位置推定が成立している。
+uint8 STATE_LOCALIZED=2
+# 地図保存処理中。
+uint8 STATE_SAVING_MAP=4
+# 地図読込処理中。
+uint8 STATE_LOADING_MAP=8
+# ユーザー操作などでSLAM本体を意図的に休止している。
+uint8 STATE_PAUSED=16
+# 地図ファイルの読込が完了しており、自己位置推定に使える地図名が確定している。
+uint8 STATE_MAP_LOADED=32
+# 地図読込完了後、自己位置推定が未成立または途切れている。
+uint8 STATE_LOST=64
+
 #---error state (bit flag)---
-# 0b00000001: slam is not working
-# 0b00000010: Never detected a known landmark
-# 0b00000100: save map failed
-# 0b00001000: load map failed (cannot find map)
+# SLAM本体が意図せず起動していない。
+uint8 ERROR_NOT_WORKING=1
+# 現在の起動または地図読込後に、まだ一度も自己位置推定が成立していない。
+uint8 ERROR_NEVER_LOCALIZED=2
+# 地図保存に失敗した。
+uint8 ERROR_MAP_SAVE_FAILED=4
+# 地図読込に失敗した。
+uint8 ERROR_MAP_LOAD_FAILED=8
 ```
 
 ### triorb_slam_interface/msg/PointArrayStamped.msg
@@ -259,6 +318,36 @@ bool valid                          # valid
 std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
 ```
+
+## triorb_slam_interface/srv 
+
+### triorb_slam_interface/srv/InitializeMap.srv
+```bash
+#==[Service] TagSLAM地図初期化の設定用==
+uint16 origin_tag_id
+float32 origin_tag_size
+float32 origin_tag_pos_z
+float32 origin_tag_pos_deg
+float32 default_tag_size
+float32 minimum_viewing_angle
+uint32 minimum_tag_area
+---
+bool success
+string message
+```
+
+### triorb_slam_interface/srv/LoadMap.srv
+```bash
+#==[Service] TagSLAM地図読み込み用==
+string map_name
+bool is_static
+---
+bool success
+string message
+```
+
+# triorb_field_interface 
+## triorb_field_interface/msg
 
 # triorb_field_interface 
 ## triorb_field_interface/msg 
@@ -372,6 +461,7 @@ TriorbRunSetting setting    # 走行設定
 ### triorb_drive_interface/msg/TriorbSetPos3.msg
 ```bash
 #==目標位置・姿勢指示による移動==
+uint32 request_id           # Unique request ID copied to TriorbRunResult (0: downstream assigns)
 TriorbRunPos3 pos           # Goal position
 TriorbRunSetting setting    # Configure of navigation
 ```
