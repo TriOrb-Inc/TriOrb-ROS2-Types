@@ -18,7 +18,8 @@ float64[] scores            # Detection scores
 string[] labels             # Object types
 ```
 
-## triorb_cv_interface/srv 
+## triorb_cv_interface/srv
+
 ### triorb_cv_interface/srv/GetImage.srv
 ```bash
 # ==画像取得サービス==
@@ -29,7 +30,8 @@ sensor_msgs/Image image
 ```
 
 # triorb_sensor_interface 
-## triorb_sensor_interface/msg 
+## triorb_sensor_interface/msg
+
 ### triorb_sensor_interface/msg/BatteryStatus.msg
 ```bash
 std_msgs/Header header          # header.stamp: 計測/受信時刻
@@ -114,7 +116,8 @@ float32[] mount_xyz         # Mounting location [m]
 float32[] mount_ypr         # Mounting orientation [deg]
 ```
 
-## triorb_sensor_interface/action 
+## triorb_sensor_interface/action
+
 ### triorb_sensor_interface/action/CameraCalibrationInternal.action
 ```bash
 # ==[Action] カメラ内部パラメーターキャリブレーションの実行==
@@ -145,7 +148,8 @@ string progress
 sensor_msgs/CompressedImage image       # Image on the way
 ```
 
-## triorb_sensor_interface/srv 
+## triorb_sensor_interface/srv
+
 ### triorb_sensor_interface/srv/CameraCapture.srv
 ```bash
 #==[Service] カメラキャプチャ指示==
@@ -181,7 +185,8 @@ CameraDevice[] result
 ```
 
 # triorb_slam_interface 
-## triorb_slam_interface/msg 
+## triorb_slam_interface/msg
+
 ### triorb_sensor_interface/msg/PicoStatus.msg
 ```bash
 #==制御ECUから取得できるステータス==
@@ -319,7 +324,7 @@ std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
 ```
 
-## triorb_slam_interface/srv 
+## triorb_slam_interface/srv
 
 ### triorb_slam_interface/srv/InitializeMap.srv
 ```bash
@@ -350,21 +355,24 @@ string message
 ## triorb_field_interface/msg
 
 # triorb_field_interface 
-## triorb_field_interface/msg 
+## triorb_field_interface/msg
+
 ### triorb_field_interface/msg/Dummy.msg
 ```bash
 uint8 dummy
 ```
 
 # triorb_project_interface 
-## triorb_project_interface/msg 
+## triorb_project_interface/msg
+
 ### triorb_project_interface/msg/Dummy.msg
 ```bash
 uint8 dummy
 ```
 
 # triorb_drive_interface 
-## triorb_drive_interface/msg 
+## triorb_drive_interface/msg
+
 ### triorb_drive_interface/msg/MotorParams.msg
 ```bash
 #==モーター制御パラメーター==
@@ -584,7 +592,8 @@ float32 w_d     # rotation D gain
 TriorbSetPos3[] path
 ```
 
-## triorb_drive_interface/action 
+## triorb_drive_interface/action
+
 ### triorb_drive_interface/action/TriorbSetPath.action
 ```bash
 #==[Action] Waypointリストを入力、途中経過を通知、完了ステータスを返却===
@@ -596,7 +605,8 @@ uint32 way_idx           # Index of waypoint currently moving
 TriorbPos3 now           # Current robot position
 ```
 
-## triorb_drive_interface/srv 
+## triorb_drive_interface/srv
+
 ### triorb_drive_interface/srv/GetRoute.srv
 ```bash
 #==[Service] 現在の自律移動経路を取得==
@@ -692,7 +702,8 @@ TriorbPos3[] result
 ```
 
 # triorb_static_interface 
-## triorb_static_interface/msg 
+## triorb_static_interface/msg
+
 ### triorb_static_interface/msg/PackageVersions.msg
 ```bash
 # Selectable versions returned for one software package.
@@ -702,9 +713,10 @@ string[] versions
 
 ### triorb_static_interface/msg/PackageVersion.msg
 ```bash
-# Installed or requested version of one software package.
-string name
-string version
+#==Software package version==
+# Mirrors triorb.system.v1.PackageVersion (triorb-system-core common.proto)
+string name     # package name
+string version  # installed / requested version
 ```
 
 ### triorb_static_interface/msg/SettingROS.msg
@@ -845,14 +857,6 @@ uint64 total_bytes  # total capacity in bytes
 uint64 used_bytes   # used capacity in bytes
 ```
 
-### triorb_static_interface/msg/PackageVersion.msg
-```bash
-#==Software package version==
-# Mirrors triorb.system.v1.PackageVersion (triorb-system-core common.proto)
-string name     # package name
-string version  # installed / requested version
-```
-
 ### triorb_static_interface/msg/PackageUpdate.msg
 ```bash
 #==Selectable versions of a software package==
@@ -912,6 +916,7 @@ bool connected       # connection state (read-only in config set; toggled by /ne
 ```
 
 ## triorb_static_interface/action
+
 ### triorb_static_interface/action/ApplyUpdates.action
 ```bash
 #==[Action] Upgrade software packages==
@@ -926,51 +931,75 @@ string message  # human-readable result / error detail
 string message  # progress message
 ```
 
-## triorb_static_interface/srv 
+## triorb_static_interface/srv
+
 ### triorb_static_interface/srv/ErrorAppend.srv
 ```bash
-std_msgs/Header header
-uint32 error_code
-string message
+#==[Service] Append an error or warning==
+# GUI API: POST /system/errors   -> ROS 2 service /system/errors/append
+#          POST /system/warnings -> ROS 2 service /system/warnings/append
+# Backend: triorb-system-cored SystemService.AppendError / AppendWarning
+# Request fields match one RobotError element (field name error_code is shared with warnings).
+std_msgs/Header header  # Timestamp
+uint32 error_code       # error (or warning) code
+string message          # human-readable description
 ---
-bool success
-string message
+bool success            # false if the entry could not be appended
+string message          # error detail when success is false, empty otherwise
 ```
 
 ### triorb_static_interface/srv/GetAvailableVersions.srv
 ```bash
+#==[Service] Get selectable package versions==
+# GUI API: GET /system/update -> ROS 2 service /system/update/get
+# Backend: triorb-system-cored SystemService.GetAvailableUpdates
+# Queries the update server (index refresh + candidate list; not apt itself).
 ---
-PackageVersions[] packages
-bool success
-string message
+PackageUpdate[] packages  # per package: name and selectable versions
+bool success              # false if the update server could not be queried
+string message            # error detail when success is false, empty otherwise
 ```
 
 ### triorb_static_interface/srv/GetHealth.srv
 ```bash
+#==[Service] Health check==
+# GUI API: GET /system/health -> ROS 2 service /system/health/check
+# Backend: triorb-system-cored SystemService.GetHealth (gRPC over UDS)
 ---
-std_msgs/Header header
+std_msgs/Header header  # stamp = now, frame_id = "system"
 ```
 
 ### triorb_static_interface/srv/GetLicense.srv
 ```bash
+#==[Service] Get license information==
+# GUI API: GET /system/license -> ROS 2 service /system/license/get
+# Backend: triorb-system-cored SystemService.GetLicense
+# Until license-server integration lands, name is a temporary system name
+# and key is generated locally.
 ---
-string name
-string key
+string name  # license (system) name
+string key   # license key
 ```
 
 ### triorb_static_interface/srv/SetLicense.srv
 ```bash
-string name
-PackageVersion[] packages
+#==[Service] Activate license==
+# GUI API: POST /system/license/activate -> ROS 2 service /system/license/set
+# Backend: triorb-system-cored SystemService.ActivateLicense
+string name                  # license (system) name
+PackageVersion[] packages    # packages to license
 ---
-bool success
-string message
+bool success                 # false if activation failed
+string message               # error detail when success is false, empty otherwise
 ```
 
 ### triorb_static_interface/srv/GetPackageVersions.srv
 ```bash
+#==[Service] Get installed package versions==
+# GUI API: GET /system/version -> ROS 2 service /system/version/get
+# Backend: triorb-system-cored SystemService.GetVersion
 ---
-PackageVersion[] packages
+PackageVersion[] packages  # currently installed software package versions
 ```
 
 ### triorb_static_interface/srv/GetImage.srv
@@ -1073,54 +1102,6 @@ bool success                    # false if the gRPC call to triorb-system-cored 
 string message                  # error detail when success is false, empty otherwise
 string hostname                 # static hostname of the host
 NetworkInterface[] interfaces   # all interfaces, loopback included
-```
-
-### triorb_static_interface/srv/GetHealth.srv
-```bash
-#==[Service] Health check==
-# GUI API: GET /system/health -> ROS 2 service /system/health/check
-# Backend: triorb-system-cored SystemService.GetHealth (gRPC over UDS)
----
-std_msgs/Header header  # stamp = now, frame_id = "system"
-```
-
-### triorb_static_interface/srv/ErrorAppend.srv
-```bash
-#==[Service] Append an error or warning==
-# GUI API: POST /system/errors   -> ROS 2 service /system/errors/append
-#          POST /system/warnings -> ROS 2 service /system/warnings/append
-# Backend: triorb-system-cored SystemService.AppendError / AppendWarning
-# Request fields match one RobotError element (field name error_code is shared with warnings).
-std_msgs/Header header  # Timestamp
-uint32 error_code       # error (or warning) code
-string message          # human-readable description
----
-bool success            # false if the entry could not be appended
-string message          # error detail when success is false, empty otherwise
-```
-
-### triorb_static_interface/srv/GetLicense.srv
-```bash
-#==[Service] Get license information==
-# GUI API: GET /system/license -> ROS 2 service /system/license/get
-# Backend: triorb-system-cored SystemService.GetLicense
-# Until license-server integration lands, name is a temporary system name
-# and key is generated locally.
----
-string name  # license (system) name
-string key   # license key
-```
-
-### triorb_static_interface/srv/SetLicense.srv
-```bash
-#==[Service] Activate license==
-# GUI API: POST /system/license/activate -> ROS 2 service /system/license/set
-# Backend: triorb-system-cored SystemService.ActivateLicense
-string name                  # license (system) name
-PackageVersion[] packages    # packages to license
----
-bool success                 # false if activation failed
-string message               # error detail when success is false, empty otherwise
 ```
 
 ### triorb_static_interface/srv/SetScalarString.srv
@@ -1242,27 +1223,6 @@ bool success    # false if the value was rejected or could not be persisted
 string message  # error detail when success is false, empty otherwise
 ```
 
-### triorb_static_interface/srv/GetAvailableVersions.srv
-```bash
-#==[Service] Get selectable package versions==
-# GUI API: GET /system/update -> ROS 2 service /system/update/get
-# Backend: triorb-system-cored SystemService.GetAvailableUpdates
-# Queries the update server (index refresh + candidate list; not apt itself).
----
-PackageUpdate[] packages  # per package: name and selectable versions
-bool success              # false if the update server could not be queried
-string message            # error detail when success is false, empty otherwise
-```
-
-### triorb_static_interface/srv/GetPackageVersions.srv
-```bash
-#==[Service] Get installed package versions==
-# GUI API: GET /system/version -> ROS 2 service /system/version/get
-# Backend: triorb-system-cored SystemService.GetVersion
----
-PackageVersion[] packages  # currently installed software package versions
-```
-
 ### triorb_static_interface/srv/UploadCertificate.srv
 ```bash
 #==[Service] Upload network certificate==
@@ -1344,7 +1304,8 @@ string message     # error detail when success is false, empty otherwise
 ```
 
 # triorb_collaboration_interface 
-## triorb_collaboration_interface/msg 
+## triorb_collaboration_interface/msg
+
 ### triorb_collaboration_interface/msg/ParentBind.msg
 ```bash
 # ==[協調搬送] 仮想（荷物など）原点に対するロボットの相対姿勢==
@@ -1366,6 +1327,7 @@ triorb_collaboration_interface/ParentBind[] robots  # Robot informations
 
 # triorb_sick_safety_plc_interface
 ## triorb_sick_safety_plc_interface/msg
+
 ### triorb_sick_safety_plc_interface/msg/BasicDataToPLC.msg
 ```bash
 #==SICK Safety PLCへ送信する基本データ==
@@ -1396,6 +1358,7 @@ bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A�
 
 # triorb_navigation_interface
 ## triorb_navigation_interface/msg
+
 ### triorb_navigation_interface/msg/NavigationPose.msg
 ```bash
 uint32 tf_source
@@ -1437,6 +1400,7 @@ NavigationResult navigation_result
 ```
 
 ## triorb_navigation_interface/action
+
 ### triorb_navigation_interface/action/ExecuteTriorbSetPos3.action
 ```bash
 triorb_drive_interface/TriorbSetPos3 target
@@ -1448,6 +1412,7 @@ NavigationState state
 
 # triorb_task_orchestrator_interface
 ## triorb_task_orchestrator_interface/msg
+
 ### triorb_task_orchestrator_interface/msg/Event.msg
 ```bash
 builtin_interfaces/Time stamp
@@ -1491,6 +1456,7 @@ uint32 current_depth
 ```
 
 ## triorb_task_orchestrator_interface/srv
+
 ### triorb_task_orchestrator_interface/srv/DeleteTaskFile.srv
 ```bash
 string file_name
@@ -1596,6 +1562,7 @@ string message
 ```
 
 ## triorb_task_orchestrator_interface/action
+
 ### triorb_task_orchestrator_interface/action/ExecuteRoute.action
 ```bash
 RouteSequenceItem[] sequence
@@ -1621,3 +1588,4 @@ bool success
 ---
 TaskExecutionState state
 ```
+
