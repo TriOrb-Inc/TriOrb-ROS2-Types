@@ -223,6 +223,15 @@ std_msgs/Empty request
 CameraDevice[] result
 ```
 
+### triorb_sensor_interface/srv/AutoGainTarget.srv
+```bash
+#==[Service] カメラの明るさ補正==
+float32 target
+---
+bool success
+string message
+```
+
 # triorb_slam_interface 
 ## triorb_slam_interface/msg 
 ### triorb_slam_interface/msg/UInt32MultiArrayStamped.msg
@@ -317,17 +326,59 @@ std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
 ```
 
+### triorb_slam_interface/msg/MapInfo.msg
+```bash
+string name
+string format
+uint64 size_bytes
+builtin_interfaces/Time modified_at
+bool current
+string sha256
+```
+
+### triorb_slam_interface/msg/TagTransform.msg
+```bash
+uint32 id       # tag id
+bool look       # tag is detected in latest frame
+float32 size    # tag size
+geometry_msgs/Transform transform # tag pose
+```
+
+### triorb_slam_interface/msg/TagslamSettings.msg
+```bash
+uint16 origin_tag_id           # tag id
+float32 origin_tag_size        # side length of the black square [mm]
+float32 origin_tag_pos_z       # height of the tag center above the ground [mm]
+float32 origin_tag_pos_deg     # angle relative to the ground [deg]
+float32 default_tag_size       # side length of the black square (other than origin tag) [mm]
+float32 minimum_viewing_angle  # minimum angle between optical axis and tag surface [degree]
+uint32 minimum_tag_area        # minimum tag area in pixels^2. Any tags smaller than that are ignored [px*px]
+```
+
 ## triorb_slam_interface/srv 
 ### triorb_slam_interface/srv/InitializeMap.srv
 ```bash
-#==[Service] TagSLAM地図初期化の設定用==
-uint16 origin_tag_id
-float32 origin_tag_size
-float32 origin_tag_pos_z
-float32 origin_tag_pos_deg
-float32 default_tag_size
-float32 minimum_viewing_angle
-uint32 minimum_tag_area
+# 地図を初期化 (または既存地図を読み込み) する。初期化時にだけ意味を持つ
+# parameter は、この request の parameters_json で指定する。
+#
+# 空なら新規地図として初期化し、指定すればその地図を読み込む。
+string map_path
+# init scope 以下の parameter を初期化の前に適用する。
+# 形式は set_runtime_parameters と同じ。startup scope の parameter は
+# 起動 config でしか設定できないため rejected に入る。
+string parameters_json
+---
+# 初期化に成功したか。
+bool success
+# parameter 適用結果の JSON (set_runtime_parameters と同じ形式)。
+string parameters_result_json
+# 失敗時の理由。成功時は空文字列。
+string message
+```
+
+### triorb_slam_interface/srv/InitializeTagslam.srv
+```bash
+TagslamSettings setting
 ---
 bool success
 string message
@@ -341,6 +392,56 @@ bool is_static
 ---
 bool success
 string message
+```
+
+### triorb_slam_interface/srv/GetMapFile.srv
+```bash
+#==地図名を指定し、内容をuint8配列で返答==
+string map_name
+---
+string filename
+string content_type
+uint8[] content
+string sha256
+bool success
+string message
+```
+
+### triorb_slam_interface/srv/SetMapFile.srv
+```bash
+#==SLAM地図データを保存==
+string filename
+string content_type
+uint8[] content
+string sha256
+bool overwrite
+---
+bool success
+string message
+string map_name
+```
+
+### triorb_slam_interface/srv/GetMapList.srv
+```bash
+#==地図一覧を返答==
+---
+MapInfo[] maps
+bool success
+string message
+```
+
+### triorb_slam_interface/srv/GetTagslamSettings.srv
+```bash
+#==TagSLAMの初期設定を返答==
+---
+TagslamSettings setting
+```
+
+### triorb_slam_interface/srv/GetTagTransformArray.srv
+```bash
+#==Tag情報一覧取得==
+---
+TagTransform[] tags
 ```
 
 # triorb_field_interface 
@@ -661,6 +762,15 @@ uint8 gauss_k_size
 float32 sigma
 ---
 TriorbPos3[] result
+```
+
+### triorb_drive_interface/srv/GetPos3Stamped.srv
+```bash
+# DRAFT: get the latest planar robot pose cached by the server.
+---
+TriorbPos3Stamped pose
+bool success
+string message
 ```
 
 # triorb_static_interface 
