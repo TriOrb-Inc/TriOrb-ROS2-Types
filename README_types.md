@@ -704,21 +704,6 @@ TriorbPos3[] result
 # triorb_static_interface 
 ## triorb_static_interface/msg
 
-### triorb_static_interface/msg/PackageVersions.msg
-```bash
-# Selectable versions returned for one software package.
-string name
-string[] versions
-```
-
-### triorb_static_interface/msg/PackageVersion.msg
-```bash
-#==Software package version==
-# Mirrors triorb.system.v1.PackageVersion (triorb-system-core common.proto)
-string name     # package name
-string version  # installed / requested version
-```
-
 ### triorb_static_interface/msg/SettingROS.msg
 ```bash
 #==ROS2環境==
@@ -855,6 +840,21 @@ IpAddress[] ipv6_addresses   # assigned IPv6 addresses
 string path         # mount point
 uint64 total_bytes  # total capacity in bytes
 uint64 used_bytes   # used capacity in bytes
+```
+
+### triorb_static_interface/msg/PackageVersion.msg
+```bash
+#==Software package version==
+# Mirrors triorb.system.v1.PackageVersion (triorb-system-core common.proto)
+string name     # package name
+string version  # installed / requested version
+```
+
+### triorb_static_interface/msg/PackageVersions.msg
+```bash
+# Selectable versions returned for one software package.
+string name
+string[] versions
 ```
 
 ### triorb_static_interface/msg/PackageUpdate.msg
