@@ -3,24 +3,24 @@
 <package format="3">
   <name>triorb_navigation_interface</name>
   <version>1.0.0</version>
-  <description>TriOrb navigation action and state interfaces</description>
-  <maintainer email="support@triorb.co.jp">TriOrb Inc.</maintainer>
+  <description>TriOrb navigation interfaces</description>
+  <maintainer email="zheng.ze@triorb.co.jp">root</maintainer>
   <license>Apache License, Version 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <buildtool_depend>rosidl_default_generators</buildtool_depend>
-
-  <depend>std_msgs</depend>
-  <depend>triorb_drive_interface</depend>
-
-  <exec_depend>rosidl_default_runtime</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
-  <member_of_group>rosidl_interface_packages</member_of_group>
+  <depend>builtin_interfaces</depend>
+  <depend>std_msgs</depend>
+  <depend>triorb_drive_interface</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
   </export>
+
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
 </package>

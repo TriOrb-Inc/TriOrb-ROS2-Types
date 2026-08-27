@@ -15,12 +15,7 @@
 #**
 
 #==加減速時間・速度の設定==
-
-# Time used to ramp up to the requested speed [ms]. New messages default to 1000 ms.
-uint32 acc 1000
-# Time used to ramp down from the requested speed [ms]. New messages default to 1000 ms.
-uint32 dec 1000
-# Maximum translational speed [m/s]. New messages default to 0.6 m/s.
-float32 xy 0.6
-# Maximum angular speed [rad/s]. New messages default to 0.6 rad/s.
-float32 w 0.6
+uint32 acc  # Acceleration time [ms]
+uint32 dec  # Deceleration time [ms]
+float32 xy  # Translation velocity [m/s]
+float32 w   # Rotation speed [rad/s]

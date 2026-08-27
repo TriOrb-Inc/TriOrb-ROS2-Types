@@ -15,6 +15,6 @@
 #**
 
 #==目標位置・姿勢指示による移動==
+uint32 request_id           # Unique request ID copied to TriorbRunResult (0: downstream assigns)
 TriorbRunPos3 pos           # Goal position
 TriorbRunSetting setting    # Configure of navigation
-
