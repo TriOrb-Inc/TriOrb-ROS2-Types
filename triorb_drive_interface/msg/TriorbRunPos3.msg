@@ -15,5 +15,8 @@
 #**
 
 #==相対位置・姿勢指示による移動==
-TriorbSpeed speed       # Configure of moving
-TriorbPos3 position     # Target position
+
+# Acceleration/deceleration times and maximum translation/rotation speeds for this movement.
+TriorbSpeed speed
+# Requested planar displacement and heading change relative to the current robot pose.
+TriorbPos3 position

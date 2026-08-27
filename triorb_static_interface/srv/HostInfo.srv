@@ -20,7 +20,13 @@
 # (gRPC over UDS, triorb.system.v1.HostInfoService) and relays the result.
 std_msgs/Empty request
 ---
-bool success                    # false if the gRPC call to triorb-system-cored failed
-string message                  # error detail when success is false, empty otherwise
-string hostname                 # static hostname of the host
-NetworkInterface[] interfaces   # all interfaces, loopback included
+# Host name of this robot.
+string hostname
+# Representative IPv4 address used to reach this robot.
+string primary_ip
+# Network interfaces and their runtime configuration.
+NetworkConnection[] interfaces
+# True when the query completed successfully.
+bool success
+# Human-readable completion or error details.
+string message

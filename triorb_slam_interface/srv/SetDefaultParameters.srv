@@ -1,0 +1,9 @@
+# Atomically replace omni_vslam.yaml.
+string yaml
+# Optional optimistic-lock value. Empty accepts the current revision.
+string expected_sha256
+---
+bool success
+string message
+string sha256
+bool restart_required

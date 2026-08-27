@@ -14,7 +14,8 @@
 #* limitations under the License.
 #**
 
-#==[Service] 文字列の入力==
+#==[Service] 文字列配列の入力==
+# Keep this legacy array shape for wire compatibility.
 string[] request
 ---
 string result

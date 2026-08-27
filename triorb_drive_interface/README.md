@@ -74,17 +74,25 @@ TriorbPos3 position
 
 ### triorb_drive_interface/msg/TriorbRunResult
 ```bash
-uint32 request_id
 bool success
 TriorbPos3 position
 ```
 
 ### triorb_drive_interface/msg/TriorbRunSetting
 ```bash
-float32 tx      # Target error in X-axis direction [±m]
-float32 ty      # Target error in Y-axis direction [±m].
-float32 tr      # Target error in rotation [±deg].
-uint8 force     # Target force level
+uint32 TF_SOURCE_UNSPECIFIED=0
+uint32 TF_SOURCE_VSLAM=1
+uint32 TF_SOURCE_TAGSLAM=2
+uint32 TF_SOURCE_COLLAB=3
+
+float32 tx                  # Target error in X-axis direction [±m]
+float32 ty                  # Target error in Y-axis direction [±m].
+float32 tr                  # Target error in rotation [±deg].
+uint8 force                 # Target force level
+uint8 gain_no               # Number of gain type (not set:0, basic:1)
+uint32 timeout_ms           # Timeout (in ms) for the operation to complete (set:0, disable)
+uint8[] disable_camera_idx  # Camera Index to be excluded from robot pose estimation
+uint32 tf_source            # Coordinate frame source (TF_SOURCE_* constants above)
 ```
 
 ### triorb_drive_interface/msg/TriorbRunVel3
@@ -95,7 +103,6 @@ TriorbVel3 velocity
 
 ### triorb_drive_interface/msg/TriorbSetPos3
 ```bash
-uint32 request_id
 TriorbRunPos3 pos
 TriorbRunSetting setting
 ```
@@ -107,10 +114,10 @@ TriorbSetPos3[] path
 
 ### triorb_drive_interface/msg/TriorbSpeed
 ```bash
-uint32 acc  # Acceleration time [ms]
-uint32 dec  # Deceleration time [ms]
-float32 xy  # Translation velocity [m/s]
-float32 w   # Rotation speed [rad/s]
+uint32 acc 1000  # Acceleration time [ms]
+uint32 dec 1000  # Deceleration time [ms]
+float32 xy 0.6   # Maximum translational speed [m/s]
+float32 w 0.6    # Maximum angular speed [rad/s]
 ```
 
 ### triorb_drive_interface/msg/TriorbVel3
@@ -134,6 +141,20 @@ TriorbRunVel3 request
 ---
 std_msgs/Header header
 uint8 result
+```
+
+### triorb_drive_interface/srv/TriorbRunLifter
+```bash
+uint16 COMMAND_STOP=0    # Stop the lifter immediately.
+uint16 COMMAND_UP=1      # Raise the lifter.
+uint16 COMMAND_DOWN=2    # Lower the lifter.
+uint16 COMMAND_MIDDLE=3  # Move the lifter to its middle position.
+# @ros-openapi: enum=closed
+uint16 command
+---
+bool success
+string status
+string message
 ```
 
 ### triorb_drive_interface/srv/TriorbSetPos3

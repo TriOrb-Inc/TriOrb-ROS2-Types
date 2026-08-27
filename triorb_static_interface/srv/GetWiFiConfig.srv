@@ -1,0 +1,13 @@
+# NetworkManager connection ID. Empty means lookup by ssid, or the active profile when ssid is also empty.
+string connection_id
+# Wi-Fi SSID to look up. Empty together with connection_id means the currently connected profile.
+string ssid
+---
+# True when a matching Wi-Fi profile was found.
+bool found
+# Matching Wi-Fi profile. Ignore this object when found is false.
+WifiConfig config
+# True when the query completed successfully.
+bool success
+# Human-readable completion or error details.
+string message

@@ -1,0 +1,5 @@
+# DRAFT: list user-visible VSLAM maps with file metadata.
+---
+MapInfo[] maps
+bool success
+string message

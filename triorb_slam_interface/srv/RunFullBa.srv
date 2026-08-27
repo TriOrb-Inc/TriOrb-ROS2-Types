@@ -1,0 +1,13 @@
+# Full BA の実行を要求する。
+#
+# Full BA は長時間かかるため、この service は**要求の受理だけ**を返し、完了を
+# 待たない。実処理は worker thread で走り、その間 pipeline mutex を握るので
+# frame 処理は止まる。進捗と完了は diagnostics topic の full_ba_* field で観測する。
+#
+# 既に実行中なら accepted=false と result_json {"in_flight":true} を返す。
+---
+# 要求が受理されたか。完了を意味しない。
+bool accepted
+# 受理時点の状態 JSON。
+string result_json
+string message

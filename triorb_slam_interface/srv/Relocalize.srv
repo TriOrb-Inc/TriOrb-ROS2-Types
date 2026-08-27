@@ -1,0 +1,20 @@
+# 再局在化を要求する。位置ヒントを同じ request に載せられる。
+#
+# 従来は set_relocalization_hint -> relocalize -> clear_relocalization_hint の
+# 3 回 publish が必要だった。
+#
+# use_hint=false ならヒント無しで再局在化する。このとき以前設定された hint は
+# 明示的に破棄する (relocalization の runtime reset では hint が残るため)。
+bool use_hint
+float64 hint_x
+float64 hint_y
+# ヒントの信頼半径 [m]。0 以下なら既定 (3.0m) を使う。
+float64 hint_radius_m
+---
+# 要求が受理されたか。再局在化の完了を意味しない。
+bool success
+# 結果の JSON。形式:
+#   {"accepted": bool, "recovered": bool, "relocalization_state": "...",
+#    "relocalization_method": "..."}
+string result_json
+string message
