@@ -28,14 +28,6 @@ string fname
 sensor_msgs/Image image
 ```
 
-### triorb_cv_interface/srv/Version.srv
-```bash
-# ==バージョン取得サービス==
-std_msgs/Empty request
----
-uint8[] version
-```
-
 # triorb_sensor_interface 
 ## triorb_sensor_interface/msg 
 ### triorb_sensor_interface/msg/BatteryStatus.msg
@@ -334,33 +326,15 @@ std_msgs/Header header         # header
 PoseDevStamped[] camera        # pose info
 ```
 
-### triorb_slam_interface/msg/MapInfo.msg
-```bash
-string name
-string format
-uint64 size_bytes
-builtin_interfaces/Time modified_at
-bool current
-string sha256
-```
-
-### triorb_slam_interface/msg/TagTransform.msg
-```bash
-uint32 id       # tag id
-bool look       # tag is detected in latest frame
-float32 size    # tag size
-geometry_msgs/Transform transform # tag pose
-```
-
 ### triorb_slam_interface/msg/TagslamSettings.msg
 ```bash
-uint16 origin_tag_id
-float32 origin_tag_size
-float32 origin_tag_pos_z
-float32 origin_tag_pos_deg
-float32 default_tag_size
-float32 minimum_viewing_angle
-uint32 minimum_tag_area
+uint16 origin_tag_id           # tag id
+float32 origin_tag_size        # side length of the black square [mm]
+float32 origin_tag_pos_z       # height of the tag center above the ground [mm]
+float32 origin_tag_pos_deg     # angle relative to the ground [deg]
+float32 default_tag_size       # side length of the black square (other than origin tag) [mm]
+float32 minimum_viewing_angle  # minimum angle between optical axis and tag surface [degree]
+uint32 minimum_tag_area        # minimum tag area in pixels^2. Any tags smaller than that are ignored [px*px]
 ```
 
 ## triorb_slam_interface/srv 
@@ -665,19 +639,6 @@ uint8[] disable_camera_idx  # Camera Index to be excluded from robot pose estima
 uint32 tf_source             # TF source used for localization 
 ```
 
-### triorb_drive_interface/msg/TriorbPositioningTimeoutMode.msg
-```bash
-# 位置決め停滞/振動検出を無効化し、従来通り通常の移動終了判定だけを使う。
-uint8 DISABLED=0
-# 位置決め停滞/振動検出時に移動失敗として扱い、ERROR通知を発報する。
-uint8 FAIL=1
-# 位置決め停滞/振動検出時に到達困難だが許容完了として扱い、WARN通知を発報する。
-uint8 SUCCESS=2
-
-# navigation_managerからNavigatorへ配信する現在の位置決めタイムアウト動作モード。
-uint8 mode
-```
-
 ### triorb_drive_interface/msg/TriorbPos3Stamped.msg
 ```bash
 #==平面内の位置・姿勢==
@@ -898,13 +859,17 @@ uint8[] gateway             # Address of the default gateway
 
 ### triorb_static_interface/msg/RobotError.msg
 ```bash
+#==One error or warning entry==
+# Mirrors triorb.system.v1.RobotError (triorb-system-core common.proto).
+# Shared by /system/errors and /system/warnings (the warnings API reuses this type).
 std_msgs/Header header      # Timestamp
-uint8 error                 # error code
+uint32 error_code           # error (or warning) code
+string message              # human-readable description
 ```
 
 ### triorb_static_interface/msg/IpAddress.msg
 ```bash
-#==割り当てIPアドレス==
+#==Assigned IP address==
 # Mirrors triorb.system.v1.IpAddress (triorb-system-core hostinfo.proto)
 string address      # textual form, e.g. "192.168.1.10" or "fe80::1"
 uint8 prefix_length # network prefix length, e.g. 24 (IPv4) / 64 (IPv6)
@@ -912,13 +877,103 @@ uint8 prefix_length # network prefix length, e.g. 24 (IPv4) / 64 (IPv6)
 
 ### triorb_static_interface/msg/NetworkInterface.msg
 ```bash
-#==ネットワークインターフェース情報==
+#==Network interface information==
 # Mirrors triorb.system.v1.NetworkInterface (triorb-system-core hostinfo.proto)
 string name                  # interface name, e.g. "eth0"
 bool is_up                   # administrative/link state (IFF_UP)
 bool is_loopback             # IFF_LOOPBACK
 IpAddress[] ipv4_addresses   # assigned IPv4 addresses
 IpAddress[] ipv6_addresses   # assigned IPv6 addresses
+```
+
+### triorb_static_interface/msg/DiskUsage.msg
+```bash
+#==Disk usage==
+# Mirrors triorb.system.v1.DiskUsage (triorb-system-core system.proto)
+string path         # mount point
+uint64 total_bytes  # total capacity in bytes
+uint64 used_bytes   # used capacity in bytes
+```
+
+### triorb_static_interface/msg/PackageVersion.msg
+```bash
+#==Software package version==
+# Mirrors triorb.system.v1.PackageVersion (triorb-system-core common.proto)
+string name     # package name
+string version  # installed / requested version
+```
+
+### triorb_static_interface/msg/PackageUpdate.msg
+```bash
+#==Selectable versions of a software package==
+# Mirrors triorb.system.v1.PackageUpdate (triorb-system-core system.proto)
+string name         # package name
+string[] versions   # selectable versions
+```
+
+### triorb_static_interface/msg/ConnectionProfile.msg
+```bash
+#==NetworkManager connection profile==
+# Mirrors triorb.system.v1.ConnectionProfile (triorb-system-core network.proto)
+string id         # connection id (NetworkManager "NAME")
+string type       # e.g. "802-3-ethernet", "802-11-wireless"
+string device     # bound device, "" if none
+bool active       # currently active
+bool autoconnect  # autoconnect enabled
+```
+
+### triorb_static_interface/msg/HotspotConfig.msg
+```bash
+#==Hotspot configuration==
+# Mirrors triorb.system.v1.HotspotConfig (triorb-system-core network.proto)
+string ssid          # hotspot SSID
+string password      # write-only: accepted in requests, never populated in responses
+string band          # "2.4GHz" | "5GHz" ("" = backend default)
+uint16 channel       # 0 = automatic
+string ipv4_address  # gateway address of the hotspot subnet
+bool enabled         # hotspot enabled
+```
+
+### triorb_static_interface/msg/WifiNetwork.msg
+```bash
+#==One Wi-Fi scan result==
+# Mirrors triorb.system.v1.WifiNetwork (triorb-system-core network.proto)
+string ssid            # SSID
+string bssid           # BSSID (AP MAC address)
+uint8 signal_strength  # 0..100
+string security        # e.g. "WPA2", "" = open
+uint32 frequency_mhz   # channel frequency [MHz]
+bool in_use            # currently connected AP
+```
+
+### triorb_static_interface/msg/WifiConfig.msg
+```bash
+#==Wi-Fi (station) connection configuration==
+# Mirrors triorb.system.v1.WifiConfig (triorb-system-core network.proto)
+string ssid          # SSID to connect to
+string password      # write-only: accepted in requests, never populated in responses
+bool autoconnect     # autoconnect enabled
+string ipv4_method   # "auto" (DHCP) | "manual" (static)
+string ipv4_address  # static only
+uint8 ipv4_prefix    # static only, network prefix length
+string ipv4_gateway  # static only
+string[] dns         # static only
+bool connected       # connection state (read-only in config set; toggled by /network/wifi/connect/toggle)
+```
+
+## triorb_static_interface/action
+### triorb_static_interface/action/ApplyUpdates.action
+```bash
+#==[Action] Upgrade software packages==
+# GUI API: POST /system/upgrade -> ROS 2 action /system/upgrade
+# The action server calls triorb-system-cored SystemService.Upgrade
+# (gRPC server streaming): FEEDBACK events -> feedback, the final RESULT event -> result.
+# Goal is empty: the target package set is decided by the daemon.
+---
+bool success    # result of the upgrade
+string message  # human-readable result / error detail
+---
+string message  # progress message
 ```
 
 ## triorb_static_interface/srv 
@@ -994,14 +1049,6 @@ string[] request
 string result
 ```
 
-### triorb_static_interface/srv/SetScalarString.srv
-```bash
-#==文字列の送信および返答==
-string request
----
-string result
-```
-
 ### triorb_static_interface/srv/SetImage.srv
 ```bash
 #==[Service] 画像の入力==
@@ -1012,7 +1059,7 @@ string result
 
 ### triorb_static_interface/srv/HostInfo.srv
 ```bash
-#==[Service] ホスト情報(hostname/IPアドレス)の取得==
+#==[Service] Get host information (hostname / IP addresses)==
 # GUI API: GET /network/host -> ROS 2 service /network/host/info
 # The service server node calls triorb-system-cored GetHostInfo
 # (gRPC over UDS, triorb.system.v1.HostInfoService) and relays the result.
@@ -1024,50 +1071,272 @@ string hostname                 # static hostname of the host
 NetworkInterface[] interfaces   # all interfaces, loopback included
 ```
 
-### triorb_static_interface/srv/Version.srv
+### triorb_static_interface/srv/GetHealth.srv
 ```bash
-#==[Service] Version情報の取得==
-std_msgs/Empty request
+#==[Service] Health check==
+# GUI API: GET /system/health -> ROS 2 service /system/health/check
+# Backend: triorb-system-cored SystemService.GetHealth (gRPC over UDS)
 ---
-uint8[] version
+std_msgs/Header header  # stamp = now, frame_id = "system"
 ```
 
-# triorb_ekf_interface
-## triorb_ekf_interface/srv
-### triorb_ekf_interface/srv/SetPoseSource.srv
+### triorb_static_interface/srv/ErrorAppend.srv
 ```bash
-uint8 SOURCE_VSLAM=1
-uint8 SOURCE_TAGSLAM=2
-uint8 SOURCE_COLLAB_TF=3
-
-uint8 source
+#==[Service] Append an error or warning==
+# GUI API: POST /system/errors   -> ROS 2 service /system/errors/append
+#          POST /system/warnings -> ROS 2 service /system/warnings/append
+# Backend: triorb-system-cored SystemService.AppendError / AppendWarning
+# Request fields match one RobotError element (field name error_code is shared with warnings).
+std_msgs/Header header  # Timestamp
+uint32 error_code       # error (or warning) code
+string message          # human-readable description
 ---
-bool success
-string message
-uint8 active_source
+bool success            # false if the entry could not be appended
+string message          # error detail when success is false, empty otherwise
 ```
 
-# triorb_tf_interface
-## triorb_tf_interface/srv
-### triorb_tf_interface/srv/SetEkfFallbackGraceCount.srv
+### triorb_static_interface/srv/GetLicense.srv
 ```bash
-int64 ekf_fallback_grace_count
+#==[Service] Get license information==
+# GUI API: GET /system/license -> ROS 2 service /system/license/get
+# Backend: triorb-system-cored SystemService.GetLicense
+# Until license-server integration lands, name is a temporary system name
+# and key is generated locally.
 ---
-bool success
-string message
-int64 active_ekf_fallback_grace_count
-float64 ekf_fallback_grace_sec
+string name  # license (system) name
+string key   # license key
 ```
 
-### triorb_tf_interface/srv/SetTfSource.srv
+### triorb_static_interface/srv/SetLicense.srv
 ```bash
-uint32 TF_SOURCE_VSLAM=1
-uint32 TF_SOURCE_TAGSLAM=2
-uint32 TF_SOURCE_COLLAB=3
-uint32 source
+#==[Service] Activate license==
+# GUI API: POST /system/license/activate -> ROS 2 service /system/license/set
+# Backend: triorb-system-cored SystemService.ActivateLicense
+string name                  # license (system) name
+PackageVersion[] packages    # packages to license
 ---
-bool success
-string message
+bool success                 # false if activation failed
+string message               # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/SetScalarString.srv
+```bash
+#==[Service] Generic command with one string argument==
+# Shared by:
+#   POST   /system/shutdown                     -> /system/shutdown            (request: "" | "now" | "-r now" | "-f")
+#   DELETE /network/config/{connection_id}      -> /network/config/delete      (request: connection_id)
+#   DELETE /network/wifi/known-networks/{ssid}  -> /network/wifi/details/delete (request: ssid)
+# Backend: triorb-system-cored SystemService.Shutdown /
+#          NetworkService.DeleteConnection / ForgetWifiNetwork
+string request  # scalar string argument (meaning depends on the service name)
+---
+string result   # result string
+```
+
+### triorb_static_interface/srv/GetResources.srv
+```bash
+#==[Service] Get system resource usage==
+# GUI API: GET /system/resources -> ROS 2 service /system/resources/get
+# Backend: triorb-system-cored SystemService.GetResources
+---
+std_msgs/Header header           # snapshot timestamp
+float64 cpu_percent              # 0..100, all cores aggregated
+float64 cpu_temperature_celsius  # 0 when unavailable
+float64 gpu_percent              # 0 when unavailable
+float64 gpu_temperature_celsius  # 0 when unavailable
+float64 memory_percent           # 0..100
+uint64 memory_total_bytes        # total physical memory
+uint64 memory_used_bytes         # used physical memory
+DiskUsage[] disks                # per mount point
+bool success                     # false if the snapshot could not be taken
+string message                   # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetRos2DdsXml.srv
+```bash
+#==[Service] Get DDS configuration XML==
+# GUI API: GET /system/config/ros2/dds -> ROS 2 service /system/config/ros2/dds/get
+# Backend: triorb-system-cored SystemService.GetRos2DdsConfig
+---
+string path  # persisted file path (set even when the file is absent)
+string xml   # verbatim file content ("" when absent)
+```
+
+### triorb_static_interface/srv/SetRos2DdsXml.srv
+```bash
+#==[Service] Set DDS configuration XML==
+# GUI API: PUT /system/config/ros2/dds -> ROS 2 service /system/config/ros2/dds/set
+# Backend: triorb-system-cored SystemService.SetRos2DdsConfig
+# The XML is not schema-validated (RMW-dependent). May require /system/restart to apply.
+string xml      # verbatim file content; the daemon decides the path
+---
+bool success    # false if the content could not be persisted
+string message  # error detail when success is false, empty otherwise
+string path     # where the content was persisted
+```
+
+### triorb_static_interface/srv/GetRos2DomainId.srv
+```bash
+#==[Service] Get ROS_DOMAIN_ID==
+# GUI API: GET /system/config/ros2/domain_id -> ROS 2 service /system/config/ros2/domain_id/get
+# Backend: triorb-system-cored SystemService.GetRos2DomainId
+---
+uint16 data  # persisted ROS_DOMAIN_ID (0..232)
+```
+
+### triorb_static_interface/srv/SetRos2DomainId.srv
+```bash
+#==[Service] Set ROS_DOMAIN_ID==
+# GUI API: PUT /system/config/ros2/domain_id -> ROS 2 service /system/config/ros2/domain_id/set
+# Backend: triorb-system-cored SystemService.SetRos2DomainId
+# May require /system/restart to apply.
+uint16 data     # ROS_DOMAIN_ID (0..232)
+---
+bool success    # false if the value was rejected or could not be persisted
+string message  # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetRos2LocalhostOnly.srv
+```bash
+#==[Service] Get ROS_LOCALHOST_ONLY==
+# GUI API: GET /system/config/ros2/localhost_only -> ROS 2 service /system/config/ros2/localhost_only/get
+# Backend: triorb-system-cored SystemService.GetRos2LocalhostOnly
+---
+uint8 data  # persisted ROS_LOCALHOST_ONLY equivalent (0 | 1)
+```
+
+### triorb_static_interface/srv/SetRos2LocalhostOnly.srv
+```bash
+#==[Service] Set ROS_LOCALHOST_ONLY==
+# GUI API: PUT /system/config/ros2/localhost_only -> ROS 2 service /system/config/ros2/localhost_only/set
+# Backend: triorb-system-cored SystemService.SetRos2LocalhostOnly
+# May require /system/restart to apply.
+uint8 data      # ROS_LOCALHOST_ONLY equivalent (0 | 1)
+---
+bool success    # false if the value was rejected or could not be persisted
+string message  # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetRos2Namespace.srv
+```bash
+#==[Service] Get ROS namespace==
+# GUI API: GET /system/config/ros2/namespace -> ROS 2 service /system/config/ros2/namespace/get
+# Backend: triorb-system-cored SystemService.GetRos2Namespace
+---
+string data  # persisted ROS namespace ("" = no extra namespace)
+```
+
+### triorb_static_interface/srv/SetRos2Namespace.srv
+```bash
+#==[Service] Set ROS namespace==
+# GUI API: PUT /system/config/ros2/namespace -> ROS 2 service /system/config/ros2/namespace/set
+# Backend: triorb-system-cored SystemService.SetRos2Namespace
+# Unrelated to the DDS XML. May require /system/restart to apply.
+string data     # ROS namespace ("" allowed; validated as a ROS namespace)
+---
+bool success    # false if the value was rejected or could not be persisted
+string message  # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetAvailableVersions.srv
+```bash
+#==[Service] Get selectable package versions==
+# GUI API: GET /system/update -> ROS 2 service /system/update/get
+# Backend: triorb-system-cored SystemService.GetAvailableUpdates
+# Queries the update server (index refresh + candidate list; not apt itself).
+---
+PackageUpdate[] packages  # per package: name and selectable versions
+bool success              # false if the update server could not be queried
+string message            # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetPackageVersions.srv
+```bash
+#==[Service] Get installed package versions==
+# GUI API: GET /system/version -> ROS 2 service /system/version/get
+# Backend: triorb-system-cored SystemService.GetVersion
+---
+PackageVersion[] packages  # currently installed software package versions
+```
+
+### triorb_static_interface/srv/UploadCertificate.srv
+```bash
+#==[Service] Upload network certificate==
+# GUI API: POST /network/certificate/upload -> ROS 2 service /network/certificate/upload
+# Backend: triorb-system-cored NetworkService.UploadCertificate
+string filename      # basename only; path separators are rejected
+string content_type  # e.g. "application/x-pem-file"
+uint8[] content      # file content
+string cert_type     # e.g. "ca", "client"
+string sha256        # optional lowercase hex digest; verified if set
+bool overwrite       # false -> refuse to replace an existing file
+---
+bool success         # false if the file was rejected or could not be stored
+string message       # error detail when success is false, empty otherwise
+string stored_path   # where the file was stored
+string filename      # stored basename
+string cert_type     # stored certificate type
+```
+
+### triorb_static_interface/srv/GetNetworkConfig.srv
+```bash
+#==[Service] Get network configuration list==
+# GUI API: GET /network/config -> ROS 2 service /network/config/get
+# Backend: triorb-system-cored NetworkService.GetNetworkConfig
+---
+ConnectionProfile[] connections  # all NetworkManager connection profiles
+HotspotConfig hotspot            # hotspot configuration (password is always empty)
+bool success                     # false if the configuration could not be read
+string message                   # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/SetHotspotConfig.srv
+```bash
+#==[Service] Set hotspot configuration==
+# GUI API: PUT /network/hotspot/config -> ROS 2 service /network/hotspot/config/set
+# Backend: triorb-system-cored NetworkService.SetHotspotConfig
+# Applies the configuration to NetworkManager.
+HotspotConfig config  # desired hotspot configuration (password is write-only)
+---
+bool success          # false if the configuration was rejected or could not be applied
+string message        # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetWifiList.srv
+```bash
+#==[Service] Scan nearby Wi-Fi networks==
+# GUI API: GET /network/wifi/scan -> ROS 2 service /network/wifi/scan
+# Backend: triorb-system-cored NetworkService.ScanWifi
+---
+WifiNetwork[] networks  # nearby SSIDs
+bool success            # false if the scan failed
+string message          # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/SetWifiConfig.srv
+```bash
+#==[Service] Set Wi-Fi (station) connection configuration==
+# GUI API: PUT   /network/wifi/config  -> ROS 2 service /network/wifi/config/set
+#          PATCH /network/wifi/connect -> ROS 2 service /network/wifi/connect/toggle
+#                                          (only config.connected is meaningful)
+# Backend: triorb-system-cored NetworkService.SetWifiConfig / SetWifiConnect
+WifiConfig config  # desired Wi-Fi configuration (password is write-only)
+---
+bool success       # false if the configuration was rejected or could not be applied
+string message     # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/GetWifiConfig.srv
+```bash
+#==[Service] Get Wi-Fi connection configuration==
+# GUI API: GET /network/wifi/details               -> ROS 2 service /network/wifi/details/get (ssid = "")
+#          GET /network/wifi/known-networks/{ssid} -> ROS 2 service /network/wifi/details/get (ssid set)
+# Backend: triorb-system-cored NetworkService.GetWifiConfig
+string ssid        # "" = currently connected network, otherwise the saved (known) network
+---
+WifiConfig config  # Wi-Fi configuration (password is always empty)
+bool success       # false if the network is unknown or could not be read
+string message     # error detail when success is false, empty otherwise
 ```
 
 # triorb_collaboration_interface 
@@ -1091,11 +1360,11 @@ string master                                       # Master
 triorb_collaboration_interface/ParentBind[] robots  # Robot informations
 ```
 
-# triorb_plc_interface 
-## triorb_plc_interface/msg 
-### triorb_plc_interface/msg/BasicDataToPLC.msg
+# triorb_sick_safety_plc_interface
+## triorb_sick_safety_plc_interface/msg
+### triorb_sick_safety_plc_interface/msg/BasicDataToPLC.msg
 ```bash
-#==PLCへ送信する基本データ==
+#==SICK Safety PLCへ送信する基本データ==
 std_msgs/Header header              # timestamp
 uint8 index                         # Assembly index of the byte array
 bool watchdog_request_from_jetson   # JetsonからPLCへのウォッチドッグ要求
@@ -1104,13 +1373,11 @@ bool emergency_stop_to_plc          # PLCへの非常停止要求(B接点)
 bool deactivate_request_to_plc      # PLCへの管理停止要求(A接点)
 bool sls_off_request_to_plc         # PLCへのSLS監視停止要求(A接点)
 bool error_reset_request_to_plc     # PLCへのエラーリセット要求(A接点)
-bool auto_selected                  # PLCへの自動選択状態
-bool manual_selected                # PLCへの手動選択状態
 ```
 
-### triorb_plc_interface/msg/BasicDataFromPLC.msg
+### triorb_sick_safety_plc_interface/msg/BasicDataFromPLC.msg
 ```bash
-#==PLCから受信した基本データ==
+#==SICK Safety PLCから受信した基本データ==
 std_msgs/Header header              # timestamp
 uint8 index                         # Assembly index of the byte array
 bool watchdog_request_from_plc      # PLCからのウォッチドッグ要求
@@ -1121,230 +1388,4 @@ bool unknown_error_from_plc         # PLCからの不明なエラー(A接点)
 bool permit_auto_move_from_plc      # PLCからの自動移動許可信号(B接点)
 bool permit_manual_move_from_plc    # PLCからの自動移動許可信号(B接点)
 bool sls_off_from_plc               # PLCからのSLS監視停止状態信号(A接点)
-```
-
-# triorb_navigation_interface
-## triorb_navigation_interface/msg
-### triorb_navigation_interface/msg/NavigationPose.msg
-```bash
-std_msgs/Header header   # この姿勢の時刻と frame_i
-
-# TF source used for localization
-uint32 TF_SOURCE_UNSPECIFIED=0
-uint32 TF_SOURCE_VSLAM=1
-uint32 TF_SOURCE_TAGSLAM=2
-uint32 TF_SOURCE_COLLAB=3
-uint32 source
-
-float64 x
-float64 y
-float64 deg
-bool valid #現在姿勢が取れているか
-
-uint8 CONFIDENCE_LOW=0
-uint8 CONFIDENCE_MIDDLE=1
-uint8 CONFIDENCE_HIGH =2
-uint8 confidence
-```
-
-### triorb_navigation_interface/msg/NavigationMotionConstraint.msg
-```bash
-uint32 OMNI_DIRECTIONAL=0
-uint32 ROTATION_ONLY=8
-uint32 TRANSLATION_ONLY=16
-uint32 PATH_CONSTRAINED=32
-
-uint32 constraint
-```
-
-### triorb_navigation_interface/msg/NavigationResult.msg
-```bash
-uint16 TIMEOUT_FAILED=0
-uint16 HALF_TIMEOUT=1
-uint16 TRANSFORM_FAILED=2
-uint16 NO_CHANGE_TIMESTAMP=3
-uint16 FORCE_STOP=4
-uint16 NAVIGATION_FAILED=5
-uint16 NAVIGATION_SUCCESS=6
-uint16 PROGRESS=7
-uint16 FORCE_SUCCESS=8
-uint16 LOST_FAILED=9
-uint16 BLOCKED_BY_PERMIT=10
-uint16 REJECT=255
-uint16 NONE=65535
-
-uint16 result
-```
-
-### triorb_navigation_interface/msg/NavigationCommand.msg
-```bash
-std_msgs/Header header
-
-uint32 CONTROLLER_UNSPECIFIED=0
-uint32 CONTROLLER_VELOCITY=1
-
-uint32 request_id
-uint32 controller_type
-uint8 gain_no
-triorb_drive_interface/TriorbSpeed speed
-NavigationPose start_pose
-NavigationPose current_pose
-NavigationPose goal_pose
-NavigationMotionConstraint motion_constraint
-
-bool valid
-```
-
-### triorb_navigation_interface/msg/NavigationPlannerResult.msg
-```bash
-std_msgs/Header header
-
-uint32 request_id
-NavigationResult result
-NavigationPose current_pose
-NavigationMotionConstraint motion_constraint
-
-float32 elapsed_sec
-string message
-```
-
-### triorb_navigation_interface/msg/NavigationStatus.msg
-```bash
-std_msgs/Header header
-
-# 移動要求
-triorb_drive_interface/TriorbSetPos3 target
-
-# 現在pose
-NavigationPose current_pose
-
-# 状態
-uint8 STAND_BY=0
-uint8 NAVIGATE=1
-uint8 PAUSE=2
-uint8 SUCCESS=3
-uint8 FAILED=4
-uint8 LEAVE_GOAL=5
-uint8 navigate_state
-
-# 経過時間 [sec]
-float32 elapsed_sec
-
-# navigation result
-NavigationResult navigation_result
-```
-
-### triorb_navigation_interface/msg/PathPlannerCommand.msg
-```bash
-# Command published by automove_task to control path_planner.
-uint8 COMMAND_SET_POS_TARGET=0
-uint8 COMMAND_PAUSE=1
-uint8 COMMAND_TERMINATE=2
-uint8 COMMAND_RESUME=3
-
-uint8 command
-
-# Used only when command is COMMAND_SET_POS_TARGET.
-triorb_drive_interface/TriorbSetPos3 target
-
-# Termination reason.
-# Used only when command is COMMAND_TERMINATE.
-
-uint16 TIMEOUT_FAILED=0
-uint16 FORCE_STOP=4
-uint16 BLOCKED_BY_PERMIT=10
-
-uint16 terminate_reason
-```
-
-### triorb_navigation_interface/msg/PathPlannerStatus.msg
-```bash
-std_msgs/Header header
-
-uint8 STAND_BY=0
-uint8 NAVIGATE=1
-uint8 PAUSE=2
-uint8 SUCCESS=3
-uint8 FAILED=4
-uint8 LEAVE_GOAL=5
-
-uint16 TIMEOUT_FAILED=0
-uint16 HALF_TIMEOUT=1
-uint16 TRANSFORM_FAILED=2
-uint16 NO_CHANGE_TIMESTAMP=3
-uint16 FORCE_STOP=4
-uint16 NAVIGATION_FAILED=5
-uint16 NAVIGATION_SUCCESS=6
-uint16 PROGRESS=7
-uint16 FORCE_SUCCESS=8
-uint16 LOST_FAILED=9
-uint16 BLOCKED_BY_PERMIT=10
-uint16 REJECT=255
-uint16 NONE=65535
-
-uint32 request_id
-uint8 state
-uint16 result
-float32 elapsed_sec
-string message
-```
-
-## triorb_navigation_interface/srv
-### triorb_navigation_interface/srv/GetNavigationStatus.srv
-```bash
----
-bool success
-string message
-
-# Current navigation status
-NavigationStatus navigation_status
-```
-
-### triorb_navigation_interface/srv/SetAutomoveTaskCommand.srv
-```bash
-# Request AutomoveTask to pause, resume, or stop the active navigation.
-uint8 COMMAND_PAUSE=0
-uint8 COMMAND_RESUME=1
-uint8 COMMAND_STOP=2
-
-uint8 command
----
-# Returned immediately after AutomoveTask accepts or rejects the request.
-bool success
-string message
-```
-
-### triorb_navigation_interface/srv/SetPathPlannerCommand.srv
-```bash
-# Request the path planner to change its execution state.
-uint8 COMMAND_SET_POS_TARGET=0
-uint8 COMMAND_PAUSE=1
-uint8 COMMAND_TERMINATE=2
-uint8 COMMAND_RESUME=3
-
-uint8 command
-
-# COMMAND_SET_POS_TARGET のときだけ使用
-triorb_drive_interface/TriorbSetPos3 target
-
-# Termination reason.
-# Used only when command is COMMAND_TERMINATE.
-uint16 TIMEOUT_FAILED=0
-uint16 FORCE_STOP=4
-uint16 BLOCKED_BY_PERMIT=10
-uint16 terminate_reason
-
----
-bool success
-string message
-```
-
-## triorb_navigation_interface/action
-### triorb_navigation_interface/action/TriorbSetPos.action
-```bash
-triorb_drive_interface/TriorbSetPos3 target
----
-NavigationStatus status
----
-NavigationStatus status
 ```
