@@ -551,6 +551,7 @@ float32 vw      # Rotation velocity vector around the Z axis [rad/s]
 ### triorb_drive_interface/msg/TriorbRunSetting.msg
 ```bash
 #==自律移動の位置決め設定==
+# TF source used for localization
 uint32 TF_SOURCE_UNSPECIFIED=0
 uint32 TF_SOURCE_VSLAM=1
 uint32 TF_SOURCE_TAGSLAM=2
@@ -563,7 +564,7 @@ uint8 force                 # Target force level
 uint8 gain_no               # Number of gain type (not set:0, basic:1)
 uint32 timeout_ms           # Timeout (in ms) for the operation to complete (set:0, disable)
 uint8[] disable_camera_idx  # Camera Index to be excluded from robot pose estimation
-uint32 tf_source            # Coordinate frame source (TF_SOURCE_* constants above)
+uint32 tf_source            # TF source used for localization
 ```
 
 ### triorb_drive_interface/msg/TriorbPos3Stamped.msg
