@@ -491,6 +491,7 @@ TriorbPos3 position         # Last robot position
 ### triorb_drive_interface/msg/TriorbRunResult.msg
 ```bash
 #==自律移動結果==
+uint32 request_id           # Request ID copied from TriorbSetPos3
 bool success                # Moving result (true: Compleat, false: Feild)
 uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
 TriorbPos3 position         # Last robot position
