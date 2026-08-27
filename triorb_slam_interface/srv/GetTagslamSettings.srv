@@ -17,3 +17,5 @@
 #==TagSLAMの初期設定を返答==
 ---
 TagslamSettings setting
+bool success
+string message
