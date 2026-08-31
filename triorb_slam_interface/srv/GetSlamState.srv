@@ -1,0 +1,12 @@
+# SLAM の現在状態をまとめて取得する。
+#
+# health / diagnostics / operator advice / 地図情報 / 地図固定の可否 / 入力停止の
+# 可否を 1 回で返す。従来は topic を購読しないと取れなかった。
+---
+bool success
+# 状態の JSON。形式:
+#   {"map_updates_enabled": bool, "input_paused": bool,
+#    "health": {...}, "diagnostics": {...}, "advice": {...}}
+# 取得できなかった項目は null になる。
+string state_json
+string message

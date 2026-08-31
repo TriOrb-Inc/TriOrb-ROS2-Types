@@ -1,0 +1,6 @@
+# DRAFT: get the active collaboration group and robot bind poses.
+---
+bool configured
+triorb_collaboration_interface/GroupCreate config
+bool success
+string message

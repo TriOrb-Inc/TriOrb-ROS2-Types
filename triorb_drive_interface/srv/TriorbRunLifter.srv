@@ -1,5 +1,5 @@
 #**
-#* Copyright 2026 TriOrb Inc.
+#* Copyright 2023 TriOrb Inc.
 #*
 #* Licensed under the Apache License, Version 2.0 (the "License");
 #* you may not use this file except in compliance with the License.
@@ -14,8 +14,22 @@
 #* limitations under the License.
 #**
 
-#==地図一覧を返答==
+# Execute one lifter command and wait for the lifter operation to finish.
+
+# Stop the lifter immediately.
+uint16 COMMAND_STOP=0
+# Raise the lifter.
+uint16 COMMAND_UP=1
+# Lower the lifter.
+uint16 COMMAND_DOWN=2
+# Move the lifter to its middle position.
+uint16 COMMAND_MIDDLE=3
+
+# @ros-openapi: enum=closed
+# Lifter command. Use one of the COMMAND_* constants defined above.
+uint16 command
 ---
-MapInfo[] maps
+# True when the lifter command completed successfully.
 bool success
+# Human-readable completion or error details.
 string message

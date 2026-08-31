@@ -1,0 +1,13 @@
+# 実装が参照する全 runtime parameter (TRIORB_* env) を取得する。
+# request は空。parameter は process 全体の env であり、対象を選ばない。
+---
+# 取得に成功したか。
+bool success
+# 全 parameter の JSON。形式:
+#   {"count": N,
+#    "parameters": {"TRIORB_XXX": "値" | null, ...},
+#    "startup_cached": ["起動時に確定し Set が効かない parameter", ...]}
+# 未設定の parameter は null で、空文字列と区別できる。
+string parameters_json
+# 失敗時の理由。成功時は空文字列。
+string message

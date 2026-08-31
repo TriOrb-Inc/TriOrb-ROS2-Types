@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(triorb_static_interface)
+project(triorb_plc_interface)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -18,7 +18,6 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(diagnostic_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
@@ -31,7 +30,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   ${msg_files}
   ${srv_files}
   ${action_files}
-  DEPENDENCIES diagnostic_msgs std_msgs sensor_msgs
+  DEPENDENCIES std_msgs sensor_msgs
 )
 ament_export_dependencies(rosidl_default_runtime)
 

@@ -1,0 +1,7 @@
+# DRAFT: get named string values such as component versions.
+# An empty keys array requests every available value.
+string[] keys
+---
+diagnostic_msgs/KeyValue[] values
+bool success
+string message

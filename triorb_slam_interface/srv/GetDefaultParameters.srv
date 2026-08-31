@@ -1,0 +1,6 @@
+# Get omni_vslam.yaml without flattening nested YAML or losing comments.
+---
+string yaml
+string sha256
+bool success
+string message
