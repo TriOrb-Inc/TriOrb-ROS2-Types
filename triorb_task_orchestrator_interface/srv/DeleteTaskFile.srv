@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 # Saved route CSV file name to delete.
+=======
+>>>>>>> dev/v2.0.0
 string file_name
 ---
 bool deleted

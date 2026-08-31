@@ -1,0 +1,8 @@
+# Apply selected mutable fields from the runtime SLAM configuration.
+SlamConfig config
+# Field names to apply. An empty list applies every mutable field.
+string[] update_fields
+---
+bool success
+string message
+bool restart_required

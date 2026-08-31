@@ -1,0 +1,11 @@
+# 現在の地図を保存する。
+#
+# 保存は同期で行われ、成否が応答で返る。topic 経由の pipeline_command と違い、
+# 要求と応答の対応付けが不要。
+string path
+---
+bool success
+# 実際に保存した path。
+string saved_path
+# 失敗時の理由。成功時は空文字列。
+string message

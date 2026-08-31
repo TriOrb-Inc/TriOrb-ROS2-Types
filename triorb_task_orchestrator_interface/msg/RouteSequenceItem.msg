@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # route CSV の 1 行を message で表したもの。
 #
 # ExecuteRoute の goal で外部クライアントから送られる。triorb_task_orchestrator はこれを
@@ -30,3 +31,9 @@ float64 acc_w    # 姿勢の許容誤差 [deg]。goal の bias_accuracy_deg が�
 uint8 gain       # TriorbRunSetting/gain_no (not set:0, basic:1)
 uint32 accel_ms  # 加減速時間 [ms]。**0 は未指定**として扱い、既定の 1000 が使われる
 string camera    # "1|0|1|1" 形式。0 の位置のカメラを測位から外す。空なら全て使う
+=======
+# Row type in the triorb-route-sequence representation.
+string type
+string name
+string value
+>>>>>>> dev/v2.0.0

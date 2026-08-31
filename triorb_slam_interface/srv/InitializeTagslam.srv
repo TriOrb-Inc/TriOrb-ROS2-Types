@@ -1,0 +1,4 @@
+TagslamSettings setting
+---
+bool success
+string message

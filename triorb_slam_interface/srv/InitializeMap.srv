@@ -1,10 +1,16 @@
-uint16 origin_tag_id
-float32 origin_tag_size
-float32 origin_tag_pos_z
-float32 origin_tag_pos_deg
-float32 default_tag_size
-float32 minimum_viewing_angle
-uint32 minimum_tag_area
+# 地図を初期化 (または既存地図を読み込み) する。初期化時にだけ意味を持つ
+# parameter は、この request の parameters_json で指定する。
+#
+# 空なら新規地図として初期化し、指定すればその地図を読み込む。
+string map_path
+# init scope 以下の parameter を初期化の前に適用する。
+# 形式は set_runtime_parameters と同じ。startup scope の parameter は
+# 起動 config でしか設定できないため rejected に入る。
+string parameters_json
 ---
+# 初期化に成功したか。
 bool success
+# parameter 適用結果の JSON (set_runtime_parameters と同じ形式)。
+string parameters_result_json
+# 失敗時の理由。成功時は空文字列。
 string message

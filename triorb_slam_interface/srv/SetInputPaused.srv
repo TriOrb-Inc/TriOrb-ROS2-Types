@@ -1,0 +1,11 @@
+# sensor 入力の処理を一時停止 / 再開する。
+#
+# paused=true の間、同期済み frame と generic sensor 入力の両方を捨てる。地図保存や
+# parameter 変更を、frame 処理と競合させずに行うために使う。
+# subscription 自体は生かしたままなので、再開後は最新 frame から処理が続く。
+bool paused
+---
+bool success
+# 結果の JSON。形式: {"input_paused": bool, "previous": bool, "changed": bool}
+string result_json
+string message

@@ -1,0 +1,22 @@
+# runtime parameter (TRIORB_* env) を部分更新する。
+#
+# 制約: parameter の実体は process 全体の env であり、POSIX の setenv / getenv は
+# 相互に thread safe ではない。frame が流れている最中に呼ぶと、同一 frame bundle の
+# camera 間で異なる設定が使われたり、setenv と getenv が競合したりする。
+# **停止中または frame を流していない状態で呼ぶこと。**
+# request に含まれた parameter だけを更新し、他は変更しない。
+# 形式: {"TRIORB_XXX": "値", ...} または {"parameters": {...}}
+#   - 値が文字列 / 数値 / 真偽値なら設定する (真偽値は "1" / "0" へ正規化)。
+#   - 値が null ならその parameter を未設定へ戻す。
+string parameters_json
+---
+# request が JSON として解釈できたか。個々の parameter の棄却は success を落とさない。
+bool success
+# 適用結果の JSON。形式:
+#   {"applied": {"TRIORB_XXX": "値", ...},
+#    "unset": ["未設定へ戻した parameter", ...],
+#    "rejected": {"名前": "理由", ...},
+#    "startup_cached_no_effect": ["設定したが実行中は効かない parameter", ...]}
+string result_json
+# 失敗時の理由。成功時は空文字列。
+string message

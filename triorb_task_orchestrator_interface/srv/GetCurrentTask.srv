@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # No request fields.
 ---
 bool success
@@ -7,6 +8,12 @@ bool has_task
 string message
 
 # These fields are empty/default when has_task is false.
+=======
+---
+bool success
+bool has_task
+string message
+>>>>>>> dev/v2.0.0
 string source_file
 RouteSequenceItem[] sequence
 float32 ratio_speed

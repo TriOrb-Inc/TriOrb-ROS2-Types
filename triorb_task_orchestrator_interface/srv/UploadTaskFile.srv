@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 # Destination route CSV file name.
 string file_name
 
 # Raw CSV file contents. Empty data is invalid.
+=======
+string file_name
+>>>>>>> dev/v2.0.0
 uint8[] data
 ---
 bool success

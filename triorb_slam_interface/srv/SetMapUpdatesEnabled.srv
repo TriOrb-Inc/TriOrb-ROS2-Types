@@ -1,0 +1,17 @@
+# 地図更新の可否 (地図固定) を実行中に切り替える。
+#
+# false で地図固定 (localization 専用、keyframe を追加しない)、
+# true で地図更新を再開する。次 frame から反映される。
+#
+# 切り替え時は固定地図 localization の runtime 状態 (座標系の確立、LiDAR anchor 参照、
+# 静止判定) を作り直すため、直後の数 frame は relocalization が走ることがある。
+bool enabled
+---
+# 切り替えに成功したか。
+bool success
+# 切り替え結果の JSON。形式:
+#   {"map_updates_enabled": bool, "previous": bool, "changed": bool,
+#    "keyframe_count": N, "landmark_count": N, "state": "tracking"}
+string result_json
+# 失敗時の理由。成功時は空文字列。
+string message

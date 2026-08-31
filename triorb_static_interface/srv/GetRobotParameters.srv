@@ -1,0 +1,5 @@
+# Get CAMERA_DEVS, CAMERA_ROTATIONS, and robot_max_vel.yaml.
+---
+RobotParameters parameters
+bool success
+string message

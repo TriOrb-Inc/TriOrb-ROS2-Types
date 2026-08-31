@@ -14,5 +14,9 @@
 #* limitations under the License.
 #**
 
+#==One error or warning entry==
+# Mirrors triorb.system.v1.RobotError (triorb-system-core common.proto).
+# Shared by /system/errors and /system/warnings (the warnings API reuses this type).
 std_msgs/Header header      # Timestamp
-uint8 error                 # error code
+uint32 error_code           # error (or warning) code
+string message              # human-readable description

@@ -1,0 +1,5 @@
+# Get the latest values published by vslam/config_publish.
+---
+SlamConfig config
+bool success
+string message
