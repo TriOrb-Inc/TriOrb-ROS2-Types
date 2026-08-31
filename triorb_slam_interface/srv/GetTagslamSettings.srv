@@ -14,8 +14,8 @@
 #* limitations under the License.
 #**
 
-#==地図一覧を返答==
+#==TagSLAMの初期設定を返答==
 ---
-MapInfo[] maps
+TagslamSettings setting
 bool success
 string message

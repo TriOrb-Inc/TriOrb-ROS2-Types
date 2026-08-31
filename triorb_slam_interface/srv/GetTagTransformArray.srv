@@ -14,8 +14,6 @@
 #* limitations under the License.
 #**
 
-#==地図一覧を返答==
+#==Tag情報一覧取得==
 ---
-MapInfo[] maps
-bool success
-string message
+TagTransform[] tags
