@@ -1,0 +1,10 @@
+# Ethernet profile to create or update in NetworkManager.
+# GUI API: PUT /network/ethernet/config -> ROS 2 service /network/ethernet/config/set
+EthernetConfig config
+---
+# True when the Ethernet profile was created or updated successfully.
+bool success
+# Human-readable completion or error details.
+string message
+# NetworkManager connection ID of the resulting Ethernet profile.
+string connection_id

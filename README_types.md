@@ -995,6 +995,22 @@ string ipv4_address  # gateway address of the hotspot subnet
 bool enabled         # hotspot enabled
 ```
 
+### triorb_static_interface/msg/EthernetConfig.msg
+```bash
+# NetworkManager connection ID of this Ethernet profile. Empty on create unless replacing a known profile.
+string connection_id
+# OS network interface name, for example eth0. Empty means the service may choose a default wired interface.
+string interface_name
+# True when NetworkManager may auto-connect this profile.
+bool autoconnect
+# Auto-connect priority. Higher values are preferred.
+int32 priority
+# True when this profile should be enabled, false when it should be disabled.
+bool enabled
+# IPv4 settings of this profile.
+IPv4Config ipv4
+```
+
 ### triorb_static_interface/msg/WifiNetwork.msg
 ```bash
 #==One Wi-Fi scan result==
@@ -1395,6 +1411,17 @@ WifiConfig config  # desired Wi-Fi configuration (password is write-only)
 ---
 bool success       # false if the configuration was rejected or could not be applied
 string message     # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/SetEthernetConfig.srv
+```bash
+# Ethernet profile to create or update in NetworkManager.
+# GUI API: PUT /network/ethernet/config -> ROS 2 service /network/ethernet/config/set
+EthernetConfig config
+---
+bool success
+string message
+string connection_id
 ```
 
 ### triorb_static_interface/srv/GetWifiConfig.srv
