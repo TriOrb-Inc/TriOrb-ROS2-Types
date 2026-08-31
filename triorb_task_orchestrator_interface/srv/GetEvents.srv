@@ -1,15 +1,8 @@
-<<<<<<< HEAD
 # Maximum number of events to return. Set 0 to return all available events.
-=======
-# Maximum number of events to return. Zero returns all available events.
->>>>>>> dev/v2.0.0
 uint32 limit
 ---
 bool success
 string message
-<<<<<<< HEAD
 
 # Collected navigation events.
-=======
->>>>>>> dev/v2.0.0
 Event[] events

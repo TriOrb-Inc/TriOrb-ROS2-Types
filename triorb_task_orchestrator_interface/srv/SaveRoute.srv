@@ -1,11 +1,7 @@
-<<<<<<< HEAD
 # Destination route CSV file name.
 string source_file
 
 # Route content to validate and save.
-=======
-string source_file
->>>>>>> dev/v2.0.0
 RouteSequenceItem[] sequence
 ---
 bool success

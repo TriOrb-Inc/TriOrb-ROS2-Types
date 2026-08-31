@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 # No request fields.
-=======
->>>>>>> dev/v2.0.0
 ---
 bool success
 string message

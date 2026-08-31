@@ -4,17 +4,12 @@
   <name>triorb_task_orchestrator_interface</name>
   <version>1.0.0</version>
   <description>TriOrb task orchestrator interfaces</description>
-<<<<<<< HEAD
   <maintainer email="zheng.ze@triorb.co.jp">root</maintainer>
-=======
-  <maintainer email="support@triorb.co.jp">TriOrb Inc.</maintainer>
->>>>>>> dev/v2.0.0
   <license>Apache License, Version 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>rosidl_default_generators</buildtool_depend>
 
-<<<<<<< HEAD
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
@@ -24,17 +19,6 @@
   <member_of_group>rosidl_interface_packages</member_of_group>
 
   <!-- format 3 では依存要素をすべて export より前に置く -->
-=======
-  <depend>builtin_interfaces</depend>
-
-  <exec_depend>rosidl_default_runtime</exec_depend>
-
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
-
-  <member_of_group>rosidl_interface_packages</member_of_group>
-
->>>>>>> dev/v2.0.0
   <export>
     <build_type>ament_cmake</build_type>
   </export>

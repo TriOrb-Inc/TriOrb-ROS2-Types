@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Result timestamp.
 builtin_interfaces/Time stamp
 
@@ -6,8 +5,4 @@ builtin_interfaces/Time stamp
 string source
 
 # Result message.
-=======
-builtin_interfaces/Time stamp
-string source
->>>>>>> dev/v2.0.0
 string message

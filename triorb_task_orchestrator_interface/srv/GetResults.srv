@@ -1,15 +1,8 @@
-<<<<<<< HEAD
 # Maximum number of results to return. Set 0 to return all available results.
-=======
-# Maximum number of results to return. Zero returns all available results.
->>>>>>> dev/v2.0.0
 uint32 limit
 ---
 bool success
 string message
-<<<<<<< HEAD
 
 # Collected navigation results.
-=======
->>>>>>> dev/v2.0.0
 Result[] results
