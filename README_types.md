@@ -642,8 +642,6 @@ uint16 command
 ---
 # True when the lifter command completed successfully.
 bool success
-# Terminal status reported by the lifter implementation, such as "success" or "failed".
-string status
 # Human-readable completion or error details.
 string message
 ```
