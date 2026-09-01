@@ -16,7 +16,6 @@ uint16 NAVIGATION_FAILED=5
 uint16 NAVIGATION_SUCCESS=6
 uint16 PROGRESS=7
 uint16 FORCE_SUCCESS=8
-uint16 LOST_FAILED=9
 uint16 BLOCKED_BY_PERMIT=10
 
 # 使える現在姿勢を得られない場合。なぜ得られないか(自己位置のロスト・ノードの停止・
