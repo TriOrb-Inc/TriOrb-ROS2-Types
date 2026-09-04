@@ -1,0 +1,27 @@
+# ActionExecution.action受付応答またはResultが不明になった場合のprocess内照合専用。
+# process crash・再起動をまたぐ復旧、旧task再開、process identity照合には使用しない。
+ActionExecutionKey key
+uint32 reconciliation_request_id # process内で非0・狭義単調増加。同一論理reconcile再送時だけ同値
+bool request_stop
+bool fence_if_not_seen          # 未受信時に同じexecution_idをprocess-local fenceへ登録する
+---
+uint8 STATUS_UNKNOWN=0             # zero初期値。serverは返さず、clientは受信時fail-closed
+uint8 STATUS_FENCED_NOT_SEEN=1
+uint8 STATUS_PENDING=2
+uint8 STATUS_ACTIVE=3
+uint8 STATUS_TERMINAL=4
+uint8 STATUS_RECOVERY_REQUIRED=5
+uint8 STATUS_INDETERMINATE=6
+
+ActionExecutionKey key       # request値を常にecho
+uint32 reconciliation_request_id # request値を常にecho
+uint8 status
+bool report_valid
+ActionExecutionReport latest_report # report_valid=falseのときはzero-initialized値で、clientは参照しない
+bool recovery_required
+string message
+
+# fence recordはprocess-localかつ最大1件とし、未受信判定、execution_id high-water更新、fence登録を
+# ActionExecution受付reservationと同じ排他境界で原子的に行う。より新しいexecution_idを受理したら
+# fence recordは置換/clearできるが、古いIDはhigh-waterで拒否し続ける。この仕組みはprocess再起動や
+# execution_id wrap時のgeneration分離を保証しない。

@@ -1,0 +1,59 @@
+#**
+#* Copyright 2026 TriOrb Inc.
+#*
+#* Licensed under the Apache License, Version 2.0 (the "License");
+#* you may not use this file except in compliance with the License.
+#* You may obtain a copy of the License at
+#*
+#*     http://www.apache.org/licenses/LICENSE-2.0
+#*
+#* Unless required by applicable law or agreed to in writing, software
+#* distributed under the License is distributed on an "AS IS" BASIS,
+#* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#* See the License for the specific language governing permissions and
+#* limitations under the License.
+#**
+
+# ActionExecution.actionに対する停止/一時停止/再開要求
+# command
+uint8 COMMAND_PAUSE=1
+uint8 COMMAND_STOP=2
+uint8 COMMAND_RESUME=3
+
+uint8 CONTROL_CAUSE_TASK_COMMAND=1
+uint8 CONTROL_CAUSE_PAUSE_RESTART=2
+uint8 CONTROL_CAUSE_CONTROL_ACK_TIMEOUT=3
+
+uint32 execution_id
+uint32 action_control_request_id # execution内で非0・狭義単調増加。同一論理requestの通信再送時だけ同値
+uint8 command
+uint8 control_cause             # CONTROL_CAUSE_*。commandと組み合わせて意味を固定する
+---
+# result
+uint32 execution_id              # request値を常にecho
+uint32 action_control_request_id # request値を常にecho
+bool success
+uint32 response_reason_code # service受付結果。ActionExecutionReportDetail.REASON_*を使用し、report.reason_codeとは独立
+bool report_valid           # reportが対象executionのsnapshotを持つ場合true
+string message
+ActionExecutionReport report
+
+# 論理相関keyは(execution_id, action_control_request_id)。action_control_request_id=0は
+# REASON_INVALID_ACTION_CONTROL_REQUEST_IDとして副作用なしで拒否する。
+# PAUSE/RESUMEはCONTROL_CAUSE_TASK_COMMANDだけを許可する。STOPは3つのCONTROL_CAUSE_*を許可し、
+# 0、未知値、許可されない組合せはREASON_INVALID_ACTION_CONTROL_CAUSEとして副作用なしで拒否する。
+# fingerprintは(execution_id, command, control_cause)。active executionまたは次execution受理前の
+# terminal tombstoneにある最新ID・同一fingerprintの再送には最初のresponseを返してeventを再投入しない。
+# 次execution受理後の旧execution宛て要求はEXECUTION_NOT_ACTIVEとする。最新IDより小さい値は
+# 元と同じpayloadでもstaleとする。
+# 最新ID・異fingerprintは
+# REASON_ACTION_CONTROL_REQUEST_ID_CONFLICT、最後に消費したIDより小さい値は
+# REASON_STALE_ACTION_CONTROL_REQUEST_IDとして副作用なしで拒否する。active/pending executionへの
+# 新しいIDの拒否responseもcacheする。terminal tombstoneのlast IDより大きい値はcacheせずinactiveとする。
+# より大きいIDのSTOPは処理中のPAUSE/RESUMEをsupersedeする。
+# ID付きSTOPがprimary_stop_triggerの場合、CONTROL_CAUSE_PAUSE_RESTARTの停止確認は
+# CANCELLED/REASON_RESTART_SUPERSEDED、CONTROL_CAUSE_TASK_COMMANDまたは
+# CONTROL_CAUSE_CONTROL_ACK_TIMEOUTはCANCELLED/REASON_NONEをreportする。
+# 既存のoriginなしfailure STOPへ後着したID付きSTOPはprimaryのterminal分類を変更しない。
+# ACK timeoutのtask失敗reasonはOrchestratorのpending_failure_reasonを正本とし、ROS cancelとの到着順に
+# Action reportを依存させない。いずれも停止を確認できなければFAILED/REASON_CANCEL_UNCONFIRMEDをreportする。

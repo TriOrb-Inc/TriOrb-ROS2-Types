@@ -14,14 +14,15 @@
 #* limitations under the License.
 #**
 
-#== jetson内に保存されたcsvファイルを指定してtask実行を行うaction ==
-string file_name               # task csvファイル名
+#== jsonデータ経由でtask実行を行うaction ==
+ActionSequence[] sequence
 float32 ratio_speed            # 速度倍率。vxy / vw に掛かる。0 以下は reject
 float32 bias_accuracy_xy       # 位置の許容誤差に足すオフセット [m]
 float32 bias_accuracy_deg      # 姿勢の許容誤差に足すオフセット [deg]
 uint32 loop                    # Must be greater than zero.
 ---
 bool success
+
 string final_status            # Finished / Error / Stopped / Canceled
 string message                 # 失敗理由
 ---
