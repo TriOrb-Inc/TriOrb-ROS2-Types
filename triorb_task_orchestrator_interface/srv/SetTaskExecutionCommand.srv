@@ -1,9 +1,14 @@
+# ExecuteTask.action又はExecuteTaskFile.actionに対する停止/一時停止/再開要求
+# command
 uint8 COMMAND_PAUSE=1
-uint8 COMMAND_TERMINATE=2
+uint8 COMMAND_STOP=2
 uint8 COMMAND_RESUME=3
-
+# Legacy draft used COMMAND_TERMINATE=2; the V2 source-level name is COMMAND_STOP.
 uint8 command
 ---
+# result
 bool success
 string message
-TaskExecutionState state
+TaskExecutionStatus status
+
+# TODO(U-23): Task commandのtask/request相関と構造化response reasonは未解決。

@@ -1,0 +1,18 @@
+# ExecuteTaskFileの保存CSV読込み専用。論理endpointはtask_asset_manager/resolve_task。
+# TODO(U-23): interface sourceの物理package/refとrelease時のpackage/endpoint名は未確定。
+string file_name
+---
+uint8 REASON_NONE=0
+uint8 REASON_NOT_FOUND=1
+uint8 REASON_INVALID_FILE_NAME=2
+uint8 REASON_INVALID_CSV=3
+uint8 REASON_IO_ERROR=4
+uint8 REASON_INTERNAL_ERROR=5
+
+bool success
+uint8 reason_code
+RawActionSequence raw_action_sequence
+string message
+# success=true iff reason_code=REASON_NONE。成功時messageは空。
+# failure時raw_action_sequence.actionsは空で、部分変換結果を返さない。
+# messageは診断表示専用であり、clientは制御分岐に使用しない。
