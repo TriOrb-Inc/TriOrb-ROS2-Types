@@ -1,0 +1,4 @@
+# TODO(U-23): Pagination request fields are not defined.
+# Keep this placeholder out of rosidl generation until the V2 contract is fixed.
+---
+# TODO(U-23): The MapFileInfo list, pagination metadata, and error model are not defined.
