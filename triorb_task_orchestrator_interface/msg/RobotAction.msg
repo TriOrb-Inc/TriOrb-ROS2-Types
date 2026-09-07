@@ -19,7 +19,7 @@
 uint16 action_type_id  # actionの実行種別
 string type      # GUI用i18nextライブラリの翻訳キー.例外としてcollab00の際は26552200として、下2桁がgroup noを表わす
 string name      # GUI用の表示名
-string value     # GUI用の表示区分名
+string value     # actionに対する指令/action分類などactionにより仕様が異なる
 
 float64 x        # 目標位置 [m]
 float64 y        # 目標位置 [m]

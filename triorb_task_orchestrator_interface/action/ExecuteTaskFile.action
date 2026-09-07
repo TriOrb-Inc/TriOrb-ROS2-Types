@@ -25,4 +25,4 @@ bool success
 string final_status            # Finished / Error / Stopped / Canceled
 string message                 # 失敗理由
 ---
-TaskExecutionStatus status
+TaskExecutionState state
