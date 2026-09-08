@@ -14,9 +14,8 @@
 #* limitations under the License.
 #**
 
-# request
-string file_name # 拡張子付きで指定
+string file_name
 ---
-# result
+#result
 bool success
-MapFileInfo file_info
+RawActionSequence raw_action_sequence

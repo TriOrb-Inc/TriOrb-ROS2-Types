@@ -25,6 +25,4 @@ uint8 command
 # result
 bool success
 string message
-TaskExecutionStatus status
-
-# TODO(U-23): Task commandのtask/request相関と構造化response reasonは未解決。
+TaskExecutionState status

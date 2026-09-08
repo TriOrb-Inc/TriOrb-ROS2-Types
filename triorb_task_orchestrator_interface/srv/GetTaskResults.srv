@@ -14,9 +14,11 @@
 #* limitations under the License.
 #**
 
+# command
 # Maximum number of results to return. Zero returns all available results.
 uint32 limit
 ---
+# result
 bool success
 string message
 TaskResult[] results

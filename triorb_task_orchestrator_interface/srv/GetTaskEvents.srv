@@ -14,9 +14,11 @@
 #* limitations under the License.
 #**
 
+# command
 # Maximum number of events to return. Zero returns all available events.
 uint32 limit
 ---
+# result
 bool success
 string message
 TaskEvent[] events

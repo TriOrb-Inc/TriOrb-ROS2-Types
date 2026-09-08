@@ -16,5 +16,7 @@
 
 # 初期的にはmap contentを表さない。map root内で検証済みの`.h5`論理file名だけを公開する。
 string file_name
-# uint64 size / map file size in bytes
-# string timestamp / map file generation timestamp
+string source_file_path  # task csvファイルの絶対パス
+builtin_interfaces/Time created_at
+builtin_interfaces/Time updated_at
+uint64 size_bytes

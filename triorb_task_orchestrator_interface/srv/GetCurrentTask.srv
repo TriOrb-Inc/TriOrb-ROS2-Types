@@ -14,12 +14,16 @@
 #* limitations under the License.
 #**
 
+# command empty
+
+---
+# result
 bool success
 bool has_task
 string message
 string source_file
-ActionSequence[] sequence
+uint32 loop
+ActionSequence sequence
 float32 ratio_speed
 float32 bias_accuracy_xy
 float32 bias_accuracy_deg
-uint32 loop
