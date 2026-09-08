@@ -67,7 +67,7 @@ float32 pitch
 float32 roll
 ```
 
-### triorb_sensor_interface/msg/CanFrame.msg
+### triorb_sensor_interface/msg/BatteryCanFrame.msg
 ```bash
 uint32 id
 bool is_rtr
