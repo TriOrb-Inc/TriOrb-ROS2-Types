@@ -19,18 +19,6 @@
 uint16 action_type_id  # actionの実行種別
 string type      # GUI用i18nextライブラリの翻訳キー.例外としてcollab00の際は26552200として、下2桁がgroup noを表わす
 string name      # GUI用の表示名
-string value     # GUI用の表示区分名
+string value     # actionに対する指令/action分類などactionにより仕様が異なる
 
-float64 x        # 目標位置 [m]
-float64 y        # 目標位置 [m]
-float64 yaw      # 目標姿勢 [deg]
-
-float64 vxy      # 並進速度 [m/s]
-float64 vw       # 回転速度 [rad/s]
-
-float64 acc_xy   # 位置の許容誤差 [m]
-float64 acc_w    # 姿勢の許容誤差 [deg]
-
-uint8 gain       # TriorbRunSetting/gain_no (not set:0, basic:1)
-uint32 accel_ms  # 加減速時間 [ms]。**0 は未指定**として扱い、既定の 1000 が使われる
-string camera    # "1|0|1|1" 形式。0 の位置のカメラを測位から外す。空なら全て使う
+triorb_drive_interface/TriorbSetPos3 target  # 目標位置・姿勢と走行設定

@@ -14,16 +14,10 @@
 #* limitations under the License.
 #**
 
-# command empty
-
+# request
+string source_file # 保存ファイル名
+string json_task_data
 ---
 # result
 bool success
-bool has_task
-string message
-string source_file
-uint32 loop
-ActionSequence sequence
-float32 ratio_speed
-float32 bias_accuracy_xy
-float32 bias_accuracy_deg
+TaskFileInfo info

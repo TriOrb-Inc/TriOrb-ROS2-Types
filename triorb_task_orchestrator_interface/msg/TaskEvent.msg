@@ -14,7 +14,6 @@
 #* limitations under the License.
 #**
 
-# 初期的にはmap contentを表さない。map root内で検証済みの`.h5`論理file名だけを公開する。
-string file_name
-# uint64 size / map file size in bytes
-# string timestamp / map file generation timestamp
+builtin_interfaces/Time stamp
+string source
+string message

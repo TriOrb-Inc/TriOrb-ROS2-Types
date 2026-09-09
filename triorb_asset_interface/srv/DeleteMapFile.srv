@@ -14,11 +14,9 @@
 #* limitations under the License.
 #**
 
-# taskの実行状態をGUIやFMSへ通知するための情報。Orchestrator process内でのdispatch IDを含む。
-
-string current_state
-uint32 loop               # taskのloop回数。0はloopなし、1以上はloopあり。
-uint32 current_loop_index # 現在実行中のloop数
-uint32 action_instance_id # task中の実行順を表わす
-
-TaskFileInfo task_file_info  # 実行中のtask csvファイルの情報。実行中にtask csvファイルが変更される可能性があるため、task csvファイルの情報を含める。
+# request
+string file_name # 拡張子付きで指定
+---
+# result
+bool success
+MapFileInfo file_info

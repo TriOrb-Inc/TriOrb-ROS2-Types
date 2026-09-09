@@ -14,16 +14,9 @@
 #* limitations under the License.
 #**
 
-# command empty
-
+# request
+string file_name # 拡張子付きで指定
 ---
 # result
 bool success
-bool has_task
-string message
-string source_file
-uint32 loop
-ActionSequence sequence
-float32 ratio_speed
-float32 bias_accuracy_xy
-float32 bias_accuracy_deg
+TaskFileInfo file_info

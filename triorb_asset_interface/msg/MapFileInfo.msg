@@ -1,4 +1,3 @@
-
 #**
 #* Copyright 2026 TriOrb Inc.
 #*
@@ -15,7 +14,9 @@
 #* limitations under the License.
 #**
 
-# TODO(U-23): The request fields and validated .h5 file-name contract are not defined.
-# Keep this placeholder out of rosidl generation until the V2 contract is fixed.
----
-# TODO(U-23): The response fields and error model are not defined.
+# 初期的にはmap contentを表さない。map root内で検証済みの`.h5`論理file名だけを公開する。
+string file_name
+string source_file_path  # mapファイルの絶対パス
+builtin_interfaces/Time created_at
+builtin_interfaces/Time updated_at
+uint64 size_bytes
