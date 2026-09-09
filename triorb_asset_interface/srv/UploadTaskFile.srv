@@ -16,8 +16,8 @@
 
 # request
 string file_name
+uint8[] data
 ---
 # result
 bool success
-uint8[] data
 TaskFileInfo file_info
