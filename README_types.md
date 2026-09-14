@@ -995,6 +995,22 @@ string ipv4_address  # gateway address of the hotspot subnet
 bool enabled         # hotspot enabled
 ```
 
+### triorb_static_interface/msg/EthernetConfig.msg
+```bash
+# NetworkManager connection ID of this Ethernet profile. Empty on create unless replacing a known profile.
+string connection_id
+# OS network interface name, for example eth0. Empty means the service may choose a default wired interface.
+string interface_name
+# True when NetworkManager may auto-connect this profile.
+bool autoconnect
+# Auto-connect priority. Higher values are preferred.
+int32 priority
+# True runs `nmcli connection up`; false runs `nmcli connection down`. Defaults to true.
+bool up true
+# IPv4 settings of this profile.
+IPv4Config ipv4
+```
+
 ### triorb_static_interface/msg/WifiNetwork.msg
 ```bash
 #==One Wi-Fi scan result==
@@ -1397,6 +1413,19 @@ bool success       # false if the configuration was rejected or could not be app
 string message     # error detail when success is false, empty otherwise
 ```
 
+### triorb_static_interface/srv/SetEthernetConfig.srv
+```bash
+# Ethernet profile to create or update in NetworkManager.
+EthernetConfig config
+---
+# True when the Ethernet profile was created or updated successfully.
+bool success
+# Human-readable completion or error details.
+string message
+# NetworkManager connection ID of the resulting Ethernet profile.
+string connection_id
+```
+
 ### triorb_static_interface/srv/GetWifiConfig.srv
 ```bash
 #==[Service] Get Wi-Fi connection configuration==
@@ -1711,4 +1740,3 @@ bool success
 ---
 TaskExecutionState state
 ```
-
