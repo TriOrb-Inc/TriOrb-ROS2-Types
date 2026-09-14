@@ -1005,8 +1005,8 @@ string interface_name
 bool autoconnect
 # Auto-connect priority. Higher values are preferred.
 int32 priority
-# True when this profile should be enabled, false when it should be disabled.
-bool enabled
+# True runs `nmcli connection up`; false runs `nmcli connection down`. Defaults to true.
+bool up true
 # IPv4 settings of this profile.
 IPv4Config ipv4
 ```
@@ -1740,4 +1740,3 @@ bool success
 ---
 TaskExecutionState state
 ```
-
