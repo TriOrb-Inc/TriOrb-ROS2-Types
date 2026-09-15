@@ -544,7 +544,12 @@ float32 power               # Power consumption of each motor (W)
 std_msgs/Header header  # Header
 TriorbSpeed speed       # Configure of moving
 TriorbVel3 velocity     # Target velocities
+uint32 lifetime_ms      # Lifetime for moving
 ```
+
+`lifetime_ms` は `TriorbRunVel3` と同じく、受信側が速度指令を受理してからの有効期間 [ms] です。
+0は未指定（受信側の既定設定を使用）です。期限監視と停止処理は受信側で実装する必要があります。
+`header.stamp` からの経過時間を判定するフィールドではありません。
 
 ### triorb_drive_interface/msg/Route.msg
 ```bash
