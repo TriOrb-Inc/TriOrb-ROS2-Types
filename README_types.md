@@ -638,6 +638,26 @@ TriorbPos3 position     # Target position
 #==速度指示による移動==
 TriorbSpeed speed       # Configure of moving
 TriorbVel3 velocity     # Target velocities
+
+# 受信側がこの速度指令を受理してからの有効期間 [ms]
+# 有効期間内に次の速度指令を受理しなければ、受信側で停止する
+# 0: 未指定（受信側の既定のライフタイム設定を使用）
+uint32 lifetime_ms
+```
+
+`lifetime_ms` による期限監視と停止処理は受信側で実装する必要があります。
+送信時刻からの経過時間を判定するフィールドではありません。
+
+### triorb_drive_interface/msg/TriorbStop.msg
+
+停止要求の送信時刻と送信元ノード名を伝えるメッセージです。
+
+```text
+# 停止要求の送信時刻
+builtin_interfaces/Time stamp
+
+# この停止要求をpublishしたノード名
+string source_node
 ```
 
 ### triorb_drive_interface/msg/TriorbVel3.msg
@@ -1711,4 +1731,3 @@ bool success
 ---
 TaskExecutionState state
 ```
-
