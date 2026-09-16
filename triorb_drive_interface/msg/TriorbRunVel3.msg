@@ -16,4 +16,5 @@
 
 #==速度指示による移動==
 TriorbSpeed speed       # Configure of moving
-TriorbVel3 velocity     # Target velocities
+TriorbVel3 velocity     # Target velocities　
+uint32 lifetime_ms      # Lifetime for moving
