@@ -15,10 +15,14 @@
 #**
 
 #==ロボット → FMS: コマンドへの応答==
-# 受理時と完了時に出る
+# 1 コマンドにつき、受理時(accepted)と完了時(succeeded / failed)に出る。拒否は rejected の 1 通だけ。
+# stop は accepted の後、停止を観測したら confirmed、観測できなければ failed
 builtin_interfaces/Time stamp
-string request_id             # コマンドの request_id
-bool accepted                 # 受理した
-bool success                  # ROS 2 側の呼び出しが成功した
-bool confirmed                # stop のみ。停止を観測した
-string message                # 拒否・失敗の理由
+string request_id                   # コマンドの request_id
+string PHASE_ACCEPTED="accepted"    # 受理した。以後 succeeded / failed / confirmed のどれかが来る
+string PHASE_REJECTED="rejected"    # 検証で拒否した。これで終わり
+string PHASE_SUCCEEDED="succeeded"  # 完了。ROS 2 側の呼び出しが成功した
+string PHASE_FAILED="failed"        # 完了。失敗または deadline 超過
+string PHASE_CONFIRMED="confirmed"  # 完了。stop のみ。停止を観測した
+string phase                        # PHASE_*
+string message                      # 拒否・失敗の理由

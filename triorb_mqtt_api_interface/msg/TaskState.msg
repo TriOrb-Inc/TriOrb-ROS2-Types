@@ -17,15 +17,19 @@
 #==ロボット → FMS: タスク実行の状態(変化時 + 実行中は 1 Hz)==
 # TaskExecutionState の写しに最終結果を足したもの
 builtin_interfaces/Time stamp
-string current_state          # TaskExecutionState.current_state と同じ(取り得る値は task_orchestrator 側で未確定)
-uint32 loop                   # 周回数
-uint32 current_loop_index     # 現在の周回
-uint32 action_instance_id     # 実行中の action の順番
+string STATE_RUNNING="running"  # 実行中
+string STATE_PAUSED="paused"    # 一時停止中
+string STATE_DONE="done"        # 終了。final_status に結果
+string state                    # STATE_*。Bridge が action の受理・pause / resume の成否・result から決める
+string orchestrator_state       # TaskExecutionState.current_state をそのまま(参考)
+uint32 loop                     # 周回数
+uint32 current_loop_index       # 現在の周回
+uint32 action_instance_id       # 実行中の action の順番
 string file_name
 
 string FINAL_FINISHED="Finished"
 string FINAL_ERROR="Error"
 string FINAL_STOPPED="Stopped"
 string FINAL_CANCELED="Canceled"
-string final_status           # 最終結果(FINAL_*)。実行中は空
-string message                # 失敗・停止の理由
+string final_status             # 最終結果(FINAL_*)。実行中は空
+string message                  # 失敗・停止の理由

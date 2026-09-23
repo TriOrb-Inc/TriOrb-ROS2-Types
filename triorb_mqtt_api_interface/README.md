@@ -39,7 +39,6 @@ bool emergency_stop           # 非常停止中
 bool moving                   # 走行中
 bool motor_energized          # 励磁中
 bool brake_free               # 電磁ブレーキ解放
-bool collision_stop           # 衝突回避で停止中(出どころ未確定。常に false)
 
 # タスク
 bool navigating               # タスク実行中
@@ -75,18 +74,22 @@ bool valid                               # false なら x / y / deg は無効
 #==ロボット → FMS: タスク実行の状態(変化時 + 実行中は 1 Hz)==
 # TaskExecutionState の写しに最終結果を足したもの
 builtin_interfaces/Time stamp
-string current_state          # TaskExecutionState.current_state と同じ(取り得る値は task_orchestrator 側で未確定)
-uint32 loop                   # 周回数
-uint32 current_loop_index     # 現在の周回
-uint32 action_instance_id     # 実行中の action の順番
+string STATE_RUNNING="running"  # 実行中
+string STATE_PAUSED="paused"    # 一時停止中
+string STATE_DONE="done"        # 終了。final_status に結果
+string state                    # STATE_*。Bridge が action の受理・pause / resume の成否・result から決める
+string orchestrator_state       # TaskExecutionState.current_state をそのまま(参考)
+uint32 loop                     # 周回数
+uint32 current_loop_index       # 現在の周回
+uint32 action_instance_id       # 実行中の action の順番
 string file_name
 
 string FINAL_FINISHED="Finished"
 string FINAL_ERROR="Error"
 string FINAL_STOPPED="Stopped"
 string FINAL_CANCELED="Canceled"
-string final_status           # 最終結果(FINAL_*)。実行中は空
-string message                # 失敗・停止の理由
+string final_status             # 最終結果(FINAL_*)。実行中は空
+string message                  # 失敗・停止の理由
 ```
 
 ### triorb_mqtt_api_interface/msg/Heartbeat
@@ -109,7 +112,7 @@ string prefix                 # 診断名の前方一致。空なら全件
 ### triorb_mqtt_api_interface/msg/DiagnosticsSnapshot
 ```bash
 #==ロボット → FMS: 診断の全文(DiagnosticsRequest への応答)==
-# robot/state/get の応答(DiagnosticArray)をそのまま写す
+# robot/state/get の応答(DiagnosticArray)の header.stamp と status[] を写す。header.frame_id は使わないので載せない
 string request_id              # 要求の request_id
 builtin_interfaces/Time stamp  # 集約結果の header.stamp
 diagnostic_msgs/DiagnosticStatus[] status
@@ -118,13 +121,17 @@ diagnostic_msgs/DiagnosticStatus[] status
 ### triorb_mqtt_api_interface/msg/CommandResult
 ```bash
 #==ロボット → FMS: コマンドへの応答==
-# 受理時と完了時に出る
+# 1 コマンドにつき、受理時(accepted)と完了時(succeeded / failed)に出る。拒否は rejected の 1 通だけ。
+# stop は accepted の後、停止を観測したら confirmed、観測できなければ failed
 builtin_interfaces/Time stamp
-string request_id             # コマンドの request_id
-bool accepted                 # 受理した
-bool success                  # ROS 2 側の呼び出しが成功した
-bool confirmed                # stop のみ。停止を観測した
-string message                # 拒否・失敗の理由
+string request_id                   # コマンドの request_id
+string PHASE_ACCEPTED="accepted"    # 受理した。以後 succeeded / failed / confirmed のどれかが来る
+string PHASE_REJECTED="rejected"    # 検証で拒否した。これで終わり
+string PHASE_SUCCEEDED="succeeded"  # 完了。ROS 2 側の呼び出しが成功した
+string PHASE_FAILED="failed"        # 完了。失敗または deadline 超過
+string PHASE_CONFIRMED="confirmed"  # 完了。stop のみ。停止を観測した
+string phase                        # PHASE_*
+string message                      # 拒否・失敗の理由
 ```
 
 ### triorb_mqtt_api_interface/msg/TaskExecuteCommand

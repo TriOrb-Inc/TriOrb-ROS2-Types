@@ -24,7 +24,6 @@ bool emergency_stop           # 非常停止中
 bool moving                   # 走行中
 bool motor_energized          # 励磁中
 bool brake_free               # 電磁ブレーキ解放
-bool collision_stop           # 衝突回避で停止中(出どころ未確定。常に false)
 
 # タスク
 bool navigating               # タスク実行中

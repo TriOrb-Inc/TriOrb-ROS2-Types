@@ -15,7 +15,7 @@
 #**
 
 #==ロボット → FMS: 診断の全文(DiagnosticsRequest への応答)==
-# robot/state/get の応答(DiagnosticArray)をそのまま写す
+# robot/state/get の応答(DiagnosticArray)の header.stamp と status[] を写す。header.frame_id は使わないので載せない
 string request_id              # 要求の request_id
 builtin_interfaces/Time stamp  # 集約結果の header.stamp
 diagnostic_msgs/DiagnosticStatus[] status
