@@ -21,7 +21,7 @@ string STATE="mqtt_ros_bridge/state"                        # RobotState
 string POSE="mqtt_ros_bridge/pose"                          # RobotPose
 string TASK_STATE="mqtt_ros_bridge/task/state"              # TaskState
 string STATE_RESPONSE="mqtt_ros_bridge/state/response"      # DiagnosticsSnapshot
-string HEARTBEAT="mqtt_ros_bridge/heartbeat"                # Heartbeat(retain)
+string HEARTBEAT="mqtt_ros_bridge/heartbeat"                # Heartbeat
 string COMMAND_RESULT="mqtt_ros_bridge/cmd/result"          # CommandResult
 string PONG="mqtt_ros_bridge/pong"                          # 素の文字列(PING の折り返し)
 # FMS → ロボット

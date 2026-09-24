@@ -2,8 +2,8 @@
 
 # Package: triorb_mqtt_api_interface
 
-FMS(Fleet Management System)とロボットの間の MQTT 通信で使う型。ロボット側の `triorb_mqtt_ros_bridge` と FMS 側のアダプターが同じ定義を見る。
-MQTT のトピックは `"<prefix>/" + MqttTopics の定数`、payload は各 msg を JSON にしたもの(キー = フィールド名、`builtin_interfaces/Time` は `{"sec", "nanosec"}`)。トピックごとの周期・QoS・retain は `triorb_mqtt_ros_bridge/INTERFACE.md` を参照。
+FMS(Fleet Management System)とロボットの間の MQTT 通信で使う型。ROS 2 の topic としては流さない。ロボット側では `TriOrb-External-Communication-Subsystems/TriOrb-FMS-Communication-Packages/triorb_mqtt_ros_bridge` が ROS 2 側の値をこの型に詰めて MQTT の payload(JSON)にし、FMS 側のアダプターが同じ定義で読む。
+MQTT のトピックは `"<prefix>/" + MqttTopics の定数`、payload は各 msg を JSON にしたもの(キー = フィールド名、`builtin_interfaces/Time` は `{"sec", "nanosec"}`)。トピックごとの周期・QoS は `triorb_mqtt_ros_bridge/INTERFACE.md` を参照。
 
 ## triorb_mqtt_api_interface Types
 
@@ -16,7 +16,7 @@ string STATE="mqtt_ros_bridge/state"                        # RobotState
 string POSE="mqtt_ros_bridge/pose"                          # RobotPose
 string TASK_STATE="mqtt_ros_bridge/task/state"              # TaskState
 string STATE_RESPONSE="mqtt_ros_bridge/state/response"      # DiagnosticsSnapshot
-string HEARTBEAT="mqtt_ros_bridge/heartbeat"                # Heartbeat(retain)
+string HEARTBEAT="mqtt_ros_bridge/heartbeat"                # Heartbeat
 string COMMAND_RESULT="mqtt_ros_bridge/cmd/result"          # CommandResult
 string PONG="mqtt_ros_bridge/pong"                          # 素の文字列(PING の折り返し)
 # FMS → ロボット
@@ -94,8 +94,8 @@ string message                  # 失敗・停止の理由
 
 ### triorb_mqtt_api_interface/msg/Heartbeat
 ```bash
-#==ロボット → FMS: ハートビート(2 秒、retain)==
-# FMS が接続中のロボットを見つけ、prefix の重複を検出するために使う。切断時は Last Will が retain を空 payload で消す
+#==ロボット → FMS: ハートビート(2 秒)==
+# FMS が接続中のロボットを見つけ、prefix の重複を検出するために使う
 builtin_interfaces/Time stamp
 string prefix                 # MQTT の <prefix>
 string hostname

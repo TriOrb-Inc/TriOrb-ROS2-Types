@@ -1787,8 +1787,8 @@ diagnostic_msgs/DiagnosticStatus[] status
 
 ### triorb_mqtt_api_interface/msg/Heartbeat.msg
 ```bash
-#==ロボット → FMS: ハートビート(2 秒、retain)==
-# FMS が接続中のロボットを見つけ、prefix の重複を検出するために使う。切断時は Last Will が retain を空 payload で消す
+#==ロボット → FMS: ハートビート(2 秒)==
+# FMS が接続中のロボットを見つけ、prefix の重複を検出するために使う
 builtin_interfaces/Time stamp
 string prefix                 # MQTT の <prefix>
 string hostname
@@ -1912,7 +1912,7 @@ string STATE="mqtt_ros_bridge/state"                        # RobotState
 string POSE="mqtt_ros_bridge/pose"                          # RobotPose
 string TASK_STATE="mqtt_ros_bridge/task/state"              # TaskState
 string STATE_RESPONSE="mqtt_ros_bridge/state/response"      # DiagnosticsSnapshot
-string HEARTBEAT="mqtt_ros_bridge/heartbeat"                # Heartbeat(retain)
+string HEARTBEAT="mqtt_ros_bridge/heartbeat"                # Heartbeat
 string COMMAND_RESULT="mqtt_ros_bridge/cmd/result"          # CommandResult
 string PONG="mqtt_ros_bridge/pong"                          # 素の文字列(PING の折り返し)
 # FMS → ロボット

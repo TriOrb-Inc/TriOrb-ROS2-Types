@@ -14,8 +14,8 @@
 #* limitations under the License.
 #**
 
-#==ロボット → FMS: ハートビート(2 秒、retain)==
-# FMS が接続中のロボットを見つけ、prefix の重複を検出するために使う。切断時は Last Will が retain を空 payload で消す
+#==ロボット → FMS: ハートビート(2 秒)==
+# FMS が接続中のロボットを見つけ、prefix の重複を検出するために使う
 builtin_interfaces/Time stamp
 string prefix                 # MQTT の <prefix>
 string hostname
