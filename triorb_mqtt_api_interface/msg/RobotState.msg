@@ -19,7 +19,7 @@
 builtin_interfaces/Time stamp
 
 # ECU の状態(robot/ecu_status)
-bool facts_fresh              # ecu_status が 3 秒以内に取れている。false なら下の bool は無効
+bool facts_fresh              # ecu_status が鮮度の上限(Bridge のパラメータ。既定 5 秒)以内に取れている。false なら下の bool は無効
 bool emergency_stop           # 非常停止中
 bool moving                   # 走行中
 bool motor_energized          # 励磁中
