@@ -1,3 +1,7 @@
+#==[Service] Set Ethernet connection profile==
+# GUI API: PUT /network/ethernet/config -> ROS 2 service /network/ethernet/config/set
+# Backend: triorb-system-cored NetworkService.SetEthernetConfig
+# Read the saved profile back with GetEthernetConfig (/network/ethernet/config/get).
 # Ethernet profile to create or update in NetworkManager.
 EthernetConfig config
 ---

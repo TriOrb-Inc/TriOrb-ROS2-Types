@@ -6,7 +6,8 @@ string interface_name
 bool autoconnect
 # Auto-connect priority. Higher values are preferred.
 int32 priority
-# True runs `nmcli connection up`; false runs `nmcli connection down`. Defaults to true.
+# On set: true runs `nmcli connection up`; false runs `nmcli connection down`. Defaults to true.
+# On get (GetEthernetConfig): reports whether the profile is currently active.
 bool up true
 # IPv4 settings of this profile.
 IPv4Config ipv4

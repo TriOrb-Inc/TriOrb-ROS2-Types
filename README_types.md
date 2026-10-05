@@ -1031,7 +1031,8 @@ string interface_name
 bool autoconnect
 # Auto-connect priority. Higher values are preferred.
 int32 priority
-# True runs `nmcli connection up`; false runs `nmcli connection down`. Defaults to true.
+# On set: true runs `nmcli connection up`; false runs `nmcli connection down`. Defaults to true.
+# On get (GetEthernetConfig): reports whether the profile is currently active.
 bool up true
 # IPv4 settings of this profile.
 IPv4Config ipv4
@@ -1441,6 +1442,10 @@ string message     # error detail when success is false, empty otherwise
 
 ### triorb_static_interface/srv/SetEthernetConfig.srv
 ```bash
+#==[Service] Set Ethernet connection profile==
+# GUI API: PUT /network/ethernet/config -> ROS 2 service /network/ethernet/config/set
+# Backend: triorb-system-cored NetworkService.SetEthernetConfig
+# Read the saved profile back with GetEthernetConfig (/network/ethernet/config/get).
 # Ethernet profile to create or update in NetworkManager.
 EthernetConfig config
 ---
@@ -1450,6 +1455,29 @@ bool success
 string message
 # NetworkManager connection ID of the resulting Ethernet profile.
 string connection_id
+```
+
+### triorb_static_interface/srv/GetEthernetConfig.srv
+```bash
+#==[Service] Get a saved Ethernet connection profile==
+# GUI API: GET /network/ethernet/config/{connection_id} -> ROS 2 service /network/ethernet/config/get
+# Backend: triorb-system-cored NetworkService.GetEthernetConfig
+# Read-only counterpart of SetEthernetConfig: returns the saved profile in the same
+# EthernetConfig shape so a client can edit it and send it back to /network/ethernet/config/set.
+# NetworkManager connection ID of the Ethernet profile to read.
+# Same value as GetNetworkConfig connections[].id and SetEthernetConfig response connection_id.
+# Must not be empty: an empty ID is rejected by the service (the profile is not derived from the interface).
+string connection_id
+---
+# Saved profile. Only valid when success is true.
+# `up` reports whether the profile is currently active (read-only here; it is a command on set).
+EthernetConfig config
+# True when the profile exists, is an Ethernet profile, and could be read.
+# False when the connection_id is unknown, the profile is not an Ethernet profile, or NetworkManager could not be queried.
+bool success
+# Human-readable completion or error details.
+# Empty or "ok" when success is true; error detail when success is false.
+string message
 ```
 
 ### triorb_static_interface/srv/GetWifiConfig.srv
