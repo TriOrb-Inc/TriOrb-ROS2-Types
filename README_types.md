@@ -1351,6 +1351,30 @@ bool success    # false if the value was rejected or could not be persisted
 string message  # error detail when success is false, empty otherwise
 ```
 
+### triorb_static_interface/srv/GetMqttBroker.srv
+```bash
+#==[Service] Get MQTT broker (Fleet Management System endpoint)==
+# GUI API: GET /system/config/mqtt/broker -> ROS 2 service /system/config/mqtt/broker/get
+# Backend: triorb-system-cored SystemService.GetMqttBroker
+# The GUI persists the FMS MQTT broker address here so it can be restored after a restart.
+---
+string host  # persisted MQTT broker host: IPv4 literal or hostname ("" = not configured)
+uint16 port  # persisted MQTT broker TCP port (typical 1883 / 8883)
+```
+
+### triorb_static_interface/srv/SetMqttBroker.srv
+```bash
+#==[Service] Set MQTT broker (Fleet Management System endpoint)==
+# GUI API: PUT /system/config/mqtt/broker -> ROS 2 service /system/config/mqtt/broker/set
+# Backend: triorb-system-cored SystemService.SetMqttBroker
+# Only persists the value; nothing reconnects. Clients read it back via GetMqttBroker.
+string host     # MQTT broker host: IPv4 literal or hostname ("" clears the setting)
+uint16 port     # MQTT broker TCP port (0 = default 1883)
+---
+bool success    # false if the value was rejected or could not be persisted
+string message  # error detail when success is false, empty otherwise
+```
+
 ### triorb_static_interface/srv/GetAvailableVersions.srv
 ```bash
 #==[Service] Get selectable package versions==
