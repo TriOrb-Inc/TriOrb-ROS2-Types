@@ -1,0 +1,35 @@
+#**
+#* Copyright 2026 TriOrb Inc.
+#*
+#* Licensed under the Apache License, Version 2.0 (the "License");
+#* you may not use this file except in compliance with the License.
+#* You may obtain a copy of the License at
+#*
+#*     http://www.apache.org/licenses/LICENSE-2.0
+#*
+#* Unless required by applicable law or agreed to in writing, software
+#* distributed under the License is distributed on an "AS IS" BASIS,
+#* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#* See the License for the specific language governing permissions and
+#* limitations under the License.
+#**
+
+#==[Service] Get a saved Ethernet connection profile==
+# GUI API: GET /network/ethernet/config/{connection_id} -> ROS 2 service /network/ethernet/config/get
+# Backend: triorb-system-cored NetworkService.GetEthernetConfig
+# Read-only counterpart of SetEthernetConfig: returns the saved profile in the same
+# EthernetConfig shape so a client can edit it and send it back to /network/ethernet/config/set.
+# NetworkManager connection ID of the Ethernet profile to read.
+# Same value as GetNetworkConfig connections[].id and SetEthernetConfig response connection_id.
+# Must not be empty: an empty ID is rejected by the service (the profile is not derived from the interface).
+string connection_id
+---
+# Saved profile. Only valid when success is true.
+# `up` reports whether the profile is currently active (read-only here; it is a command on set).
+EthernetConfig config
+# True when the profile exists, is an Ethernet profile, and could be read.
+# False when the connection_id is unknown, the profile is not an Ethernet profile, or NetworkManager could not be queried.
+bool success
+# Human-readable completion or error details.
+# Empty or "ok" when success is true; error detail when success is false.
+string message
