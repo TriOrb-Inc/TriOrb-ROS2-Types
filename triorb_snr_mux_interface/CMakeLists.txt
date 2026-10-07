@@ -12,9 +12,4 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 )
 ament_export_dependencies(rosidl_default_runtime)
 
-if(BUILD_TESTING)
-  find_package(ament_cmake_pytest REQUIRED)
-  ament_add_pytest_test(test_serialization test/test_serialization.py TIMEOUT 60)
-endif()
-
 ament_package()

@@ -31,16 +31,10 @@ ALREADY_ACCEPTEDは単発音声だけで使い、受付済みの同じ内容に�
 時計差の扱いは実装時の設計事項であり、このパッケージはその動作を実装しない。
 Behavior固有のイベント・状態型は今回追加していない。
 
-## ビルドと検証
+## ビルド
 
 ```bash
 colcon build --packages-select triorb_aux_interface
-source install/local_setup.bash
-colcon test --packages-select triorb_aux_interface --return-code-on-test-failure
-colcon test-result --verbose
 ```
 
-`test/test_serialization.py` でLCD上限と超過、完全な要求のシリアライズ、UUID・イベントID・有効期間、
-既定の停止指令・拒否応答を検証する。受付処理・機器送信・再生はテスト対象外。
 依存は `builtin_interfaces`、`unique_identifier_msgs`、`rosidl_default_generators`、`rosidl_default_runtime`。
-テストには `ament_cmake_pytest` と `rclpy` を使う。
