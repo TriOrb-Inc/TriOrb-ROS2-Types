@@ -23,7 +23,7 @@ builtin_interfaces/Time stamp
 uint64 connection_generation
 
 # 未知のIDも運搬する。sequenceは他IDと共有する0〜255の連番。
-uint8 frame_id_name
+uint8 msg_frame_id
 uint8 sequence
 
 # ヘッダ・CRCを含まない。LENはこの配列の長さ。IMUの36 byte検証はparserが行う。
