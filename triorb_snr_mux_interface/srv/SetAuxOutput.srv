@@ -1,6 +1,6 @@
 # Copyright 2023 TriOrb Inc.
 # SPDX-License-Identifier: Apache-2.0
-triorb_aux_interface/AuxOutput output
+triorb_snr_mux_interface/AuxOutput output
 ---
 uint8 ACCEPTED=0
 uint8 ALREADY_ACCEPTED=1
