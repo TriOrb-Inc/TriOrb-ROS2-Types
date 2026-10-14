@@ -1007,6 +1007,7 @@ string type       # e.g. "802-3-ethernet", "802-11-wireless"
 string device     # bound device, "" if none
 bool active       # currently active
 bool autoconnect  # autoconnect enabled
+string ssid       # SSID when type is "802-11-wireless", "" otherwise
 ```
 
 ### triorb_static_interface/msg/HotspotConfig.msg
@@ -1062,7 +1063,7 @@ string ipv4_address  # static only
 uint8 ipv4_prefix    # static only, network prefix length
 string ipv4_gateway  # static only
 string[] dns         # static only
-bool connected       # connection state (read-only in config set; toggled by /network/wifi/connect/toggle)
+bool connected       # connection state (read-only in config set; changed via SetWifiConnect /network/wifi/connect/toggle)
 ```
 
 ## triorb_static_interface/action
@@ -1454,14 +1455,27 @@ string message          # error detail when success is false, empty otherwise
 ### triorb_static_interface/srv/SetWifiConfig.srv
 ```bash
 #==[Service] Set Wi-Fi (station) connection configuration==
-# GUI API: PUT   /network/wifi/config  -> ROS 2 service /network/wifi/config/set
-#          PATCH /network/wifi/connect -> ROS 2 service /network/wifi/connect/toggle
-#                                          (only config.connected is meaningful)
-# Backend: triorb-system-cored NetworkService.SetWifiConfig / SetWifiConnect
+# GUI API: PUT /network/wifi/config -> ROS 2 service /network/wifi/config/set
+# Backend: triorb-system-cored NetworkService.SetWifiConfig
+# Connecting / disconnecting is SetWifiConnect (/network/wifi/connect/toggle).
 WifiConfig config  # desired Wi-Fi configuration (password is write-only)
 ---
 bool success       # false if the configuration was rejected or could not be applied
 string message     # error detail when success is false, empty otherwise
+```
+
+### triorb_static_interface/srv/SetWifiConnect.srv
+```bash
+#==[Service] Connect or disconnect a saved Wi-Fi network==
+# GUI API: PUT /network/wifi/connect/{ssid} -> ROS 2 service /network/wifi/connect/toggle
+# Backend: triorb-system-cored NetworkService.SetWifiConnect
+# The backend resolves the SSID to the matching NetworkManager profile
+# (profile names and SSIDs may differ) and activates / deactivates it.
+string ssid     # SSID of the saved profile; "" toggles the Wi-Fi device instead (NetworkManager autoconnect decides the profile)
+bool connected  # true -> connect, false -> disconnect
+---
+bool success    # false if the SSID is unknown or NetworkManager rejected the request
+string message  # error detail when success is false, empty otherwise
 ```
 
 ### triorb_static_interface/srv/SetEthernetConfig.srv

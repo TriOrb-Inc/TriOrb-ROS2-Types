@@ -21,3 +21,4 @@ string type       # e.g. "802-3-ethernet", "802-11-wireless"
 string device     # bound device, "" if none
 bool active       # currently active
 bool autoconnect  # autoconnect enabled
+string ssid       # SSID when type is "802-11-wireless", "" otherwise
