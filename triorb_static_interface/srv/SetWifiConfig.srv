@@ -15,10 +15,9 @@
 #**
 
 #==[Service] Set Wi-Fi (station) connection configuration==
-# GUI API: PUT   /network/wifi/config  -> ROS 2 service /network/wifi/config/set
-#          PATCH /network/wifi/connect -> ROS 2 service /network/wifi/connect/toggle
-#                                          (only config.connected is meaningful)
-# Backend: triorb-system-cored NetworkService.SetWifiConfig / SetWifiConnect
+# GUI API: PUT /network/wifi/config -> ROS 2 service /network/wifi/config/set
+# Backend: triorb-system-cored NetworkService.SetWifiConfig
+# Connecting / disconnecting is SetWifiConnect (/network/wifi/connect/toggle).
 WifiConfig config  # desired Wi-Fi configuration (password is write-only)
 ---
 bool success       # false if the configuration was rejected or could not be applied
