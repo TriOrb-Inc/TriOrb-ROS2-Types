@@ -17,4 +17,4 @@
 # ==[協調搬送] グループ構築情報==
 std_msgs/Header header                              # Header
 string master                                       # Master
-triorb_collaboration_interface/ParentBind[] robots  # Robot informations
+triorb_collaboration_interface/ParentBind[] robots  # Robot information
