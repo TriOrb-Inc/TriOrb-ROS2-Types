@@ -17,6 +17,6 @@
 # ==物体検出結果==
 std_msgs/Header header      # Timestamp
 uint32 det_num              # Number of detections
-BoundingBox[] boxes         # BoundingBoxs
+BoundingBox[] boxes         # Bounding boxes
 float64[] scores            # Detection scores
 string[] labels             # Object types
