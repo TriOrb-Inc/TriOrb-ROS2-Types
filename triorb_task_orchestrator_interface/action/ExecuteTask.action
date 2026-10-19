@@ -16,7 +16,7 @@
 
 #== jsonデータ経由でtask実行を行うaction ==
 uint32 loop                    # Must be greater than zero.
-string json_task_data          # Same serialized task JSON as SaveTask: sequence rows use action_type_id and yaw. Execution options are separate Goal fields.
+ActionSequence sequence
 float32 ratio_speed            # 速度倍率。vxy / vw に掛かる。0 以下は reject
 float32 bias_accuracy_xy       # 位置の許容誤差に足すオフセット [m]
 float32 bias_accuracy_deg      # 姿勢の許容誤差に足すオフセット [deg]

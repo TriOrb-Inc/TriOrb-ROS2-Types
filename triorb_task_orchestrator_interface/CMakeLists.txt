@@ -42,6 +42,7 @@ set(action_files
   "action/ExecuteAction.action"
   "action/ExecuteTask.action"
   "action/ExecuteTaskFile.action"
+  "action/ExecuteTaskJson.action"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
