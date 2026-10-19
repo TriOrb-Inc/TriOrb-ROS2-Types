@@ -15,5 +15,5 @@
 #**
 
 #==相対位置・姿勢指示による移動==
-TriorbSpeed speed       # Configure of moving
+TriorbSpeed speed       # Movement configuration
 TriorbPos3 position     # Target position

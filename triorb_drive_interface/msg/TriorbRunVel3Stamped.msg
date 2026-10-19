@@ -16,6 +16,6 @@
 
 #==速度指示による移動==
 std_msgs/Header header  # Header
-TriorbSpeed speed       # Configure of moving
+TriorbSpeed speed       # Movement configuration
 TriorbVel3 velocity     # Target velocities
 uint32 lifetime_ms 250  # Lifetime for moving

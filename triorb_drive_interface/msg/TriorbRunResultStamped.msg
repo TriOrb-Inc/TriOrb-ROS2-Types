@@ -17,6 +17,6 @@
 #==自律移動結果==
 std_msgs/Header header      # Header
 uint32 request_id           # Request ID copied from TriorbSetPos3
-bool success                # Moving result (true: Compleat, false: Feild)
+bool success                # Moving result (true: Complete, false: Failed)
 uint8 info                  # Moving result info ( substitution NAVIGATE_RESULT )
 TriorbPos3 position         # Last robot position
