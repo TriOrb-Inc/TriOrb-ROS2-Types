@@ -17,5 +17,5 @@
 #==[Service] 距離センサ一覧の取得==
 std_msgs/Empty request
 ---
-string[] topic  # List of topic name
-string[] state  # List of sensor state ( sleep | wakeup | awake )
+string[] topic  # List of topic names
+string[] state  # List of sensor states ( sleep | wakeup | awake )

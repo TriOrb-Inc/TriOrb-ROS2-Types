@@ -16,7 +16,7 @@
 
 #==障害物==
 std_msgs/Header header      # Timestamp
-float32 forward      		# Distance to obstacle in forward [m]
-float32 left      		    # Distance to obstacle in left [m]
-float32 right      		    # Distance to obstacle in right [m]
-float32 back      		    # Distance to obstacle in back [m]
+float32 forward      		# Distance to obstacle in front [m]
+float32 left      		    # Distance to obstacle on the left [m]
+float32 right      		    # Distance to obstacle on the right [m]
+float32 back      		    # Distance to obstacle behind [m]
