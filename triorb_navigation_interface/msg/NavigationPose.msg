@@ -1,4 +1,4 @@
-std_msgs/Header header   # この姿勢の時刻と frame_i
+std_msgs/Header header   # この姿勢の時刻と frame_id
 
 # TF source used for localization
 uint32 TF_SOURCE_UNSPECIFIED=0
