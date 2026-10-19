@@ -19,5 +19,5 @@ TriorbSetPos3[] path     # List of waypoints and movement control values for eac
 ---
 TriorbRunResult result   # Result of completion of movement to final destination
 ---
-uint32 way_idx           # Index of waypoint currently moving
+uint32 way_idx           # Index of the waypoint currently being approached
 TriorbPos3 now           # Current robot position

@@ -24,6 +24,6 @@ float32 cap_vw          # Capability of velocity w  [rad/s]
 # 0: stand by ( No topic subscribed or subscribe /drive/stop )
 # 1: navigating now
 # 2: pause ( Subscribe /drive/pause )
-# 3: success ( Success navigation. )
+# 3: success ( Successful navigation. )
 # 4: failed ( Failed navigation. Mostly lost. )
-# 5: leave goal ( Success navigation. But, leave from goal_pos. )
+# 5: leave goal ( Successful navigation. But, moved away from goal_pos. )
