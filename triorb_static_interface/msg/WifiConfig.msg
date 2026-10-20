@@ -24,4 +24,4 @@ string ipv4_address  # static only
 uint8 ipv4_prefix    # static only, network prefix length
 string ipv4_gateway  # static only
 string[] dns         # static only
-bool connected       # connection state (read-only in config set; toggled by /network/wifi/connect/toggle)
+bool connected       # connection state (read-only in config set; changed via SetWifiConnect /network/wifi/connect/toggle)
