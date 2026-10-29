@@ -80,6 +80,11 @@ TriorbPos3 position
 ```
 
 ### triorb_drive_interface/msg/TriorbRunSetting
+
+`tf_source` のLiCAM SLAM指定は `TF_SOURCE_LICAMSLAM=1` です。
+旧 `TF_SOURCE_VSLAM` から名称を変更しています。利用側は定数参照を更新し、
+本interfaceと依存パッケージを再ビルドしてください。数値とフィールド構成は維持します。
+
 ```bash
 float32 tx      # Target error in X-axis direction [±m]
 float32 ty      # Target error in Y-axis direction [±m].

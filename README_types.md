@@ -679,7 +679,7 @@ float32 vw      # Rotation velocity vector around the Z axis [rad/s]
 #==自律移動の位置決め設定==
 # TF source used for localization
 uint32 TF_SOURCE_UNSPECIFIED=0
-uint32 TF_SOURCE_VSLAM=1
+uint32 TF_SOURCE_LICAMSLAM=1
 uint32 TF_SOURCE_TAGSLAM=2
 uint32 TF_SOURCE_COLLAB=3
 
