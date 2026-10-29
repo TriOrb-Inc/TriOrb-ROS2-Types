@@ -17,7 +17,7 @@
 #==TCP/IPv4==
 string device # device name
 string method # device mode: auto | manual | shared | disabled
-uint8[] adress # IP address
+uint8[] address # IP address
 uint8 mask # Subnet mask
 uint8[] gateway # Default gateway address
 uint8[] mac # Hardware address
