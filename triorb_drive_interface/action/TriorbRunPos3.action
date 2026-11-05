@@ -1,8 +1,8 @@
 # Execute one planar movement relative to the robot pose at goal execution.
 # Goal parameters:
-# - `command.position.x`: forward-positive translation from the current position [m].
-# - `command.position.y`: left-positive translation from the current position [m].
-# - `command.position.deg`: counter-clockwise-positive heading change [deg].
+# - `command.position.x`: lateral translation from the current position [m].
+# - `command.position.y`: forward-positive translation from the current position [m].
+# - `command.position.deg`: clockwise-positive heading change [deg].
 # - `command.speed.acc`: acceleration time [ms]. Default: 1000.
 # - `command.speed.dec`: deceleration time [ms]. Default: 1000.
 # - `command.speed.xy`: maximum translational speed [m/s]. Default: 0.6; must be positive when x or y is non-zero.
