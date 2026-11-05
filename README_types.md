@@ -1654,6 +1654,50 @@ NavigationState state
 NavigationState state
 ```
 
+### triorb_navigation_interface/action/RelativeMove.action
+```bash
+#==[Action] Execute one relative movement==
+triorb_drive_interface/TriorbRunPos3 command
+# Execution limit from command publication [ms]. Zero disables this limit.
+uint32 timeout_ms
+---
+uint8 OUTCOME_UNKNOWN=0
+uint8 OUTCOME_SUCCEEDED=1
+uint8 OUTCOME_FAILED=2
+uint8 OUTCOME_CANCELED=3
+# Cancellation reports request handling completion, not confirmed physical stop.
+uint8 outcome
+
+uint32 REASON_NONE=0
+uint32 REASON_CANCELED=1
+uint32 REASON_EXECUTION_TIMEOUT=2
+uint32 REASON_LOWER_FAILED=3
+uint32 REASON_EXTERNAL_STOP=4
+uint32 REASON_INTERNAL_ERROR=5
+uint32 reason_code
+
+uint8 COMPLETION_NONE=0
+# All requested displacements were zero; no movement command was published.
+uint8 COMPLETION_NO_MOTION=1
+# The existing motion driver reported estimated completion (done).
+uint8 COMPLETION_ESTIMATED=2
+# Completion does not guarantee measured arrival or physical stop.
+uint8 completion_basis
+
+# Human-readable details; not used for control decisions.
+string message
+---
+uint8 PHASE_UNKNOWN=0
+uint8 PHASE_PENDING=1
+# Command published; waiting for the lower result, not confirmed robot motion.
+uint8 PHASE_RUNNING=2
+uint8 phase
+# Steady-clock time since command publication [s]. Zero before publication.
+float64 elapsed_sec
+# Human-readable state description.
+string message
+```
+
 # triorb_task_orchestrator_interface
 ## triorb_task_orchestrator_interface/msg
 

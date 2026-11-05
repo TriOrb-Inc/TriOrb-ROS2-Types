@@ -1,0 +1,56 @@
+#**
+#* Copyright 2026 TriOrb Inc.
+#*
+#* Licensed under the Apache License, Version 2.0 (the "License");
+#* you may not use this file except in compliance with the License.
+#* You may obtain a copy of the License at
+#*
+#*     http://www.apache.org/licenses/LICENSE-2.0
+#*
+#* Unless required by applicable law or agreed to in writing, software
+#* distributed under the License is distributed on an "AS IS" BASIS,
+#* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#* See the License for the specific language governing permissions and
+#* limitations under the License.
+#**
+
+#==[Action] Execute one relative movement==
+triorb_drive_interface/TriorbRunPos3 command
+# Execution limit from command publication [ms]. Zero disables this limit.
+uint32 timeout_ms
+---
+uint8 OUTCOME_UNKNOWN=0
+uint8 OUTCOME_SUCCEEDED=1
+uint8 OUTCOME_FAILED=2
+uint8 OUTCOME_CANCELED=3
+# Cancellation reports request handling completion, not confirmed physical stop.
+uint8 outcome
+
+uint32 REASON_NONE=0
+uint32 REASON_CANCELED=1
+uint32 REASON_EXECUTION_TIMEOUT=2
+uint32 REASON_LOWER_FAILED=3
+uint32 REASON_EXTERNAL_STOP=4
+uint32 REASON_INTERNAL_ERROR=5
+uint32 reason_code
+
+uint8 COMPLETION_NONE=0
+# All requested displacements were zero; no movement command was published.
+uint8 COMPLETION_NO_MOTION=1
+# The existing motion driver reported estimated completion (done).
+uint8 COMPLETION_ESTIMATED=2
+# Completion does not guarantee measured arrival or physical stop.
+uint8 completion_basis
+
+# Human-readable details; not used for control decisions.
+string message
+---
+uint8 PHASE_UNKNOWN=0
+uint8 PHASE_PENDING=1
+# Command published; waiting for the lower result, not confirmed robot motion.
+uint8 PHASE_RUNNING=2
+uint8 phase
+# Steady-clock time since command publication [s]. Zero before publication.
+float64 elapsed_sec
+# Human-readable state description.
+string message
