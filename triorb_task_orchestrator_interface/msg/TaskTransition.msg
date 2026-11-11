@@ -14,7 +14,6 @@
 #* limitations under the License.
 #**
 
-# 一度だけ通知するtask遷移。型の契約は../INTERFACE.mdを参照。
 uint8 KIND_NAVIGATION_STARTED=1
 uint8 KIND_TASK_SUCCEEDED=2
 uint8 KIND_TASK_FAILED=3

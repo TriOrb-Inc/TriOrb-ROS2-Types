@@ -14,7 +14,6 @@
 #* limitations under the License.
 #**
 
-# Task Orchestratorの正規化した状態snapshot。型の契約は../INTERFACE.mdを参照。
 uint8 PHASE_IDLE=0
 uint8 PHASE_COMPILING=1
 uint8 PHASE_RUNNING=2
