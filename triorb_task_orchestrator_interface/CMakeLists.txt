@@ -28,7 +28,9 @@ set(msg_files
   "msg/RobotAction.msg"
   "msg/TaskEvent.msg"
   "msg/TaskExecutionState.msg"
+  "msg/TaskObservation.msg"
   "msg/TaskResult.msg"
+  "msg/TaskTransition.msg"
 )
 set(srv_files
   "srv/GetCurrentTask.srv"
