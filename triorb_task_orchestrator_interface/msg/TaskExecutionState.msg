@@ -23,3 +23,6 @@ uint32 action_instance_id # task中の実行順を表わす
 
 string file_name
 string source_file_path  # task csvファイルの絶対パス
+
+bool recovery_required   # 復旧操作が必要。V2.0.0ではFAILED_HOLDはすべてシステム再起動が必要。
+string message           # 状態・復旧操作の案内。GUIの表示言語はFE側で管理する。
