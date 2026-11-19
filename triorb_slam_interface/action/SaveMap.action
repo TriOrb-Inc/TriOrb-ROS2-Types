@@ -1,0 +1,9 @@
+# 現在の SLAM 地図を保存する。相対パスは地図ディレクトリを基準とする。
+string path
+---
+bool success
+# 失敗時の理由。成功時は空文字列。
+string message
+---
+# 現在の段階。waiting または saving。
+string phase
