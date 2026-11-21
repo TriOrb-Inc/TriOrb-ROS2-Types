@@ -25,6 +25,7 @@ set(srv_files
   "srv/DeleteMapFile.srv"
   "srv/DeleteTaskFile.srv"
   "srv/DownloadTaskFile.srv"
+  "srv/GetRobotSpec.srv"
   "srv/GetTask.srv"
   "srv/GetTaskFileList.srv"
   "srv/ListMapFiles.srv"
