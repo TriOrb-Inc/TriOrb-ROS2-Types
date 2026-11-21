@@ -2,4 +2,5 @@ string map_name
 bool is_static
 ---
 bool success
+uint8 code  # triorb_common_interface/ErrorCode の定数
 string message

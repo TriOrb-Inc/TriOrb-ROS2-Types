@@ -19,3 +19,6 @@
 # Backend: triorb-system-cored SystemService.GetRos2LocalhostOnly
 ---
 uint8 data  # persisted ROS_LOCALHOST_ONLY equivalent (0 | 1)
+bool success    # false if the request could not be completed
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success

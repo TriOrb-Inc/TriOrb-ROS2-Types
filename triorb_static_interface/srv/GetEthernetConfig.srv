@@ -30,6 +30,8 @@ EthernetConfig config
 # True when the profile exists, is an Ethernet profile, and could be read.
 # False when the connection_id is unknown, the profile is not an Ethernet profile, or NetworkManager could not be queried.
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 # Human-readable completion or error details.
 # Empty or "ok" when success is true; error detail when success is false.
 string message

@@ -20,5 +20,6 @@ uint32 limit
 ---
 # result
 bool success
+uint8 code  # triorb_common_interface/ErrorCode constant (OK when success is true)
 string message
 TaskResult[] results

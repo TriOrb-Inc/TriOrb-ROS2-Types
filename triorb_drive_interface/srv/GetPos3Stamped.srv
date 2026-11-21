@@ -2,4 +2,5 @@
 ---
 TriorbPos3Stamped pose
 bool success
+uint8 code  # triorb_common_interface/ErrorCode constant (OK when success is true)
 string message

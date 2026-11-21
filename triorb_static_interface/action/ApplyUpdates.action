@@ -21,6 +21,7 @@
 # Goal is empty: the target package set is decided by the daemon.
 ---
 bool success    # result of the upgrade
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
 string message  # human-readable result / error detail
 ---
 string message  # progress message

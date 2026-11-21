@@ -25,7 +25,8 @@ string sha256        # optional lowercase hex digest; verified if set
 bool overwrite       # false -> refuse to replace an existing file
 ---
 bool success         # false if the file was rejected or could not be stored
-string message       # error detail when success is false, empty otherwise
+uint8 code           # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message       # error detail when success is false; may contain a short note on success
 string stored_path   # where the file was stored
 string filename      # stored basename
 string cert_type     # stored certificate type

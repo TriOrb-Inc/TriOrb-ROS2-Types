@@ -375,6 +375,8 @@ string parameters_json
 ---
 # 初期化に成功したか。
 bool success
+# 失敗の種類。triorb_common_interface/ErrorCode の定数（成功時は OK）。
+uint8 code
 # parameter 適用結果の JSON (set_runtime_parameters と同じ形式)。
 string parameters_result_json
 # 失敗時の理由。成功時は空文字列。
@@ -386,6 +388,7 @@ string message
 TagslamSettings setting
 ---
 bool success
+uint8 code  # triorb_common_interface/ErrorCode の定数
 string message
 ```
 
@@ -409,6 +412,7 @@ string content_type
 uint8[] content
 string sha256
 bool success
+uint8 code  # triorb_common_interface/ErrorCode の定数
 string message
 ```
 
@@ -422,6 +426,7 @@ string sha256
 bool overwrite
 ---
 bool success
+uint8 code  # triorb_common_interface/ErrorCode の定数
 string message
 string map_name
 ```
@@ -432,6 +437,7 @@ string map_name
 ---
 MapInfo[] maps
 bool success
+uint8 code  # triorb_common_interface/ErrorCode の定数
 string message
 ```
 
@@ -447,6 +453,9 @@ TagslamSettings setting
 #==Tag情報一覧取得==
 ---
 TagTransform[] tags
+bool success
+uint8 code  # triorb_common_interface/ErrorCode の定数
+string message
 ```
 
 # triorb_field_interface 
@@ -768,6 +777,8 @@ uint16 command
 ---
 # True when the lifter command completed successfully.
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 # Human-readable completion or error details.
 string message
 ```
@@ -831,6 +842,7 @@ TriorbPos3[] result
 ---
 TriorbPos3Stamped pose
 bool success
+uint8 code  # triorb_common_interface/ErrorCode constant (OK when success is true)
 string message
 ```
 
@@ -1077,6 +1089,7 @@ bool connected       # connection state (read-only in config set; changed via Se
 # Goal is empty: the target package set is decided by the daemon.
 ---
 bool success    # result of the upgrade
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
 string message  # human-readable result / error detail
 ---
 string message  # progress message
@@ -1176,6 +1189,8 @@ std_msgs/Empty request
 # True when the query completed successfully.
 # false if the gRPC call to triorb-system-cored failed.
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 # Human-readable completion or error details.
 # Empty when success is true; error detail when success is false.
 string message
@@ -1193,6 +1208,9 @@ NetworkInterface[] interfaces
 # Backend: triorb-system-cored SystemService.GetHealth (gRPC over UDS)
 ---
 std_msgs/Header header  # stamp = now, frame_id = "system"
+bool success            # false if the request could not be completed
+uint8 code              # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message          # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/ErrorAppend.srv
@@ -1207,7 +1225,7 @@ uint32 error_code       # error (or warning) code
 string message          # human-readable description
 ---
 bool success            # false if the entry could not be appended
-string message          # error detail when success is false, empty otherwise
+string message          # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/GetLicense.srv
@@ -1220,6 +1238,9 @@ string message          # error detail when success is false, empty otherwise
 ---
 string name  # license (system) name
 string key   # license key
+bool success    # false if the request could not be completed
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetLicense.srv
@@ -1231,7 +1252,8 @@ string name                  # license (system) name
 PackageVersion[] packages    # packages to license
 ---
 bool success                 # false if activation failed
-string message               # error detail when success is false, empty otherwise
+uint8 code                   # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message               # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetScalarString.srv
@@ -1264,7 +1286,8 @@ uint64 memory_total_bytes        # total physical memory
 uint64 memory_used_bytes         # used physical memory
 DiskUsage[] disks                # per mount point
 bool success                     # false if the snapshot could not be taken
-string message                   # error detail when success is false, empty otherwise
+uint8 code                       # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message                   # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/GetRos2DdsXml.srv
@@ -1275,6 +1298,9 @@ string message                   # error detail when success is false, empty oth
 ---
 string path  # persisted file path (set even when the file is absent)
 string xml   # verbatim file content ("" when absent)
+bool success    # false if the request could not be completed
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetRos2DdsXml.srv
@@ -1286,7 +1312,8 @@ string xml   # verbatim file content ("" when absent)
 string xml      # verbatim file content; the daemon decides the path
 ---
 bool success    # false if the content could not be persisted
-string message  # error detail when success is false, empty otherwise
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 string path     # where the content was persisted
 ```
 
@@ -1297,6 +1324,9 @@ string path     # where the content was persisted
 # Backend: triorb-system-cored SystemService.GetRos2DomainId
 ---
 uint16 data  # persisted ROS_DOMAIN_ID (0..232)
+bool success    # false if the request could not be completed
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetRos2DomainId.srv
@@ -1308,7 +1338,8 @@ uint16 data  # persisted ROS_DOMAIN_ID (0..232)
 uint16 data     # ROS_DOMAIN_ID (0..232)
 ---
 bool success    # false if the value was rejected or could not be persisted
-string message  # error detail when success is false, empty otherwise
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/GetRos2LocalhostOnly.srv
@@ -1318,6 +1349,9 @@ string message  # error detail when success is false, empty otherwise
 # Backend: triorb-system-cored SystemService.GetRos2LocalhostOnly
 ---
 uint8 data  # persisted ROS_LOCALHOST_ONLY equivalent (0 | 1)
+bool success    # false if the request could not be completed
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetRos2LocalhostOnly.srv
@@ -1329,7 +1363,8 @@ uint8 data  # persisted ROS_LOCALHOST_ONLY equivalent (0 | 1)
 uint8 data      # ROS_LOCALHOST_ONLY equivalent (0 | 1)
 ---
 bool success    # false if the value was rejected or could not be persisted
-string message  # error detail when success is false, empty otherwise
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/GetRos2Namespace.srv
@@ -1339,6 +1374,9 @@ string message  # error detail when success is false, empty otherwise
 # Backend: triorb-system-cored SystemService.GetRos2Namespace
 ---
 string data  # persisted ROS namespace ("" = no extra namespace)
+bool success    # false if the request could not be completed
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetRos2Namespace.srv
@@ -1350,7 +1388,8 @@ string data  # persisted ROS namespace ("" = no extra namespace)
 string data     # ROS namespace ("" allowed; validated as a ROS namespace)
 ---
 bool success    # false if the value was rejected or could not be persisted
-string message  # error detail when success is false, empty otherwise
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/GetMqttBroker.srv
@@ -1362,6 +1401,9 @@ string message  # error detail when success is false, empty otherwise
 ---
 string host  # persisted MQTT broker host: IPv4 literal or hostname ("" = not configured)
 uint16 port  # persisted MQTT broker TCP port (typical 1883 / 8883)
+bool success    # false if the request could not be completed
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetMqttBroker.srv
@@ -1374,7 +1416,8 @@ string host     # MQTT broker host: IPv4 literal or hostname ("" clears the sett
 uint16 port     # MQTT broker TCP port (0 = default 1883)
 ---
 bool success    # false if the value was rejected or could not be persisted
-string message  # error detail when success is false, empty otherwise
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/GetAvailableVersions.srv
@@ -1386,7 +1429,8 @@ string message  # error detail when success is false, empty otherwise
 ---
 PackageUpdate[] packages  # per package: name and selectable versions
 bool success              # false if the update server could not be queried
-string message            # error detail when success is false, empty otherwise
+uint8 code                # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message            # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/GetPackageVersions.srv
@@ -1396,6 +1440,9 @@ string message            # error detail when success is false, empty otherwise
 # Backend: triorb-system-cored SystemService.GetVersion
 ---
 PackageVersion[] packages  # currently installed software package versions
+bool success               # false if the request could not be completed
+uint8 code                 # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message             # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/UploadCertificate.srv
@@ -1411,7 +1458,8 @@ string sha256        # optional lowercase hex digest; verified if set
 bool overwrite       # false -> refuse to replace an existing file
 ---
 bool success         # false if the file was rejected or could not be stored
-string message       # error detail when success is false, empty otherwise
+uint8 code           # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message       # error detail when success is false; may contain a short note on success
 string stored_path   # where the file was stored
 string filename      # stored basename
 string cert_type     # stored certificate type
@@ -1426,7 +1474,8 @@ string cert_type     # stored certificate type
 ConnectionProfile[] connections  # all NetworkManager connection profiles
 HotspotConfig hotspot            # hotspot configuration (password is always empty)
 bool success                     # false if the configuration could not be read
-string message                   # error detail when success is false, empty otherwise
+uint8 code                       # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message                   # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetHotspotConfig.srv
@@ -1438,7 +1487,8 @@ string message                   # error detail when success is false, empty oth
 HotspotConfig config  # desired hotspot configuration (password is write-only)
 ---
 bool success          # false if the configuration was rejected or could not be applied
-string message        # error detail when success is false, empty otherwise
+uint8 code            # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message        # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/GetWifiList.srv
@@ -1449,7 +1499,8 @@ string message        # error detail when success is false, empty otherwise
 ---
 WifiNetwork[] networks  # nearby SSIDs
 bool success            # false if the scan failed
-string message          # error detail when success is false, empty otherwise
+uint8 code              # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message          # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetWifiConfig.srv
@@ -1461,7 +1512,8 @@ string message          # error detail when success is false, empty otherwise
 WifiConfig config  # desired Wi-Fi configuration (password is write-only)
 ---
 bool success       # false if the configuration was rejected or could not be applied
-string message     # error detail when success is false, empty otherwise
+uint8 code         # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message     # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetWifiConnect.srv
@@ -1475,7 +1527,8 @@ string ssid     # SSID of the saved profile; "" toggles the Wi-Fi device instead
 bool connected  # true -> connect, false -> disconnect
 ---
 bool success    # false if the SSID is unknown or NetworkManager rejected the request
-string message  # error detail when success is false, empty otherwise
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 ```
 
 ### triorb_static_interface/srv/SetEthernetConfig.srv
@@ -1489,6 +1542,8 @@ EthernetConfig config
 ---
 # True when the Ethernet profile was created or updated successfully.
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 # Human-readable completion or error details.
 string message
 # NetworkManager connection ID of the resulting Ethernet profile.
@@ -1513,6 +1568,8 @@ EthernetConfig config
 # True when the profile exists, is an Ethernet profile, and could be read.
 # False when the connection_id is unknown, the profile is not an Ethernet profile, or NetworkManager could not be queried.
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 # Human-readable completion or error details.
 # Empty or "ok" when success is true; error detail when success is false.
 string message
@@ -1528,7 +1585,8 @@ string ssid        # "" = currently connected network, otherwise the saved (know
 ---
 WifiConfig config  # Wi-Fi configuration (password is always empty)
 bool success       # false if the network is unknown or could not be read
-string message     # error detail when success is false, empty otherwise
+uint8 code         # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message     # error detail when success is false; may contain a short note on success
 ```
 
 # triorb_collaboration_interface 
@@ -1831,4 +1889,60 @@ uint32 loop
 bool success
 ---
 TaskExecutionState state
+```
+
+# triorb_common_interface 
+## triorb_common_interface/msg 
+### triorb_common_interface/msg/ErrorCode.msg
+```bash
+#==失敗の種類==
+# Service の応答・Action の結果の `uint8 code` に入れる値。定数だけで項目は持たない。
+# 名前と番号は gRPC の google/rpc/code.proto と同じ。
+uint8 OK=0                    # 成功
+uint8 CANCELLED=1             # 呼び出し元が取り消した
+uint8 UNKNOWN=2               # 種類が分からない失敗
+uint8 INVALID_ARGUMENT=3      # 要求の値が不正（状態によらない）
+uint8 DEADLINE_EXCEEDED=4     # 時間内に終わらなかった
+uint8 NOT_FOUND=5             # 対象が無い
+uint8 ALREADY_EXISTS=6        # 作ろうとした対象が既にある
+uint8 PERMISSION_DENIED=7     # 権限が無い
+uint8 RESOURCE_EXHAUSTED=8    # 容量・数の上限に達した
+uint8 FAILED_PRECONDITION=9   # 今の状態では実行できない
+uint8 ABORTED=10              # 競合などで中断した
+uint8 OUT_OF_RANGE=11         # 値が有効な範囲の外
+uint8 UNIMPLEMENTED=12        # 未対応・未実装
+uint8 INTERNAL=13             # 内部の異常
+uint8 UNAVAILABLE=14          # 一時的に使えない（再試行で直りうる）
+uint8 DATA_LOSS=15            # データが失われた・壊れた
+uint8 UNAUTHENTICATED=16      # 認証されていない
+```
+
+## triorb_common_interface/srv 
+### triorb_common_interface/srv/SetBool.srv
+```bash
+#==汎用：真偽値の設定（std_srvs/srv/SetBool の代わり）==
+bool data       # 設定する値
+---
+bool success    # 成功したか
+uint8 code      # 失敗の種類。triorb_common_interface/ErrorCode の定数（成功は OK）
+string message  # 結果・失敗の理由
+```
+
+### triorb_common_interface/srv/SetString.srv
+```bash
+#==汎用：文字列 1 つを渡す実行（triorb_static_interface/srv/SetScalarString の代わり）==
+string request  # 渡す文字列
+---
+bool success    # 成功したか
+uint8 code      # 失敗の種類。triorb_common_interface/ErrorCode の定数（成功は OK）
+string message  # 結果・失敗の理由
+```
+
+### triorb_common_interface/srv/Trigger.srv
+```bash
+#==汎用：引数なしの実行（std_srvs/srv/Trigger の代わり）==
+---
+bool success    # 成功したか
+uint8 code      # 失敗の種類。triorb_common_interface/ErrorCode の定数（成功は OK）
+string message  # 結果・失敗の理由
 ```

@@ -23,4 +23,5 @@ string ssid     # SSID of the saved profile; "" toggles the Wi-Fi device instead
 bool connected  # true -> connect, false -> disconnect
 ---
 bool success    # false if the SSID is unknown or NetworkManager rejected the request
-string message  # error detail when success is false, empty otherwise
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success

@@ -19,3 +19,6 @@
 # Backend: triorb-system-cored SystemService.GetVersion
 ---
 PackageVersion[] packages  # currently installed software package versions
+bool success               # false if the request could not be completed
+uint8 code                 # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message             # error detail when success is false; may contain a short note on success

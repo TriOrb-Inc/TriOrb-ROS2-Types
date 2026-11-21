@@ -21,5 +21,6 @@
 string xml      # verbatim file content; the daemon decides the path
 ---
 bool success    # false if the content could not be persisted
-string message  # error detail when success is false, empty otherwise
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
 string path     # where the content was persisted
