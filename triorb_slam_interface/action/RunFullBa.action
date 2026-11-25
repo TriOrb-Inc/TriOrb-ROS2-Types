@@ -1,0 +1,16 @@
+# 現在の地図に対して Full BA を実行する。Goal に設定項目はない。
+---
+bool success
+# 失敗時の理由。成功時は空文字列。
+string message
+# 成功時の Full BA の集計結果を JSON で返す。
+string result_json
+---
+# 現在の工程。preparing、solving、validating、applying のいずれか。
+string phase
+# Goal の受付からの経過時間 [ms]。
+uint64 elapsed_ms
+# 最適化の反復数。取得できない場合は空配列。
+uint32[<=1] iteration_count
+# slam-core が見積もった最適化の残り時間 [ms]。見積もれない場合は空配列。
+uint64[<=1] estimated_remaining_ms
