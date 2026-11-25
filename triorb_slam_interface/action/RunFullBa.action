@@ -1,4 +1,6 @@
-# 現在の地図に対して Full BA を実行する。Goal に設定項目はない。
+# 現在の地図に対して Full BA を実行する。
+# 走行面が一枚の平面と分かっている場合だけ、高さ・傾きの補正を試す。
+bool assume_planar_floor false
 ---
 bool success
 # 失敗時の理由。成功時は空文字列。
