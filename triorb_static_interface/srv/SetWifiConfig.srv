@@ -21,4 +21,5 @@
 WifiConfig config  # desired Wi-Fi configuration (password is write-only)
 ---
 bool success       # false if the configuration was rejected or could not be applied
-string message     # error detail when success is false, empty otherwise
+uint8 code         # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message     # error detail when success is false; may contain a short note on success

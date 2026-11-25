@@ -28,4 +28,5 @@ uint64 memory_total_bytes        # total physical memory
 uint64 memory_used_bytes         # used physical memory
 DiskUsage[] disks                # per mount point
 bool success                     # false if the snapshot could not be taken
-string message                   # error detail when success is false, empty otherwise
+uint8 code                       # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message                   # error detail when success is false; may contain a short note on success

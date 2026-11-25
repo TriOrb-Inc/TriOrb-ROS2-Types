@@ -19,4 +19,6 @@ string file_name # 拡張子付きで指定
 ---
 # result
 bool success
+uint8 code  # triorb_common_interface/ErrorCode の定数
+string message
 TaskFileInfo file_info

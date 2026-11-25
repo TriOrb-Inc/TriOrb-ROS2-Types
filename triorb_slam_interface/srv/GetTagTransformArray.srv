@@ -17,3 +17,6 @@
 #==Tag情報一覧取得==
 ---
 TagTransform[] tags
+bool success
+uint8 code  # triorb_common_interface/ErrorCode の定数
+string message

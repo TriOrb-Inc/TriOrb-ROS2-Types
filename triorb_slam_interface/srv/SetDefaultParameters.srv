@@ -4,6 +4,8 @@ string yaml
 string expected_sha256
 ---
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 string message
 string sha256
 bool restart_required

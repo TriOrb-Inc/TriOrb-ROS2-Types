@@ -4,5 +4,7 @@ SlamConfig config
 string[] update_fields
 ---
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 string message
 bool restart_required

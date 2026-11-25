@@ -31,5 +31,7 @@ uint16 command
 ---
 # True when the lifter command completed successfully.
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 # Human-readable completion or error details.
 string message

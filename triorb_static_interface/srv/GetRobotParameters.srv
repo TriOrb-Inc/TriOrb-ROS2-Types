@@ -2,4 +2,6 @@
 ---
 RobotParameters parameters
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 string message
