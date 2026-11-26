@@ -19,5 +19,7 @@ string file_name
 ---
 # result
 bool success
+uint8 code  # triorb_common_interface/ErrorCode の定数
+string message
 uint8[] data
 TaskFileInfo file_info

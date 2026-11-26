@@ -21,4 +21,5 @@ string name                  # license (system) name
 PackageVersion[] packages    # packages to license
 ---
 bool success                 # false if activation failed
-string message               # error detail when success is false, empty otherwise
+uint8 code                   # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message               # error detail when success is false; may contain a short note on success

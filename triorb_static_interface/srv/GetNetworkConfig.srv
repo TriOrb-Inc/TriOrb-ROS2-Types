@@ -21,4 +21,5 @@
 ConnectionProfile[] connections  # all NetworkManager connection profiles
 HotspotConfig hotspot            # hotspot configuration (password is always empty)
 bool success                     # false if the configuration could not be read
-string message                   # error detail when success is false, empty otherwise
+uint8 code                       # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message                   # error detail when success is false; may contain a short note on success

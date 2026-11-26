@@ -19,6 +19,7 @@
 ---
 # result
 bool success
+uint8 code  # triorb_common_interface/ErrorCode の定数
 bool has_task
 string message
 string source_file

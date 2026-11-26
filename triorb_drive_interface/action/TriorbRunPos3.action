@@ -12,6 +12,8 @@ TriorbRunPos3 command
 ---
 # True only when the relative movement finishes with status `done`.
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 # Terminal value received from `/drive/run_pos/result`: `done`, `failed`, or `stopped`.
 string status
 # Human-readable terminal details supplied by the Action bridge.

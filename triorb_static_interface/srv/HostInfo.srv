@@ -23,6 +23,8 @@ std_msgs/Empty request
 # True when the query completed successfully.
 # false if the gRPC call to triorb-system-cored failed.
 bool success
+# Failure kind: a triorb_common_interface/ErrorCode constant (OK when success is true).
+uint8 code
 # Human-readable completion or error details.
 # Empty when success is true; error detail when success is false.
 string message

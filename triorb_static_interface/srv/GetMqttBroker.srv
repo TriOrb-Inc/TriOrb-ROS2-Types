@@ -21,3 +21,6 @@
 ---
 string host  # persisted MQTT broker host: IPv4 literal or hostname ("" = not configured)
 uint16 port  # persisted MQTT broker TCP port (typical 1883 / 8883)
+bool success    # false if the request could not be completed
+uint8 code      # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message  # error detail when success is false; may contain a short note on success
