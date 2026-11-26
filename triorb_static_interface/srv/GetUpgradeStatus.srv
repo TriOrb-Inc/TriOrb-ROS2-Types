@@ -1,0 +1,27 @@
+#**
+#* Copyright 2026 TriOrb Inc.
+#*
+#* Licensed under the Apache License, Version 2.0 (the "License");
+#* you may not use this file except in compliance with the License.
+#* You may obtain a copy of the License at
+#*
+#*     http://www.apache.org/licenses/LICENSE-2.0
+#*
+#* Unless required by applicable law or agreed to in writing, software
+#* distributed under the License is distributed on an "AS IS" BASIS,
+#* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#* See the License for the specific language governing permissions and
+#* limitations under the License.
+#**
+
+# Read the current or most recent host update without an action goal ID.
+---
+string phase
+string release
+string active_release
+string error
+string rollback_error
+bool success  # status query succeeded, regardless of the upgrade outcome
+uint8 code  # triorb_common_interface/ErrorCode constant
+string message
+bool cancel_requested

@@ -1433,6 +1433,21 @@ uint8 code                # triorb_common_interface/ErrorCode constant (OK when 
 string message            # error detail when success is false; may contain a short note on success
 ```
 
+### triorb_static_interface/srv/GetUpgradeStatus.srv
+```bash
+# Read the current or most recent host update without an action goal ID.
+---
+string phase
+string release
+string active_release
+string error
+string rollback_error
+bool success  # status query succeeded, regardless of the upgrade outcome
+uint8 code  # triorb_common_interface/ErrorCode constant
+string message
+bool cancel_requested
+```
+
 ### triorb_static_interface/srv/GetPackageVersions.srv
 ```bash
 #==[Service] Get installed package versions==
