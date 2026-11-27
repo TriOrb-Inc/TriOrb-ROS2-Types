@@ -1248,8 +1248,9 @@ string message  # error detail when success is false; may contain a short note o
 #==[Service] Activate license==
 # GUI API: POST /system/license/activate -> ROS 2 service /system/license/set
 # Backend: triorb-system-cored SystemService.ActivateLicense
-string name                  # license (system) name
-PackageVersion[] packages    # packages to license
+string name                  # requested license name (licensee)
+PackageVersion[] packages    # retained for compatibility; ignored in v2.0.0
+string token                 # signed offline license token; empty requests online activation
 ---
 bool success                 # false if activation failed
 uint8 code                   # triorb_common_interface/ErrorCode constant (OK when success is true)
