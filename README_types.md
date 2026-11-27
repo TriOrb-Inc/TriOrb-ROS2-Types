@@ -1437,15 +1437,15 @@ string message            # error detail when success is false; may contain a sh
 ```bash
 # Read the current or most recent host update without an action goal ID.
 ---
-string phase
-string release
-string active_release
-string error
-string rollback_error
-bool success  # status query succeeded, regardless of the upgrade outcome
-uint8 code  # triorb_common_interface/ErrorCode constant
-string message
-bool cancel_requested
+string phase           # idle, preparing, switching, committed (succeeded), failed, cancelled, rolled_back, or recovery_failed
+string release         # target release of the current or latest update (empty when idle)
+string active_release  # last release committed by the updater (empty if none)
+string error           # update failure reason, if available (including when rollback also fails)
+string rollback_error  # rollback failure reason when phase is recovery_failed
+bool success           # whether the status query succeeded
+uint8 code             # triorb_common_interface/ErrorCode constant (OK when success is true)
+string message         # status query error details when success is false
+bool cancel_requested  # true after a cancel request is accepted during preparation, false after the update ends
 ```
 
 ### triorb_static_interface/srv/GetPackageVersions.srv
